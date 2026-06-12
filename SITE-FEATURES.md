@@ -96,3 +96,15 @@ armstrong（产品/信任/简单）· hukanbit-author（站长声纹写作）· 
 
 - 字体三态（页头「字」钮）：宋=正体 / 楷=系统楷栈 / 黑=系统黑栈；localStorage + 头部内联防闪烁；零下载零 GFW 风险
 - ₿ 徽记 v2：单线印章环（弃渐变球）；价格小钟：全站右下常驻毛玻璃胶囊，无挂载页自动注入，移动端隐涨跌段
+
+## 十三、三语馆别（2026-06-13 · 简 / 繁 / EN）
+
+**架构：纯静态三套页面树**（无构建工具，发布前脚本生成）：
+- 根目录 = 简体正馆（canonical）；`zh-hant/` = 繁体馆别（11 页全树 + main/games/lab/flow 四个 JS 转换副本）；`en/` = 英文馆别（试点：landing + 第一篇全译，②–⑤ 翻译中）
+- 页头 `简 | 繁 | EN` 切换条（lang-switch，当前馆别加粗，porcelain 弱化样式）；选择记入 localStorage `hkb-lang`；全部页面互链 hreflang（zh-Hans/zh-Hant/en/x-default，绝对 URL）
+- **繁体生成器** `tools/build_i18n.py`：OpenCC s2t（含词组消歧）整文件转换（HTML+JS 安全：代码全 ASCII，只动汉字）；自动处理 lang 属性、og:locale→zh_TW、loli.net SC→TC、CSS 路径加层、切换条视角重写、生成标记。**源页改动后必须重跑**
+- **字体按馆别分栈**（CSS `html[lang]` 覆盖 --serif/--sans）：繁体=Songti TC/Noto Serif TC 栈，楷=新切 `wenkai-tc.woff2`（LXGW WenKai TC 子集 589KB，台标字形）；朱雀仿宋缺繁体标准字形（实测 1161/1877）→ 繁体馆别**不提供「仿」**（菜单移除+降级回宋）；英文=Charter/Georgia 衬线栈
+- 互动实验/游戏：繁体全量可用（JS 副本转换）；英文页暂不嵌游戏（以卡片链至中文实验室），周报里注明 lab 中文先行
+- 西语馆别：架构已留槽（同一生成器模式 + hreflang 扩列），待英文五篇齐后启动
+
+**发布流水线新增**：`node tools/audit_games.js`（DOM 替身执行全部 11 个工厂 ×2 路径，防 TAU 类运行时崩溃——简繁两份 games.js 都要跑）+ `python3 tools/build_i18n.py`（重新生成繁体树）。

@@ -2707,3 +2707,56 @@ html:has(body.home-page) { scroll-snap-type: y proximity; }
   .vbar { opacity: 1; transition: none; }
   .vault-wall.stocked .vbar:last-child { animation: none; }
 }
+
+/* ============================================================
+   语言馆别 · zh-Hant / en（字体栈按馆别切换，简繁英三馆同源）
+   ============================================================ */
+@font-face {
+  font-family: "LXGW WenKai TC Sub";
+  src: url("fonts/wenkai-tc.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+html[lang="zh-Hant"] {
+  --serif: "Songti TC", "Noto Serif TC", "Noto Serif CJK TC", "PMingLiU", "MingLiU", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Helvetica Neue", "Microsoft JhengHei", sans-serif;
+}
+
+html[lang="zh-Hant"][data-font="kai"] {
+  --serif: "LXGW WenKai TC Sub", "Kaiti TC", "BiauKai", "TW-Kai", "DFKai-SB", "Noto Serif TC", serif;
+}
+
+/* 朱雀仿宋缺繁体标准字形：繁体馆别的“仿”降级回宋（菜单里也不再提供） */
+html[lang="zh-Hant"][data-font="fang"] {
+  --serif: "Songti TC", "Noto Serif TC", "PMingLiU", serif;
+}
+
+html[lang="zh-Hant"][data-font="hei"] {
+  --serif: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Helvetica Neue", "Microsoft JhengHei", sans-serif;
+}
+
+html[lang="en"] {
+  --serif: "Charter", "Iowan Old Style", "Palatino", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+}
+
+.lang-switch {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.55em;
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+}
+
+.lang-switch a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.3s var(--ease-breath);
+}
+
+.lang-switch a:hover { color: var(--accent); }
+
+.lang-switch strong { color: var(--ink); font-weight: 600; }

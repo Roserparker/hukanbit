@@ -1,8 +1,8 @@
-/* 胡侃比特 · 共享脚本：阅读进度条 + 滚动进场动画 */
+/* 胡侃比特 · 共享腳本：閱讀進度條 + 滾動進場動畫 */
 (function () {
   "use strict";
 
-  // 阅读进度条（仅文章页存在 #progress）
+  // 閱讀進度條（僅文章頁存在 #progress）
   var bar = document.getElementById("progress");
   if (bar) {
     var update = function () {
@@ -16,7 +16,7 @@
     update();
   }
 
-  // 滚动进场
+  // 滾動進場
   var revealEls = document.querySelectorAll(".reveal");
   if (revealEls.length && "IntersectionObserver" in window) {
     var io = new IntersectionObserver(
@@ -35,11 +35,11 @@
     revealEls.forEach(function (el) { el.classList.add("visible"); });
   }
 
-  // 页脚年份
+  // 頁腳年份
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
-  /* ---------- 字体三态切换（宋/楷/黑）---------- */
+  /* ---------- 字體三態切換（宋/楷/黑）---------- */
   var fsBtn = document.getElementById("font-switch");
   var fsMenu = document.getElementById("font-menu");
   if (fsBtn && fsMenu) {
@@ -69,9 +69,9 @@
     document.addEventListener("click", function () { fsMenu.hidden = true; });
   }
 
-  /* ---------- 点击涟漪 ----------
-     每次按下，在指尖处荡开一圈细线（声呐式反馈）。
-     尊重 prefers-reduced-motion；高频连点（如挖矿游戏）时限流。 */
+  /* ---------- 點擊漣漪 ----------
+     每次按下，在指尖處盪開一圈細線（聲吶式反饋）。
+     尊重 prefers-reduced-motion；高頻連點（如挖礦遊戲）時限流。 */
   var pingReduced = false;
   try {
     var pingMq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -79,7 +79,7 @@
     if (typeof pingMq.addEventListener === "function") {
       pingMq.addEventListener("change", function (e) { pingReduced = e.matches; });
     }
-  } catch (e) { /* 旧环境忽略 */ }
+  } catch (e) { /* 舊環境忽略 */ }
 
   var pingLive = 0;
   function spawnPing(x, y) {
@@ -97,39 +97,39 @@
       if (p.parentNode) p.parentNode.removeChild(p);
     };
     p.addEventListener("animationend", done);
-    setTimeout(done, 750); // 动画事件丢失时的兜底
+    setTimeout(done, 750); // 動畫事件丟失時的兜底
     document.body.appendChild(p);
   }
 
   var downEvt = window.PointerEvent ? "pointerdown" : "mousedown";
   document.addEventListener(downEvt, function (ev) {
-    if (ev.button) return; // 右键/中键不响
+    if (ev.button) return; // 右鍵/中鍵不響
     spawnPing(ev.clientX, ev.clientY);
   }, { passive: true });
 
-  /* ---------- 学习足迹 ----------
-     只存在你自己的浏览器 localStorage 里，不上传任何数据。
-     设计参考 Coinbase Earn 的"学习即进度"：让读者看见自己走了多远。 */
+  /* ---------- 學習足跡 ----------
+     只存在你自己的瀏覽器 localStorage 裏，不上傳任何數據。
+     設計參考 Coinbase Earn 的"學習即進度"：讓讀者看見自己走了多遠。 */
   var store = {
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
-    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 隐私模式忽略 */ } }
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 隱私模式忽略 */ } }
   };
 
-  // 文章页：记下"读过"
+  // 文章頁：記下"讀過"
   var m = location.pathname.match(/articles\/(0[1-5])\.html$/);
   if (m) store.set("hkb-read-" + m[1], "1");
-  // 实验室页：记下"来过"
+  // 實驗室頁：記下"來過"
   if (/lab\.html$/.test(location.pathname)) store.set("hkb-lab", "1");
-  // 长廊：记下"参观过"（为将来的集章寻宝留钩子）
+  // 長廊：記下"參觀過"（爲將來的集章尋寶留鉤子）
   if (/gallery\.html$/.test(location.pathname)) store.set("hkb-gallery", "1");
-  // 布道厅
+  // 佈道廳
   if (/satoshi\.html$/.test(location.pathname)) store.set("hkb-satoshi", "1");
-  // 学堂
+  // 學堂
   if (/study\.html$/.test(location.pathname)) store.set("hkb-study", "1");
-  // 金库
+  // 金庫
   if (/treasury\.html$/.test(location.pathname)) store.set("hkb-treasury", "1");
 
-  // 首页：点亮已读标签、阅读进度与"三步上手"的完成态
+  // 首頁：點亮已讀標籤、閱讀進度與"三步上手"的完成態
   var toc = document.querySelector(".toc");
   if (toc) {
     var readCount = 0;
@@ -142,7 +142,7 @@
       if (tags) {
         var done = document.createElement("span");
         done.className = "tag done";
-        done.textContent = "✓ 已读";
+        done.textContent = "✓ 已讀";
         tags.appendChild(done);
       }
     });
@@ -150,8 +150,8 @@
     if (prog && readCount > 0) {
       prog.hidden = false;
       prog.textContent = readCount >= 5
-        ? "✓ 五篇全部读完——你已经比 99% 的人更懂钱了"
-        : "已读 " + readCount + " / 5 · 接着读，每篇末尾都有配套实验";
+        ? "✓ 五篇全部讀完——你已經比 99% 的人更懂錢了"
+        : "已讀 " + readCount + " / 5 · 接着讀，每篇末尾都有配套實驗";
     }
     var stepState = {
       read: store.get("hkb-read-01") === "1",
@@ -167,15 +167,15 @@
     });
   }
 
-  /* ---------- 创世转储：285 字节的显影 ----------
-     区块 #0 以原始三栏转储陈列（偏移 | 字节 | ASCII，与 2009 年的
-     十六进制查看器同款）。初看全是机器呓语；随滚动，报头的 69 个
-     字节逐字升温走到光里，随后报纸复刻显影。 */
+  /* ---------- 創世轉儲：285 字節的顯影 ----------
+     區塊 #0 以原始三欄轉儲陳列（偏移 | 字節 | ASCII，與 2009 年的
+     十六進制查看器同款）。初看全是機器囈語；隨滾動，報頭的 69 個
+     字節逐字升溫走到光裏，隨後報紙復刻顯影。 */
   var stele = document.getElementById("gen-stele");
   if (stele) {
     var dump = document.getElementById("gen-dump");
     var clip = document.getElementById("gen-clip");
-    /* 创世区块原始字节（285B）：区块头 + 1 笔 coinbase 交易 */
+    /* 創世區塊原始字節（285B）：區塊頭 + 1 筆 coinbase 交易 */
     var HEX =
       "0100000000000000000000000000000000000000000000000000000000000000" +
       "000000003BA3EDFD7A7B12B27AC72C3E67768F617FC81BC3888A51323A9FB8AA" +
@@ -226,7 +226,7 @@
           as.setAttribute("data-m", mk);
           mB[mk] = bs; mA[mk] = as;
         }
-        if (gi === LEN_BYTE) { bs.title = "0x45 = 69：头条的字节长度"; as.title = bs.title; }
+        if (gi === LEN_BYTE) { bs.title = "0x45 = 69：頭條的字節長度"; as.title = bs.title; }
         bcol.appendChild(bs);
         acol.appendChild(as);
       }
@@ -235,7 +235,7 @@
       dump.appendChild(row);
     }
 
-    /* 悬停：字节 ↔ 字母 双向点亮 */
+    /* 懸停：字節 ↔ 字母 雙向點亮 */
     function hot(t, on) {
       var k = t.getAttribute && t.getAttribute("data-m");
       if (k == null) return;
@@ -245,7 +245,7 @@
     dump.addEventListener("mouseover", function (ev) { hot(ev.target, true); });
     dump.addEventListener("mouseout", function (ev) { hot(ev.target, false); });
 
-    /* 滚动显影 */
+    /* 滾動顯影 */
     var lastLit = -1, clipShown = false, ticking = false;
     function applyLit(n) {
       if (n === lastLit) return;
@@ -284,7 +284,7 @@
   }
 })();
 
-/* ---------- 语言偏好记忆（简/繁/EN 切换时记下选择） ---------- */
+/* ---------- 語言偏好記憶（簡/繁/EN 切換時記下選擇） ---------- */
 (function () {
   "use strict";
   var links = document.querySelectorAll(".lang-switch a[data-lang]");

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<!-- generated from ../articles/02.html by tools/build_i18n.py · 改源文件后重跑，勿直接编辑 -->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<title>債務驅動的世界 · 胡侃比特</title>
+<meta name="description" content="你存在銀行裏的錢，其實是銀行的負債。拆解央行印鈔、貨幣乘數與 2008 年金融危機。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡侃比特">
+<meta property="og:title" content="胡侃比特 · 第二篇 · 債務驅動的世界">
+<meta property="og:description" content="你存在銀行裏的錢，在銀行賬本上是一筆負債。拆解央行印鈔與 2008。">
+<meta property="og:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<meta property="og:url" content="https://roserparker.github.io/hukanbit/zh-hant/articles/02.html">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="胡侃比特 · 第二篇 · 債務驅動的世界">
+<meta name="twitter:description" content="你存在銀行裏的錢，在銀行賬本上是一筆負債。拆解央行印鈔與 2008。">
+<meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<link rel="alternate" hreflang="zh-Hans" href="https://roserparker.github.io/hukanbit/articles/02.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://roserparker.github.io/hukanbit/zh-hant/articles/02.html">
+<link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/articles/02.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/style.css?v=20260612r">
+<link rel="stylesheet" href="../../assets/games.css?v=20260612r">
+</head>
+<body class="article-page">
+<div class="progress" id="progress"></div>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="../index.html">首頁</a>
+      <a href="../index.html#articles" class="active">文章</a>
+      <a href="../lab.html">實驗室</a>
+      <a href="../gallery.html">長廊</a>
+      <a href="../satoshi.html">文獻</a>
+      <a href="../study.html">學堂</a>
+      <a href="../treasury.html">金庫</a>
+      <a href="../index.html#about">關於</a>
+    </nav>
+    <div class="lang-switch" aria-label="語言 / Language"><a href="../../articles/02.html" lang="zh-Hans" data-lang="zh-hans">简</a><strong>繁</strong><a href="../../en/index.html" lang="en" data-lang="en">EN</a></div>
+    <button class="font-switch" id="font-switch" type="button" aria-label="切換正文字體" aria-haspopup="true">字</button>
+    <div class="font-menu" id="font-menu" hidden>
+      <button type="button" class="f-song" data-f="song">宋 · 館方正體</button>
+      <button type="button" class="f-kai" data-f="kai">楷 · 手寫溫度</button>
+      <button type="button" class="f-hei" data-f="hei">黑 · 現代極簡</button>
+    </div>
+  </div>
+</header>
+
+<main class="article">
+  <p class="kicker">第二篇 · 法幣體系</p>
+  <h1>債務驅動的世界</h1>
+  <p class="epigraph">“不是那些你不懂的事物讓你身陷囹圄，而是那些你自以爲了解、但一無所知的事物。”</p>
+  <div class="tags meta-tags"><span class="tag accent">第二篇</span><span class="tag">約 30 分鐘</span><span class="tag">銀行</span><span class="tag">貨幣乘數</span><span class="tag">2008</span></div>
+  <hr class="rule">
+
+  <div class="prose">
+    <p class="reveal">感謝大家對第一篇文章的反饋，所有建議我都有悉心聽取。您犧牲了寶貴時間閱讀我的文章，我十分感謝。</p>
+
+    <section class="reveal">
+      <h2>尺子，還是尺子</h2>
+      <p>在正式進入“債務驅動的世界”這個話題之前，我想繼續展開幾個話題，尤其是錢作爲尺子（記賬單位）這個話題及其深刻含義。</p>
+      <p>人類是地球上的高級動物，其高級的核心在於人類擁有了語言，進而可以理解和想象抽象概念。但這個抽象能力被死死地限制在了語言之中。我在此就不深入討論語言之間的細微差別和不同思維方式，而是主要集中在語言的核心問題：人類只能想象和理解存在於語言中的概念。</p>
+      <p>試想一下，我們在思考任何問題的時候，無論抽象還是具象，我們都會在頭腦中默默和自己對話，而這些對話都是基於語言的。人類很難想象出語言無法形容的東西——比如你無法向沒有喫過西紅柿的人形容西紅柿是什麼味道、咖啡聞起來是什麼香味，人類也很難想象出一道自己沒有接觸過的菜是什麼味道。</p>
+      <p>抽象概念亦如是。如同上篇文章所說，米是一個長度單位，形容長度的單位也是語言中的一個概念。如果沒有長度單位的語言，人類很難理解長度。這個單位的不斷改變，會完全顛覆人對於長度的理解。</p>
+      <p>舉個例子，想象有兩個世界：一個世界裏“米”是恆定的，一個世界裏“米”是變化的。假如我買了新家，需要一個沙發，我的客廳只能放下一張 3 米的沙發。在這兩個世界裏，會有完全不同的兩種經歷——</p>
+      <p>在米恆定的世界裏：我 1 月買了房子，2 月入住，3 月決定要買沙發，4 月去傢俱城購買。聽起來很簡單，我 4 月去傢俱城直接挑一個 3 米的沙發下單即可，沙發也放得下，不會出現任何問題。這是我們習以爲常的現實。</p>
+      <p>在米變化的世界裏：1 月買了房子，這時 1 米等於 100 釐米；2 月入住，這時 1 米等於 111 釐米；3 月決定要買沙發，這時 1 米是 120 釐米；到了我去傢俱店的時候，1 米是 200 釐米。那麼這時我去傢俱店，經過一番計算，我應該買 3 × 200 = 600cm，也就是對應上一個場景的“6 米”沙發。但我的房子沒有變大，傢俱店也沒有故意加長——同一個沙發，現在確確實實變成了“6 米”。（在米恆定的世界，這個沙發還是三米。沙發沒變，變的只是“米”這個單位。）</p>
+      <p>這個現實有點不太好理解，同時也徒增了很多麻煩。但這還只是買一個固定尺寸的沙發。我們拓展思考一下：在這個世界裏，人和人之間應該如何交流長度呢？比如要修一條路呢？本來 1 月測量好了修一條 80 公里的高速公路，到了 12 月變成了 173 公里的路，請問物料應該怎麼買纔夠？這條路應該怎麼修？這條路根本沒辦法修。</p>
+      <p>很好理解對吧：如果長度單位不斷變化，人類就會失去對長度的判斷。</p>
+      <p>那麼同理——<strong>如果價值單位（計價單位）是不斷變化的，人類就會失去對價值的判斷。</strong>我們甚至說不出來具體的價值是什麼——到底怎麼衡量和描述價值呢？</p>
+    </section>
+
+    <section class="reveal">
+      <h2>不完美的尺子</h2>
+      <p>上篇文章我做了說明：買房其實不太容易跑贏通脹，因爲人們還是困在所屬的貨幣體系中。怎麼理解？試問，“2010 年買的房，2015 年賣了，賺了 200 萬”和“2020 年買的房，2025 年賣了，賺了 200 萬”——這兩個 200 萬的價值和購買力，真的一樣嗎？</p>
+      <p>更可怕的事情是：你根本無法形容這兩者到底有什麼不同。你無法描述這裏到底有什麼價值區別。所以我們暫時引用一把外部的尺子：<strong>黃金</strong>。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>時間</th><th>黃金價格（美元/盎司）</th><th>折算人民幣價格（約）</th></tr></thead>
+          <tbody>
+            <tr><td>2015 年 7 月</td><td>$1,095.10</td><td>約 218 元/克</td></tr>
+            <tr><td>2025 年 8 月</td><td>$3,415.77</td><td>約 791 元/克</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="footnote">（換算：盎司 × 美元價 × 當時匯率 ÷ 31.1 克）</p>
+      <p>我們用當年金價的平均值，來重新描述這兩個“兩百萬”的價值：</p>
+      <p>2015 年的 200 萬人民幣能買多少黃金？200 萬 ÷ 218 元/克 ≈ 9,174 克黃金（約 9.17 公斤）。<br>
+      2025 年的 200 萬人民幣能買多少黃金？200 萬 ÷ 791 元/克 ≈ 2,528 克黃金（約 2.53 公斤）。</p>
+      <p>同樣兩百萬的貨幣，換算成黃金，十年時間能購買的黃金少了 6 公斤左右。<strong>同樣是“200 萬”，2025 年那個的實際購買力，只剩 2015 年那個的 27.5%。</strong>換句話說，2025 年要賺 725 萬，才能買到 2015 年賺 200 萬能買到的同樣多的黃金。</p>
+      <p>請大家一定要理解：不要看到黃金價格的走勢圖，就盲目理解成“黃金變貴了，所以導致了上述問題”。<strong>不對。</strong>黃金就是黃金，黃金不會有太大變化。（我們後續文章會討論黃金也不是最佳尺子，但現在先用這個相對穩定的尺子來衡量價值，來體現貨幣體系究竟貶值了多少——以及延伸來說：究竟偷走了多少財富？）</p>
+      <p>現在我們可以更好地描述價值的喪失：十年時間，整個貨幣體系貶值了 70% 多。假如你賣了房換成了貨幣——那麼恭喜你！用黃金作爲尺子的情況下，十年間，你的賣房收益憑空消失了 72% 的價值。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>債務驅動的世界</h2>
+      <p>接下來，我們要進入一個更宏大的話題，一個極少人（包括研究比特幣的人）觸及的話題。我會盡我最大努力解釋清楚：人類五千年來以債務作爲貨幣、並且被債務驅動的人類關係，如何塑造現有文明，以及精英階級如何操弄這個機制來牟取暴利。以及——爲什麼你以爲“自己的錢”，其實從來不是你的。</p>
+      <p>開始之前，需要澄清一個概念——<strong>法幣</strong>：主權國家發行的貨幣，日元、美元、歐元都是法幣。（Fiat，拉丁語“讓它成爲如此”——源自《聖經》“Fiat lux”（要有光），可以引申理解爲“因權威命令而存在”。）</p>
+      <p>先說結論：我們現在在用的所有法幣，本質上都是債務。你存在銀行裏的錢，首先並不是你的錢；其次，它是銀行的債務；法幣在最底層，是央行發行的債務券。</p>
+      <p>首先說“你的錢不是你的錢”。第一個問題：你的錢在哪裏？比如銀行卡里的十萬到底在哪裏？我看不見也摸不着，它不在家裏，不在枕頭底下，它只存在於銀行賬戶上的一串數字。而這串數字，本質上是銀行的債務（Liability）。在所有銀行的賬本上，儲戶的儲蓄都是賬本上的債務（Liability），而不是收益（Profit）或者資產（Asset）。</p>
+      <p>但爲什麼人們有一種“這錢是我的”的錯覺呢？因爲銀行系統的運作方式很少有人思考。你在銀行軟件、賬戶上查到的數字，是一種“索取權”：我把錢（借）給銀行，銀行幫我存起來，我沒有了這筆錢的所有權（因爲不在我手邊，我沒辦法隨時拿出鈔票來用），但是我有隨時找銀行要的“索取權力”。</p>
+      <p>我（銀行的債主）去銀行取錢，本質上是拿着欠條（銀行賬戶上的數字），去銀行（債務人）把錢取出來（銀行有義務還給我這筆錢）。這並不是單純的“銀行幫我保管，我去一個保險櫃裏拿”。更像是：我把錢借給了銀行，這筆借款變成了銀行的債務，銀行收集大量的借款，去貸款給別人，用貸款的利息來盈利——而不是單純地儲存金錢。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>債務作爲錢——光明正大</h2>
+      <p>有點瘋狂？別急，還有更瘋狂的。</p>
+      <p>請拿出你手邊的美元紙幣。紙幣的最上面寫的是 “Federal Reserve Note”。這個 Note 很精妙，作爲中文母語者有點難理解。我們會天然地把 Note 理解爲“筆記”，在這裏引申爲“紙”的意思——這三個詞組合起來，應該是“美聯儲（印發）的紙”。</p>
+      <p><strong>不對。</strong></p>
+      <p>Note 在這裏最準確、最直接的意思是：<strong>欠條</strong>。這張紙，我們管它叫美金，它的全稱其實是：<strong>美聯儲欠條</strong>。</p>
+      <p>這個欠條還貼心地在下面附了一行小字：</p>
+      <blockquote>
+        <p>"This note is legal tender for all debts, public and private."</p>
+        <p>直譯：這張債務憑證依法必須被接受，用於償還一切公共和私人債務。<br>
+        大白話：這是一張欠條，但你必須用它來償還你的其他債務——法律強制你接受它，不接受就是違法。</p>
+      </blockquote>
+      <p>而這張欠條，作爲世界上最廣泛接受的貨幣，是全球貨幣的錨定物（港幣錨定美金 1:7）。我們進而可以推論出：世界上的所有法幣，本質上都在錨定一張欠條（債務）；而世界上的所有法幣，本質上也都是一張張欠條。</p>
+      <p>問：那麼這個欠條是怎麼來的呢？<br>答：直接印出來。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>央行印鈔</h2>
+      <p>難道政府直接就開始印鈔了嗎？這不是明晃晃地稀釋貨幣價值、搶劫嗎？</p>
+      <p>對的，政府也知道你知道。所以政府換了一種方式，具體操作流程如下：</p>
+      <p>政府先成立一個央行放在檯面上（美聯儲、日本央行等）。政府要借錢（修高鐵），就直接發行國債（也是一種債，也叫 Note，在美國叫做 Treasury Bond，聯邦政府債），直接向市場公開募資。幾個本來就和政府私下談好的大銀行——JP Morgan、工商銀行、滙豐之類——直接買入這種債券。</p>
+      <p>這些債券變成了銀行的資產。銀行的賬本上，少了 xx 億現金，換來了 xx 億等價的國債資產（Asset）。</p>
+      <p>這個時候，纔是檯面下央行出場的時候。央行直接在電腦上輸入：xx 億，出現！芝麻開門～Duang 的一下，xx 億美金就這樣不講道理地出現了。央行用這些變出來的錢買入銀行手裏的國債，銀行的國債就變成了現金（新鮮出爐）。</p>
+      <p>這就是央行層面上印錢的操作。學會了嗎？</p>
+      <p>先別急着詫異或者憤怒——不光是央行可以印喲，普通商業銀行也可以。Oh Yeah!!!</p>
+    </section>
+
+    <section class="reveal">
+      <h2>商業銀行</h2>
+      <p>我們看完了央行的操作，接下來我來拆解一下商業銀行的操作。</p>
+      <p>延續之前的結尾：現在銀行的賬本上，資產欄裏國債消失了，多出了 xx 億現金資產（這次是銀行資產而不是負債，因爲不是儲戶的錢，是熱騰騰的新錢。嗯～美妙絕倫）。</p>
+      <p>之後它可以基於這 1 萬億，放出 10 萬億的貸款。</p>
+      <p>接下來的操作看好了，我只示範一次。</p>
+      <p>銀行有一個特殊機制，叫做“準備金制度”。乍一聽好像是銀行在保護我們的措施啊（我之前深信不疑）！讓銀行必須留下現金，以應對銀行擠兌和儲戶提款，這是好事啊！</p>
+      <p>不不不，你有點幻想了。準備金制度的本質是“存十留一”：銀行只需要留下極少部分的錢。比如我存入了 100 美金，銀行只需要留下 1 美金，其他的所有美金拿去放貸，從而賺取更多的利息。</p>
+      <p>銀行拿到央行給的 xx 億美金，只需要留下 1%，把剩下的所有錢拿去放貸。這樣就可以基於 1 萬億，放出 10 萬億的貸款，賺取上百億的利息。</p>
+      <p>詳細過程如下：</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>輪次</th><th>銀行的操作</th></tr></thead>
+          <tbody>
+            <tr><td>起點</td><td>銀行賬本：資產 +1 萬億（現金）</td></tr>
+            <tr><td>第 1 輪放貸</td><td>銀行留 1%（1000 億）做準備金，放貸 9900 億給小張。但是！小張拿到 9900 億不會塞牀底下，他會存進銀行（或者付給別人，別人再存進銀行）。銀行賬本：又多了一筆儲戶存款 9900 億。</td></tr>
+            <tr><td>第 2 輪放貸</td><td>這 9900 億的存款，銀行再留 1%（99 億），放貸 9801 億。這 9801 億又被某個人存進銀行。</td></tr>
+            <tr><td>第 3 輪放貸</td><td>留 1%，繼續放貸……無限循環下去。</td></tr>
+            <tr><td>最終</td><td>總貸款 = 1 萬億 ÷ 1% = 100 萬億（理論值）。實際中因爲有摩擦、有人取現等因素，大約是 10 倍——也就是 1 萬億 → 10 萬億貸款。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>這就是<strong>貨幣乘數效應（Money Multiplier）</strong>。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>數字貨幣</h2>
+      <p>現代科技給了銀行更好的條件。以前還需要運送紙鈔，還需要一筆一筆放貸，銀行專員還需要和客戶一對一放貸。現在簡單多了：紙鈔已基本被淘汰，本質上我們都在使用數字貨幣（微信、支付寶、手機銀行軟件等等）。很多人反感“數字貨幣”（比如比特幣之類的），但他們其實早就在用數字貨幣了。</p>
+      <p>數字貨幣對銀行的好處，是可以更微觀地造錢。</p>
+      <p>比如，小李存入了銀行 100 元，銀行留下 1–3 元（準備金制度），剩下的貸款給小張。但這不是我們想象的、銀行“移動”這筆錢給小張，而是直接在小張的銀行賬戶裏添加錢（小張的賬戶直接從 1 元改寫成 101 元）。這裏面沒有任何“用小李的存款給小張貸款”的動作，而是直接在小張的軟件裏寫上 101 元。這本質就是一種造錢——我（銀行）說他有，他就有，然後收取小張的利息。這一切只是賬本上的變化。</p>
+      <p>這一切都在臺面下進行。新錢不斷地、不斷地湧入市場，所有持有法幣的人都在被悄悄竊取財富，普通人辛苦勞作換來的財富被不斷榨取。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>次貸危機</h2>
+      <p>這聽起來已經夠殘酷的了吧？還沒說完。銀行生意本來就是無本萬利的生意，銀行人躺着睡大覺就可以賺大錢了，因爲他們已經成爲了印鈔機，錢要多少有多少。</p>
+      <p>但，人嘛，總是貪婪的。雖然他們已經擁有了從無到有創造財富的能力，他們還想要更多。</p>
+      <p>“我們需要一個好點子。”——劉易斯·萊納瑞（Lewis Ranieri）出場。來自所羅門兄弟銀行的債券部門，他跨着正步、昂首挺胸地向我們走來，掏出了他的“好點子”：</p>
+      <p><strong>房貸擔保債券（Mortgage-backed Security）。</strong>很討厭，這是什麼？別整這高大上的詞，這到底什麼意思？我來翻譯一下：<strong>次貸</strong>。</p>
+      <p>具體是什麼？簡單來說，就是把一個房貸（30 年期、小額償還，和現在的房貸一樣）和其他幾個房貸捆綁在一起售賣——把幾千個房貸打包起來做成債券賣。但賣之前還要做一道精妙的“鍊金術”——<strong>分級（Tranching）</strong>。</p>
+      <p>想象一桶混在一起的房貸——有些是按時還房貸的優質客戶，有些是次級客戶，整體大概有 5% 的違約率。這桶東西如果直接賣，沒人要，因爲大家都怕踩到那 5% 的壞賬。</p>
+      <p>萊納瑞的天才之處在於——把這桶東西切成三層賣：</p>
+      <p><strong>頂層（AAA 級，佔 70%）</strong>：還款時優先支付這一層，和美國國債一樣安全，幾乎不可能違約——賣給追求安全的養老金、保險公司。<br>
+      <strong>中層（BBB 級，佔 20%）</strong>：還款順序在第二位——賣給對沖基金。<br>
+      <strong>底層（垃圾級，佔 10%）</strong>：最後才支付，但收益率超高——銀行自己留着，或賣給冒險者。</p>
+      <p>然後銀行去找評級機構（Moody's、S&amp;P）：“看，我們頂層有 30% 的資產做緩衝墊，肯定安全。”評級機構給頂層打了 AAA——和美國國債同級。</p>
+      <p>奇蹟發生了——一堆中等風險的房貸，通過分級 + 評級，70% 變成了和美國國債一樣“固若金湯”的投資理財！</p>
+    </section>
+
+    <section class="reveal">
+      <h2>愈演愈烈</h2>
+      <p>銀行從“持有 30 年長期貸款、一點一滴賺小錢”，變成“打包賣出、賺一筆差價就跑”，直接打開了水龍頭——錢週轉得越來越快，銀行可以放越來越多的貸款，進而創造越來越多的錢。錢像暴風雨一樣無情地拍打在銀行臉上。這纔是春風得意馬蹄疾，柳暗花明又一村啊。</p>
+      <p>這種暴利行業，自然有越來越多銀行爭相效仿。越來越多的房貸被打包售賣。這就像吸毒一樣，一旦沾上就很難戒掉——因爲來錢實在是太快、太輕鬆了。</p>
+      <p>就像毒癮發作的毒蟲一樣，一開始的劑量已經不夠爽了。銀行開始把手伸向了信用更差的大多數人——失業的人、沒收入證明的人、移民、信用記錄極差的人。甚至到了最瘋狂的時候，連條狗都可以申請房貸了。（真事。）</p>
+      <p>有人會問：那銀行不害怕壞賬嗎？</p>
+      <p><strong>不害怕。</strong>因爲銀行不持有這些貸款——它打包賣了！真正承擔風險的，是買了債券、想謀得一個“和美國國債一樣穩定並且有不錯收益率”的人。銀行只賺“打包加工費”——它不在乎貸款最終會不會違約。</p>
+      <p>貪婪的雪球越滾越大，更多人加入進來。有的人甚至貸款買了 4–5 套房子，因爲房貸永遠會批准，如同經濟永遠會上行。</p>
+      <p>這一切很完美——直到大廈崩塌。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>大廈崩塌</h2>
+      <p>𠳐！一聲巨響，2008 年，危機爆發了。越來越多的人無法償還貸款，越來越多的人被強制執行、房屋被法拍，經濟一瀉千里，甚至波及到了歐洲和中國（中國開啓了 4 萬億刺激計劃——哈哈，現在大家知道這 4 萬億哪裏來的了吧？這四萬億到底是誰出的？請好好思考一下）。</p>
+      <p class="pull">失業率每上升 1%，死亡人數增加 4 萬人。</p>
+      <p>我們直接上數據：</p>
+      <p><strong>930 萬</strong>美國家庭失去了自己的房子。這是什麼概念？相當於每 22 秒就有一個家庭被警察趕出家門，連續 7 年。</p>
+      <p><strong>870 萬</strong>美國人失去了工作。退休賬戶蒸發了 <strong>2.4 萬億美元</strong>——一夜之間，多少人辛苦攢了一輩子的養老金化爲烏有。</p>
+      <p>研究顯示，這場危機導致美國額外 <strong>4750 人</strong>自殺，歐洲額外 <strong>7900 人</strong>自殺——他們的名字不會出現在任何新聞裏。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>惡有惡報？</h2>
+      <p>那麼導致這個危機的罪魁禍首呢？他們應該被罰重金並且關進監獄審判！！！</p>
+      <p>哦，你說銀行家他們啊？</p>
+      <blockquote><p>中世紀弄丟儲戶資產的銀行家會被絞死。現在，他們不僅不會被審判，還會得到豐厚的獎金。</p></blockquote>
+      <p>2008 年——金融危機最慘烈的那一年——花旗集團虧損 279 億美元，但還是發了 54 億美元的獎金。美林證券虧損 278 億美元，還是發了 36 億美元的獎金。9 家拿了 1750 億美元納稅人救助金的大銀行，當年總共發了 326 億美元的獎金。</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>年份</th><th>華爾街總獎金</th><th>備註</th></tr></thead>
+          <tbody>
+            <tr><td>2006</td><td>339 億美元</td><td>危機前的“盛世”</td></tr>
+            <tr><td>2007</td><td>329 億美元</td><td>危機已經開始醞釀</td></tr>
+            <tr><td>2008</td><td>184 億美元</td><td>雷曼倒閉年，依然發了相當於 2004 年的全部獎金</td></tr>
+            <tr><td>2009</td><td>204 億美元</td><td>被政府救助的一年，獎金上漲了 17%</td></tr>
+            <tr><td>2010</td><td>207 億美元</td><td>繼續上漲</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>最讓人無語的事實：紐約州審計長（NY State Comptroller）每年都會發布華爾街獎金報告——這是官方數據，而且這些還都只是明面上的資金流動。他們自己每年發新聞稿宣傳“今年獎金又漲了”。</p>
+      <p><strong>TOP 9 銀行——拿了多少救助金 vs 發了多少獎金。</strong>這是最致命的一組數據——紐約總檢察長 Andrew Cuomo（後來當了州長）2009 年的官方調查報告：</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>銀行</th><th>收到救助金</th><th>2008 年發的獎金</th><th>2008 年利潤 / 虧損</th></tr></thead>
+          <tbody>
+            <tr><td>花旗集團 Citigroup</td><td>$450 億</td><td>$54 億</td><td>鉅虧 $279 億</td></tr>
+            <tr><td>美洲銀行 Bank of America</td><td>$450 億</td><td>$33 億</td><td>利潤 $40 億</td></tr>
+            <tr><td>摩根大通 JPMorgan Chase</td><td>$250 億</td><td>$87 億</td><td>利潤 $56 億</td></tr>
+            <tr><td>高盛 Goldman Sachs</td><td>$100 億</td><td>$48 億</td><td>利潤 $23 億</td></tr>
+            <tr><td>摩根士丹利 Morgan Stanley</td><td>$100 億</td><td>$45 億</td><td>利潤 $17 億</td></tr>
+            <tr><td>梅隆紐約銀行 BNY Mellon</td><td>$30 億</td><td>$9.45 億</td><td>—</td></tr>
+            <tr><td>道富銀行 State Street</td><td>$20 億</td><td>$4.7 億</td><td>—</td></tr>
+            <tr><td>美林證券 Merrill Lynch</td><td>$100 億（含在 BoA 內）</td><td>$36 億</td><td>鉅虧 $278 億</td></tr>
+            <tr><td>富國銀行 Wells Fargo</td><td>$250 億</td><td>$9.78 億</td><td>—</td></tr>
+            <tr><td><strong>總計</strong></td><td><strong>$1750 億救助金</strong></td><td><strong>$326 億獎金</strong></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>百萬美元寶貝。</strong>Cuomo 報告裏最炸裂的部分——這 9 家銀行裏，2008 年拿到一百萬美元（2008 年的一百萬美金）以上獎金的員工人數：</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>銀行</th><th>拿到 $100 萬+ 獎金的人數</th></tr></thead>
+          <tbody>
+            <tr><td>花旗集團</td><td>738 人</td></tr>
+            <tr><td>摩根大通</td><td>&gt;1626 人</td></tr>
+            <tr><td>美洲銀行</td><td>172 人</td></tr>
+            <tr><td>高盛</td><td>953 人</td></tr>
+            <tr><td>摩根士丹利</td><td>428 人</td></tr>
+            <tr><td>梅隆紐約銀行</td><td>74 人</td></tr>
+            <tr><td>道富銀行</td><td>44 人</td></tr>
+            <tr><td>美林證券</td><td>696 人</td></tr>
+            <tr><td>富國銀行</td><td>62 人</td></tr>
+            <tr><td><strong>總計</strong></td><td><strong>超過 4793 人</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>更誇張的：“300 萬美元以上”俱樂部——</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>銀行</th><th>拿到 $300 萬+ 獎金的人數</th></tr></thead>
+          <tbody>
+            <tr><td>花旗集團</td><td>124 人</td></tr>
+            <tr><td>摩根大通</td><td>&gt;200 人</td></tr>
+            <tr><td>高盛</td><td>212 人</td></tr>
+            <tr><td>美林證券</td><td>149 人</td></tr>
+            <tr><td>摩根士丹利</td><td>101 人</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>整場危機只有一個倒黴蛋</h2>
+      <p>是誰？Kareem Serageldin——一個瑞士信貸的中層交易員（不是 CEO，甚至不是總監），因隱藏 1 億美元虧損被判 30 個月。</p>
+      <p class="pull">整場危機裏，沒有任何一家美國大銀行的 CEO 或高管入獄。</p>
+      <p>政府的“懲罰”——SEC（美國證監會）的罰款：</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>銀行</th><th>SEC 罰款</th><th>當年淨利潤</th></tr></thead>
+          <tbody>
+            <tr><td>高盛</td><td>$5.5 億</td><td>$80 億</td></tr>
+            <tr><td>摩根大通</td><td>$130 億（多年累計）</td><td>每年 $200 億+</td></tr>
+            <tr><td>美洲銀行</td><td>$167 億（多年累計）</td><td>每年 $150 億+</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>罰款都是利潤的零頭——而且沒有任何個人需要承擔罰款，全部由公司承擔。</p>
+      <p class="footnote">所有數據都來自公開來源：① 紐約州審計長年度報告（華爾街獎金數據）；② 紐約總檢察長報告 “No Rhyme or Reason”（2009，Andrew Cuomo，9 家銀行獎金 vs 救助金對比）；③ 美國國會金融危機調查委員會報告（FCIC, 2011）；④ GAO（美國政府審計辦公室）2011 年審計（美聯儲緊急貸款 16 萬億數據）；⑤ The Atlantic 2015 年專題 “Why Only One Top Banker Went to Jail”。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>雷霆救援</h2>
+      <p>哪怕有幾個零星倒下的銀行，也被其他銀行吸納，成爲了更大的銀行。原本就“大而不能倒”的銀行，變成了更大而更不能倒的銀行。</p>
+      <p>這些錢哪裏來的？當然是從布什政府末期開始、由奧巴馬政府接手、擴大並合法化的全套救助方案。兩屆政府，跨黨派合作，緊急動用行政力量力挽狂瀾——把納稅人的錢拿來，不僅承托起了整個銀行業，還給罪魁禍首們發了鉅額獎金。</p>
+      <p>Larry Summers（拉里·薩默斯），奧巴馬第一任期的國家經濟委員會主席（NEC Director），聯合 Geithner 否決了能真正幫助房主的 cramdown 提案，說這是個 “Moral Hazard”（道德風險）——不能獎勵那些借了超出能力貸款的人，他們需要承擔後果。</p>
+      <p>“我們不能出錢營救百姓，因爲這樣他們就學不到任何教訓了。”——國家經濟委員會主席如是說。</p>
+      <p>於是轉頭給銀行業寫了一張巨型支票。這張支票用的是誰的錢？<strong>每一名美國納稅人的錢。</strong></p>
+      <p>就是這樣，銀行用行動證明：我們（銀行）既是遊戲規則的制定者，也是遊戲的監管者，還是遊戲的參與者。</p>
+      <p class="pull">We don't lose——我們無輸可輸。</p>
+      <p>好，銀行輸不了。政府牢牢把持鑄幣權，普通人都被通脹默默偷走財富。納稅人需要爲政府的一切行爲買單——戰爭、疫情、拯救銀行等等。而真正的犯罪者，自然而然地逍遙法外。</p>
+    </section>
+
+    <section class="reveal">
+      <h2>靜謐變革</h2>
+      <blockquote>
+        <p>我翻開歷史一查，這歷史沒有年代，歪歪斜斜的每頁上都寫着“仁義道德”幾個字。我橫豎睡不着，仔細看了半夜，才從字縫裏看出字來，滿本都寫着兩個字是“喫人”！</p>
+        <p>……他不以爲然了。含含胡胡的答道，“不……”<br>
+        “不對？他們何以竟喫！”<br>
+        “沒有的事……”<br>
+        “沒有的事？狼子村現喫；還有書上都寫着，通紅斬新！”<br>
+        他便變了臉，鐵一般青。睜着眼說，“也許有的，這是從來如此……”<br>
+        “從來如此，便對麼？”</p>
+        <cite>—— 魯迅《狂人日記》</cite>
+      </blockquote>
+    </section>
+
+    <section class="reveal">
+      <h2>「比特幣：一種點對點的電子現金系統」</h2>
+      <p>2008 年 10 月 31 日（萬聖節），一個化名中本聰（Satoshi Nakamoto）的人發佈了一份白皮書：<strong>「比特幣：一種點對點的電子現金系統」</strong>。</p>
+      <p>兩個月後，2009 年，一個名叫比特幣的系統正式上線。中本聰在這個區塊鏈系統的第一個創始區塊（Genesis Block）中，永恆地嵌下了一段有趣的文字：</p>
+      <pre>00000080  01 04 45 54 68 65 20 54  69 6D 65 73 20 30 33 2F   ..EThe Times 03/
+00000090  4A 61 6E 2F 32 30 30 39  20 43 68 61 6E 63 65 6C   Jan/2009 Chancel
+000000A0  6C 6F 72 20 6F 6E 20 62  72 69 6E 6B 20 6F 66 20   lor on brink of
+000000B0  73 65 63 6F 6E 64 20 62  61 69 6C 6F 75 74 20 66   second bailout f
+000000C0  6F 72 20 62 61 6E 6B 73                            or banks</pre>
+      <blockquote>
+        <p>"The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"</p>
+        <p>《泰晤士報》2009 年 1 月 3 日：財政大臣即將對銀行進行第二輪紓困。</p>
+      </blockquote>
+    </section>
+
+    <aside class="takeaways reveal">
+      <h3>本篇要點</h3>
+      <ul>
+        <li>你存在銀行裏的錢，在銀行的賬本上是負債（Liability）——你擁有的是“索取權”，不是錢本身。</li>
+        <li>美元紙幣上印着 “Federal Reserve Note”——Note 的意思是欠條。所有法幣的底層都是債務。</li>
+        <li>通過準備金制度和貨幣乘數，商業銀行可以把 1 萬億變成約 10 萬億的貸款——“造錢”不只是央行的特權。</li>
+        <li>2008 年：930 萬家庭失去房子，而 9 家拿了 1750 億救助金的銀行發了 326 億獎金，沒有一位大銀行高管入獄。</li>
+        <li>比特幣的創世區塊裏，刻着 2009 年 1 月 3 日泰晤士報的頭條——它的誕生就是對這個體系的回應。</li>
+      </ul>
+    </aside>
+
+    <a class="lab-card reveal" href="../lab.html#multiplier">
+      <span class="tag">動手實驗</span>
+      <span class="title">🏦 貨幣乘數機</span>
+      <p class="desc">親手存入 100 元，看看在準備金制度下，銀行系統能把它“變”成多少錢。</p>
+    </a>
+
+    <nav class="pager">
+      <a href="01.html"><span class="dir">上一篇</span>← 何爲金錢</a>
+      <a class="next" href="03.html"><span class="dir">下一篇</span>無形的堅硬 →</a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>胡侃比特 © <span id="year"></span> · 知識分享，自由轉載，註明出處即可。</p>
+    <p class="disclaimer">本站所有內容僅爲個人觀點與知識科普，不構成任何投資建議。加密資產價格波動巨大，請獨立思考、自主決策，並只動用你能承受損失的資金。</p>
+  </div>
+</footer>
+
+<script src="../assets/main.js?v=20260612r"></script>
+<script src="../assets/flow.js?v=20260612r" defer></script>
+<script src="../assets/games.js?v=20260612r" defer></script>
+</body>
+</html>

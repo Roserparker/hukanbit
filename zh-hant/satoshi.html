@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<!-- generated from ../satoshi.html by tools/build_i18n.py · 改源文件后重跑，勿直接编辑 -->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<title>佈道廳 · 中本聰文獻 · 胡侃比特</title>
+<meta name="description" content="中本聰原話檔案：主權貨幣的信任問題、容量天花板、能量與自由。逐條標註時間與出處，琥珀磷光終端風格。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡侃比特">
+<meta property="og:title" content="胡侃比特 · 佈道廳 · 中本聰文獻">
+<meta property="og:description" content="中本聰原話檔案，逐條標註時間與出處：信任、容量、能量、自由與告別。">
+<meta property="og:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<meta property="og:url" content="https://roserparker.github.io/hukanbit/zh-hant/satoshi.html">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="胡侃比特 · 佈道廳 · 中本聰文獻">
+<meta name="twitter:description" content="中本聰原話檔案，逐條標註時間與出處：信任、容量、能量、自由與告別。">
+<meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<link rel="alternate" hreflang="zh-Hans" href="https://roserparker.github.io/hukanbit/satoshi.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://roserparker.github.io/hukanbit/zh-hant/satoshi.html">
+<link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/satoshi.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/style.css?v=20260612r">
+<link rel="stylesheet" href="../assets/games.css?v=20260612r">
+</head>
+<body class="satoshi-page">
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="index.html">首頁</a>
+      <a href="index.html#articles">文章</a>
+      <a href="lab.html">實驗室</a>
+      <a href="gallery.html">長廊</a>
+      <a href="satoshi.html" class="active">文獻</a>
+      <a href="study.html">學堂</a>
+      <a href="treasury.html">金庫</a>
+    </nav>
+    <div class="lang-switch" aria-label="語言 / Language"><a href="../satoshi.html" lang="zh-Hans" data-lang="zh-hans">简</a><strong>繁</strong><a href="../en/index.html" lang="en" data-lang="en">EN</a></div>
+    <button class="font-switch" id="font-switch" type="button" aria-label="切換正文字體" aria-haspopup="true">字</button>
+    <div class="font-menu" id="font-menu" hidden>
+      <button type="button" class="f-song" data-f="song">宋 · 館方正體</button>
+      <button type="button" class="f-kai" data-f="kai">楷 · 手寫溫度</button>
+      <button type="button" class="f-hei" data-f="hei">黑 · 現代極簡</button>
+    </div>
+  </div>
+</header>
+
+<main class="st-main">
+  <h1 class="st-head">SATOSHI ARCHIVE<span class="st-cursor" aria-hidden="true"></span></h1>
+  <p class="st-meta">
+    佈道廳 · 中本聰文獻　｜　信源：bitcointalk.org · 密碼學郵件列表 · P2P Foundation · 創世區塊<br>
+    時間跨度：2008-10-31 → 2011-04-23　｜　全部原文可在 <a href="https://satoshi.nakamotoinstitute.org" target="_blank" rel="noopener">satoshi.nakamotoinstitute.org</a> 逐字覈對<br>
+    這間屋子的顏色，來自 1979 年的琥珀磷光終端——他寫下這些話時，盯着的就是這種光。
+  </p>
+
+  <div class="st-filters" role="group" aria-label="按主題過濾">
+    <button type="button" class="st-filter on" data-t="all">全部</button>
+    <button type="button" class="st-filter" data-t="trust">#信任</button>
+    <button type="button" class="st-filter" data-t="scale">#容量</button>
+    <button type="button" class="st-filter" data-t="energy">#能量</button>
+    <button type="button" class="st-filter" data-t="freedom">#自由</button>
+    <button type="button" class="st-filter" data-t="rule">#規則</button>
+    <button type="button" class="st-filter" data-t="human">#人語</button>
+    <button type="button" class="st-filter" data-t="farewell">#告別</button>
+  </div>
+
+  <article class="st-entry reveal" data-t="freedom">
+    <p class="st-log">[2008-10-31] · 密碼學郵件列表 · 白皮書公告<span class="st-theme">#自由</span></p>
+    <p class="st-en">"I've been working on a new electronic cash system that's completely peer-to-peer, with no trusted third party."</p>
+    <p class="st-zh">我一直在研究一個全新的電子現金系統：完全點對點，無需任何可信第三方。</p>
+    <p class="st-note">站長按：萬億美元的資產類別、改寫貨幣史的系統，第一次露面只有這一句話。沒有發佈會。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="freedom">
+    <p class="st-log">[2008-11-07] · 密碼學郵件列表<span class="st-theme">#自由</span></p>
+    <p class="st-en">"Governments are good at cutting off the heads of a centrally controlled networks like Napster, but pure P2P networks like Gnutella and Tor seem to be holding their own."</p>
+    <p class="st-zh">政府擅長砍掉 Napster 這類中心化網絡的頭顱；而 Gnutella、Tor 這樣的純 P2P 網絡，看起來正把自己守得很好。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="freedom">
+    <p class="st-log">[2008-11-07] · 密碼學郵件列表 · 回應"密碼學解決不了政治問題"<span class="st-theme">#自由</span></p>
+    <p class="st-en">"Yes, but we can win a major battle in the arms race and gain a new territory of freedom for several years."</p>
+    <p class="st-zh">是的——但我們可以在這場軍備競賽中贏下關鍵一役，爲自由奪得一片能守上好些年的新疆土。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="trust">
+    <p class="st-log">[2009-01-03 18:15:05 UTC] · 創世區塊 #0 · coinbase 銘文<span class="st-theme">#信任</span></p>
+    <p class="st-hex">04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73</p>
+    <p class="st-en" id="genesis-type" data-text="The Times 03/Jan/2009 Chancellor on brink of second bailout for banks">&nbsp;</p>
+    <p class="st-zh">《泰晤士報》2009 年 1 月 3 日：財政大臣站在第二輪銀行救助的邊緣。</p>
+    <p class="st-note">站長按：他把當天的報紙頭條永久刻進了第 0 個區塊。既是時間戳，證明此鏈不早於這一天；也是判詞，說明此鏈爲何而生。上面那行十六進制，就是這句話在鏈上的原貌——至今任何一臺全節點電腦裏都存着它。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="human">
+    <p class="st-log">[2009-01-17] · 密碼學郵件列表<span class="st-theme">#人語</span></p>
+    <p class="st-en">"It might make sense just to get some in case it catches on."</p>
+    <p class="st-zh">萬一它成了氣候呢？先搞一點放着，或許是明智的。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="trust">
+    <p class="st-log">[2009-02-11 22:27 UTC] · P2P Foundation 論壇<span class="st-theme">#信任</span></p>
+    <p class="st-en">"The root problem with conventional currency is all the trust that's required to make it work. The central bank must be trusted not to debase the currency, but the history of fiat currencies is full of breaches of that trust."</p>
+    <p class="st-zh">傳統貨幣的根本問題，在於它的運轉必須依賴海量的信任。央行必須被信任不去稀釋貨幣——可法幣的歷史，寫滿了對這種信任的背叛。</p>
+    <p class="st-note">站長按：本站第一、二篇文章的全部內容，他用兩句話就講完了。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="scale">
+    <p class="st-log">[2009-04-12] · 致 Mike Hearn 的郵件<span class="st-theme">#容量</span></p>
+    <p class="st-en">"The existing Visa credit card network processes about 15 million Internet purchases per day worldwide. Bitcoin can already scale much larger than that with existing hardware for a fraction of the cost. It never really hits a scale ceiling."</p>
+    <p class="st-zh">現有的 Visa 網絡每天處理約 1500 萬筆互聯網支付。以現有硬件，比特幣已能以遠低於它的成本，擴展到比它大得多的規模——它實際上不會撞上容量天花板。</p>
+    <p class="st-note">站長按：六年後的"擴容戰爭"中，爭論的各方都舉着這封信。原話與爭論都在這裏，請讀者自己判斷。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="human">
+    <p class="st-log">[2010-02-14] · bitcointalk.org<span class="st-theme">#人語</span></p>
+    <p class="st-en">"I'm sure that in 20 years there will either be very large transaction volume or no volume."</p>
+    <p class="st-zh">我確信：二十年後，比特幣的交易量要麼非常巨大，要麼歸於零。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="rule">
+    <p class="st-log">[2010-06-17] · bitcointalk.org<span class="st-theme">#規則</span></p>
+    <p class="st-en">"The nature of Bitcoin is such that once version 0.1 was released, the core design was set in stone for the rest of its lifetime."</p>
+    <p class="st-zh">比特幣的本性如此：0.1 版一經發布，核心設計便鑄成鐵律，終其一生不再更改。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="rule">
+    <p class="st-log">[2010-06-21] · bitcointalk.org<span class="st-theme">#規則</span></p>
+    <p class="st-en">"Lost coins only make everyone else's coins worth slightly more. Think of it as a donation to everyone."</p>
+    <p class="st-zh">丟失的幣，只會讓所有其他人的幣更值錢一點點。把它當作給所有人的捐贈吧。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="human">
+    <p class="st-log">[2010-07-05] · bitcointalk.org<span class="st-theme">#人語</span></p>
+    <p class="st-en">"Sorry to be a wet blanket. Writing a description for this thing for general audiences is bloody hard. There's nothing to relate it to."</p>
+    <p class="st-zh">抱歉潑盆冷水：要向普通大衆描述這個東西實在太難了——世上沒有任何現成的事物可以拿來類比。</p>
+    <p class="st-note">站長按：連他自己都覺得難講。所以本站存在。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="human">
+    <p class="st-log">[2010-07-29] · bitcointalk.org<span class="st-theme">#人語</span></p>
+    <p class="st-en">"If you don't believe me or don't get it, I don't have time to try to convince you, sorry."</p>
+    <p class="st-zh">如果你不相信我，或者沒看懂——抱歉，我沒有時間來說服你。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="energy">
+    <p class="st-log">[2010-08-07] · bitcointalk.org<span class="st-theme">#能量</span></p>
+    <p class="st-en">"The utility of the exchanges made possible by Bitcoin will far exceed the cost of electricity used. Therefore, not having Bitcoin would be the net waste."</p>
+    <p class="st-zh">比特幣所促成的交換，其效用將遠遠超過所消耗的電力。因此，真正的浪費不是擁有比特幣的世界——而是沒有它的世界。</p>
+    <p class="st-note">站長按：第四篇《內在價值》整篇，是給這兩句話做的註腳。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="farewell">
+    <p class="st-log">[2010-12-11] · bitcointalk.org · 倒數第二帖<span class="st-theme">#告別</span></p>
+    <p class="st-en">"It would have been nice to get this attention in any other context. WikiLeaks has kicked the hornet's nest, and the swarm is headed towards us."</p>
+    <p class="st-zh">換任何別的場合獲得這種關注，本來都是好事。但維基解密捅了馬蜂窩，蜂羣正朝我們湧來。</p>
+    <p class="st-note">站長按：次日（12 月 12 日）他發出最後一帖，談的是一個普通的技術細節。然後，論壇上再無此人。</p>
+  </article>
+
+  <article class="st-entry reveal" data-t="farewell">
+    <p class="st-log">[2011-04-23] · 致 Mike Hearn 的最後一封已知郵件<span class="st-theme">#告別</span></p>
+    <div class="st-pgp">
+      <p class="st-pgp-rule">-----BEGIN MESSAGE-----</p>
+      <p class="st-en" style="margin:0.6rem 0">"I've moved on to other things. It's in good hands with Gavin and everyone."</p>
+      <p class="st-zh" style="margin:0 0 0.6rem">我已去忙別的事了。它在 Gavin 和大家手裏，很好。</p>
+      <p class="st-pgp-rule">-----END MESSAGE-----</p>
+    </div>
+  </article>
+
+  <p class="st-prompt">$ <span class="st-cursor" aria-hidden="true"></span></p>
+  <p class="st-epitaph">他再也沒有回來。光標還亮着。<br>估計約有一百萬枚屬於他的比特幣，自 2010 年起從未移動——<br>他守住了自己寫下的每一條規則，包括對自己。</p>
+
+  <p style="text-align:center;margin:3rem 0 0">
+    <a class="btn warm" href="gallery.html">回長廊看文物 →</a>
+    <a class="btn ghost" href="lab.html" style="margin-left:0.6rem">去實驗室動手 →</a>
+  </p>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div class="ticker-slot" data-game="btc-ticker"></div>
+    <p>胡侃比特 © <span id="year"></span> · 知識分享，自由轉載，註明出處即可。</p>
+    <p class="disclaimer">本廳引文均爲中本聰公開言論，中文爲本站翻譯；出處與時間以 Satoshi Nakamoto Institute 檔案爲準。不構成任何投資建議。</p>
+  </div>
+</footer>
+
+<script src="assets/main.js?v=20260612r"></script>
+<script src="assets/flow.js?v=20260612r" defer></script>
+<script src="assets/games.js?v=20260612r" defer></script>
+<script>
+(function () {
+  "use strict";
+
+  /* —— 主題濾波 —— */
+  var filters = document.querySelectorAll(".st-filter");
+  var entries = document.querySelectorAll(".st-entry");
+  filters.forEach(function (f) {
+    f.addEventListener("click", function () {
+      filters.forEach(function (o) { o.classList.remove("on"); });
+      f.classList.add("on");
+      var t = f.getAttribute("data-t");
+      entries.forEach(function (en) {
+        en.classList.toggle("dim", t !== "all" && en.getAttribute("data-t") !== t);
+      });
+    });
+  });
+
+  /* —— 創世頭條：打字機解碼 —— */
+  var target = document.getElementById("genesis-type");
+  if (target && "IntersectionObserver" in window) {
+    var text = target.getAttribute("data-text");
+    var reduced = false;
+    try { reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    var typed = false;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting || typed) return;
+        typed = true;
+        io.disconnect();
+        if (reduced) { target.textContent = "“" + text + "”"; return; }
+        var i = 0;
+        target.textContent = "“";
+        var iv = setInterval(function () {
+          i++;
+          target.textContent = "“" + text.slice(0, i) + (i < text.length ? "▋" : "”");
+          if (i >= text.length) clearInterval(iv);
+        }, 34);
+      });
+    }, { threshold: 0.4 });
+    io.observe(target);
+  } else if (target) {
+    target.textContent = "“" + target.getAttribute("data-text") + "”";
+  }
+})();
+</script>
+</body>
+</html>

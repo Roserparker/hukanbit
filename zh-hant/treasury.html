@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<!-- generated from ../treasury.html by tools/build_i18n.py · 改源文件后重跑，勿直接编辑 -->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<script>try{if(sessionStorage.getItem("hkb-vault"))document.documentElement.className+=" vault-seen"}catch(e){}</script>
+<title>金庫 · 模型說明書 · 胡侃比特</title>
+<meta name="description" content="比特幣儲備公司在做什麼：飛輪、BTC Yield、mNAV、與 ETF 的本質區別——以及一份把『歸零=全損』寫在最前面的誠實說明。教育性內容，非證券要約。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡侃比特">
+<meta property="og:title" content="胡侃比特 · 金庫 · 模型說明書">
+<meta property="og:description" content="比特幣儲備公司在做什麼：飛輪、BTC Yield、與 ETF 的本質區別——一份把醜話寫在最前面的說明書。">
+<meta property="og:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<meta property="og:url" content="https://roserparker.github.io/hukanbit/zh-hant/treasury.html">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="胡侃比特 · 金庫 · 模型說明書">
+<meta name="twitter:description" content="飛輪、BTC Yield、與 ETF 的本質區別——醜話寫在最前面。">
+<meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<link rel="alternate" hreflang="zh-Hans" href="https://roserparker.github.io/hukanbit/treasury.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://roserparker.github.io/hukanbit/zh-hant/treasury.html">
+<link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/treasury.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/style.css?v=20260612r">
+<link rel="stylesheet" href="../assets/games.css?v=20260612r">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="index.html">首頁</a>
+      <a href="index.html#articles">文章</a>
+      <a href="lab.html">實驗室</a>
+      <a href="gallery.html">長廊</a>
+      <a href="satoshi.html">文獻</a>
+      <a href="study.html">學堂</a>
+      <a href="treasury.html" class="active">金庫</a>
+    </nav>
+    <div class="lang-switch" aria-label="語言 / Language"><a href="../treasury.html" lang="zh-Hans" data-lang="zh-hans">简</a><strong>繁</strong><a href="../en/index.html" lang="en" data-lang="en">EN</a></div>
+    <button class="font-switch" id="font-switch" type="button" aria-label="切換正文字體" aria-haspopup="true">字</button>
+    <div class="font-menu" id="font-menu" hidden>
+      <button type="button" class="f-song" data-f="song">宋 · 館方正體</button>
+      <button type="button" class="f-kai" data-f="kai">楷 · 手寫溫度</button>
+      <button type="button" class="f-hei" data-f="hei">黑 · 現代極簡</button>
+    </div>
+  </div>
+</header>
+
+<div class="vault" id="vault" aria-hidden="true">
+  <svg viewBox="0 0 300 300">
+    <circle class="door-ring outer" cx="150" cy="150" r="142"/>
+    <circle class="door-ring" cx="150" cy="150" r="112"/>
+    <line class="bolt" x1="150" y1="18" x2="150" y2="40"/>
+    <line class="bolt" x1="150" y1="260" x2="150" y2="282"/>
+    <line class="bolt" x1="18" y1="150" x2="40" y2="150"/>
+    <line class="bolt" x1="260" y1="150" x2="282" y2="150"/>
+    <g class="wheel">
+      <circle cx="150" cy="150" r="52"/>
+      <line x1="150" y1="98" x2="150" y2="202"/>
+      <line x1="98" y1="150" x2="202" y2="150"/>
+      <line x1="113" y1="113" x2="187" y2="187"/>
+      <line x1="187" y1="113" x2="113" y2="187"/>
+    </g>
+    <text class="door-b" x="150" y="166" text-anchor="middle">₿</text>
+  </svg>
+  <p class="vault-t">正在開啓金庫……</p>
+  <button class="vault-skip" type="button">跳過</button>
+</div>
+
+<main class="pr-main">
+  <p class="section-label" style="margin-top:0">PROSPECTUS · 模型說明書</p>
+  <h1 style="text-align:center;font-size:clamp(1.9rem,5vw,2.6rem);letter-spacing:0.12em;margin:0 0 1rem;">金　庫</h1>
+  <p class="pr-sub">把比特幣裝進一家紀律嚴明的股份公司，<br>讓每一股，一年比一年更「重」。</p>
+
+  <div class="pr-warn reveal">
+    <p class="t">重要聲明 · 請先讀這一段</p>
+    <p>本頁是<strong>教育性的模型說明與願景陳述</strong>，不構成任何證券要約、要約邀請或投資建議；不向中國大陸居民進行任何形式的推介或營銷。比特幣歸零將導致此類公司投資者 100% 損失——任何聲稱"不會血本無歸"的儲備公司，要麼在撒謊，要麼並未真正全倉比特幣。請僅以"瞭解一種商業模型"的心態閱讀本頁。</p>
+  </div>
+
+  <p class="pr-sec">§1 · 這臺機器做什麼</p>
+  <h2 class="pr-h">一眼看懂</h2>
+  <p class="pr-p">先用一張畫說完：<strong>把募來的錢鑄成幣，一根一根碼進庫房。</strong>公司不生產產品，不追逐利潤表——它只看守並增厚這面牆；每一位股東，按持股比例分享整面牆。</p>
+
+  <div class="vault-wall reveal" id="vault-wall" aria-label="庫房幣牆示意：金條逐根入庫">
+    <span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span>
+    <span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span>
+    <span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span><span class="vbar"></span>
+  </div>
+  <p class="pr-p" style="text-align:center;font-size:0.8rem;color:var(--ink-faint);font-family:var(--sans)">庫存示意 · 每根代表一筆入庫的比特幣 ｜ 參照：Strategy 的牆上已碼放 <span class="num">709,715</span> ₿</p>
+
+  <h2 class="pr-h">飛輪</h2>
+  <p class="pr-p">比特幣儲備公司只做一件事：<strong>用資本市場的工具，持續增加"每一股背後含有的比特幣數量"。</strong>它的原型是 Michael Saylor 的 Strategy（MSTR）——這臺機器轉了五年，把一家平庸的軟件公司變成了全球最大的企業比特幣持有者。它的循環只有四步：</p>
+
+  <div class="pr-wheel reveal" aria-label="飛輪示意：低成本募資 → 買入比特幣 → 每股含幣上升 → 信任與溢價上升，循環往復">
+    <svg viewBox="0 0 360 360">
+      <defs><marker id="pr-arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#87a796"/></marker></defs>
+      <circle class="ring" cx="180" cy="180" r="118"/>
+      <path class="arrowp" d="M 180,56 A 124,124 0 0 1 297,150"/>
+      <path class="arrowp" d="M 304,180 A 124,124 0 0 1 230,290"/>
+      <path class="arrowp" d="M 180,304 A 124,124 0 0 1 63,210"/>
+      <path class="arrowp" d="M 56,180 A 124,124 0 0 1 130,70"/>
+      <text class="core" x="180" y="194" text-anchor="middle">₿</text>
+      <g class="n n1"><circle class="node" cx="180" cy="62" r="34"/><text x="180" y="58" text-anchor="middle">低成本募資</text><text x="180" y="74" text-anchor="middle">0% 可轉債</text></g>
+      <g class="n n2"><circle class="node" cx="298" cy="180" r="34"/><text x="298" y="176" text-anchor="middle">買入比特幣</text><text x="298" y="192" text-anchor="middle">全部、立刻</text></g>
+      <g class="n n3"><circle class="node" cx="180" cy="298" r="34"/><text x="180" y="294" text-anchor="middle">每股含幣 ↑</text><text x="180" y="310" text-anchor="middle">BTC Yield</text></g>
+      <g class="n n4"><circle class="node" cx="62" cy="180" r="34"/><text x="62" y="176" text-anchor="middle">信任與溢價 ↑</text><text x="62" y="192" text-anchor="middle">更易募資</text></g>
+    </svg>
+  </div>
+
+  <div class="pr-dock" id="wheel-dock"><p class="pr-dock-hint">把鼠標放到任一節點上（手機輕點）——看這一步到底發生了什麼。</p></div>
+
+  <p class="pr-p">注意第一步的工具：<strong>零利率可轉換債券</strong>。投資人借錢給公司，不收利息——作爲交換，拿到一個爲期數年的選擇權：幣漲了，把債轉成股票分享漲幅；幣跌了，到期拿回本金。投資人用利息，換了一張"保本的比特幣看漲期權"；公司則拿到了幾乎沒有現金流壓力的彈藥。<strong>沒有強制平倉條款，沒有追加保證金</strong>——這就是它和"加槓桿炒幣"在結構上的天壤之別。</p>
+
+  <h2 class="pr-h">它不是 ETF</h2>
+  <div class="pr-grid">
+    <div class="pr-card"><p class="k">BTC ETF</p><p class="v">1 元錢 → 1 元比特幣 → 1 元市值。<strong>永遠 1 : 1</strong>，一面誠實的鏡子，僅此而已。</p></div>
+    <div class="pr-card"><p class="k">儲備公司</p><p class="v">1 元錢 → 0% 可轉債與溢價發行層層放大 → <strong>約 1.5–2 元的比特幣暴露</strong>。它不是比特幣的持有者，它是一臺<strong>比特幣槓桿複利機器</strong>。</p></div>
+  </div>
+
+  <p class="pr-sec">§2 · 飛輪的數學</p>
+  <h2 class="pr-h">BTC Yield：每股含幣增速</h2>
+  <p class="pr-p">Saylor 給這臺機器裝的儀表盤不是利潤，而是 <strong>BTC Yield</strong>：每股（完全稀釋後）所含比特幣數量的增長率。MSTR 2024 財年做到了 <span class="num"><strong class="cnt" data-n="74.3" data-d="1" data-suf="%">0%</strong></span>——意思是：你一年前的一股若含 1 聰，年底就含 1.743 聰。下面這臺計算器是飛輪數學的全部祕密，親手擰一擰：</p>
+
+  <div class="game-embed" data-game="btc-yield">
+    <p class="game-fallback">這個計算器需要 JavaScript 才能運行。</p>
+  </div>
+
+  <p class="pr-sec">§3 · 參照系</p>
+  <h2 class="pr-h">原型機：MSTR</h2>
+  <div class="pr-grid">
+    <div class="pr-card"><p class="k">持倉（2026 年初口徑）</p><p class="v"><span class="num cnt" data-n="709715">0</span> ₿ · 均價 <span class="num">$75,979</span> · 比特幣市值對總債務覆蓋約 <span class="num">7×</span></p></div>
+    <div class="pr-card"><p class="k">彈藥成本</p><p class="v">總債務約 <span class="num">$8.2B</span>，加權利率僅 <span class="num">0.42%</span>——年付息約 <span class="num">$34.6M</span>，被一個軟件業務輕鬆覆蓋</p></div>
+  </div>
+  <p class="pr-p">但參照系也包含<strong>反面教材</strong>：MSTR 後期發行的優先股（STRK/STRF/STRD）帶來了每年約 <span class="num cnt" data-n="689" data-pre="$" data-suf="M">$0M</span> 的固定股息義務——這是熊市裏真正咬人的東西。一家年輕的儲備公司若學這一層，等於嬰兒舉槓鈴。<span style="color:var(--ink-faint)">（另：港股早有先例——美圖等上市公司多年前即把比特幣納入儲備。數據爲公開披露口徑，本館整理，非實時。）</span></p>
+
+  <p class="pr-sec">§4 · 從金庫到銀行</p>
+  <h2 class="pr-h">金匠的老故事，幣庫的新講法</h2>
+  <p class="pr-p">銀行本來就是從金庫長出來的：中世紀的金匠替人保管金子、開出倉單，倉單流通成了紙幣，金匠放貸成了銀行。比特幣儲備公司正在把這條路重走一遍——只是這次，庫裏的東西沒人能印：</p>
+  <div class="pr-road reveal">
+    <div class="pr-stop now"><p class="st">儲備</p><p class="sd">發債募資、買幣入庫、多籤冷存——金匠收金開倉單的階段。Strategy 用五年把這一步做到了 70 萬枚。</p></div>
+    <div class="pr-stop"><p class="st">收益化</p><p class="sd">以幣爲擔保借入美元、審慎出借賺取利差——金匠開始放貸。Saylor 已公開把 Strategy 定位爲「比特幣支持的信用公司」，以幣背書發行各類證券。</p></div>
+    <div class="pr-stop"><p class="st">託管與服務</p><p class="sd">多籤託管、繼承安排、支付與結算通道——金匠鋪掛出了銀行的招牌。</p></div>
+    <div class="pr-stop"><p class="st">新銀行</p><p class="sd">當儲備資產本身不可超發，這家"銀行"第一次不再需要部分準備金的把戲——<strong>全額準備金</strong>，金本位時代銀行本該有的樣子。</p></div>
+  </div>
+  <p class="pr-p"><strong>19 世紀的銀行從金庫長出來；21 世紀的，可能從幣庫長出來。</strong>區別只有一個：這一次，庫裏的東西沒人能印。（這條演進是行業推演而非承諾——眼下的我們，只走第一步，把第一步走得乾淨。）</p>
+
+  <p class="pr-sec">§5 · 我們的紀律</p>
+  <h2 class="pr-h">一家還沒出生就先立規矩的公司</h2>
+  <p class="pr-p">讀到這裏你大概會問：華語世界有這樣的公司嗎？——幾乎沒有。資金已合法在境外、想要比特幣暴露、卻被語言/渠道/託管擋在門外的人，至今沒人認真服務：對 BlackRock 太小，對西方私行隔着語言與信任之牆。<strong>本館館主正在朝這個方向籌備。</strong>但比起攤開計劃書，更想先把"這類公司應當遵守的紀律"公開立在這裏——既是科普的一部分，也是給未來那家公司的自我約束：</p>
+  <ul class="pr-list">
+    <li><strong>不把"幣價上漲"當商業模式。</strong>漲價是 bonus，不是 base case——現金流設計必須扛得住比特幣橫盤五年。</li>
+    <li><strong>早期只用零利率可轉債（Layer B），絕不碰固定股息與抵押槓桿。</strong>每年固定現金義務是年輕公司的毒藥——見上文 $689M 反面教材。</li>
+    <li><strong>三條紅線：</strong>不承諾任何收益；只接受已合法在境外的資金（絕不協助任何形式的違規跨境）；不在中國大陸進行任何營銷。</li>
+    <li><strong>每位投資人當面簽署七條知情同意</strong>：100% 損失風險 / 五年流動性鎖定 / 80%+ 歷史回撤 / 經營風險 / 監管風險 / 創始人單點風險 / 自評清單（金額不影響生活、不依賴此投資養老就醫）。口頭說"有風險"不算數，白紙黑字當面讀完纔算。</li>
+    <li><strong>利益綁定的原話：</strong>"你放進來的每一美元都買成真實比特幣，你按比例擁有；我收固定管理費，只有你賺錢我纔有業績提成。我們坐在同一條船的同一側。"</li>
+  </ul>
+
+  <p class="pr-sec">§6 · 路線圖</p>
+  <h2 class="pr-h">環環相扣</h2>
+  <div class="pr-road reveal">
+    <div class="pr-stop now"><p class="st">教育</p><p class="sd">就是你正在逛的這座美術館：讓更多華語讀者真正理解比特幣——不是爲了說服，是爲了讓懂的人自己走過來。</p></div>
+    <div class="pr-stop"><p class="st">業績</p><p class="sd">以家族資金建倉，逐月公開紀律與記錄——先用自己的錢證明這套打法，再談別人的錢。</p></div>
+    <div class="pr-stop"><p class="st">私募</p><p class="sd">面向少數熟人引薦的合格投資者，以零利率可轉債起步——結構透明，文件齊全，當面簽署。</p></div>
+    <div class="pr-stop"><p class="st">遠期</p><p class="sd">規模與合規到位後，探索更正式的架構與公開市場——那一天，這頁"說明書"會換成真正的招股書。</p></div>
+  </div>
+
+  <p class="pr-sec">§7 · 聯絡</p>
+  <p class="pr-p">現階段僅接受<strong>熟人引薦</strong>的合格投資者私下溝通；正式聯絡通道籌備中。本頁（與本站所有頁面一樣）不收集任何信息——讀完即走，無痕。</p>
+  <p class="pr-p"><strong>現在最好的支持方式：</strong>把本館轉給一位還沒看懂比特幣的朋友。教育，就是這家未來公司最深的地基。</p>
+
+  <p style="text-align:center;margin:2.8rem 0 0">
+    <a class="btn warm" href="articles/01.html">還沒讀過五篇？從第一篇開始 →</a>
+  </p>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>胡侃比特 © <span id="year"></span> · 知識分享，自由轉載，註明出處即可。</p>
+    <p class="disclaimer">本頁爲教育性模型說明，不構成證券要約、要約邀請或投資建議，不向中國大陸居民推介。加密資產可能歸零，請獨立思考，並只動用你能承受全部損失的資金。</p>
+  </div>
+</footer>
+
+<script src="assets/main.js?v=20260612r"></script>
+<script>
+(function () {
+  "use strict";
+  /* —— 保險庫開門 —— */
+  var v = document.getElementById("vault");
+  if (v && !document.documentElement.className.match(/vault-seen/)) {
+    var done = false;
+    var finish = function () {
+      if (done) return;
+      done = true;
+      v.classList.add("done");
+      try { sessionStorage.setItem("hkb-vault", "1"); } catch (e) {}
+      setTimeout(function () { if (v.parentNode) v.parentNode.removeChild(v); }, 750);
+    };
+    setTimeout(function () { v.classList.add("turn"); }, 350);
+    setTimeout(function () { v.classList.add("unbolt"); }, 1450);
+    setTimeout(function () { v.classList.add("open"); }, 2000);
+    setTimeout(finish, 2750);
+    v.addEventListener("click", finish);
+  } else if (v && v.parentNode) {
+    v.parentNode.removeChild(v);
+  }
+
+  /* —— Apple 式滾動劇場：飛輪點火 · 路線圖次第亮 · 數字滾上 —— */
+  var rm = false;
+  try { rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  function fmtN(x, d) {
+    return d ? x.toFixed(d) : Math.round(x).toLocaleString("zh-CN");
+  }
+  function countUp(eln) {
+    var n = parseFloat(eln.getAttribute("data-n"));
+    var d = parseInt(eln.getAttribute("data-d") || "0", 10);
+    var pre = eln.getAttribute("data-pre") || "";
+    var suf = eln.getAttribute("data-suf") || "";
+    if (rm) { eln.textContent = pre + fmtN(n, d) + suf; return; }
+    var t0 = performance.now(), DUR = 1300;
+    (function tick(t) {
+      var p = Math.min(1, (t - t0) / DUR);
+      var e = 1 - Math.pow(1 - p, 3);
+      eln.textContent = pre + fmtN(n * e, d) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  /* —— 飛輪節點解說牌 —— */
+  var dock = document.getElementById("wheel-dock");
+  var EXPLAIN = {
+    n1: ["① 低成本募資 · 0% 可轉債", "公司向投資人借錢，約定：不付利息。投資人圖什麼？圖一個爲期數年的選擇權——幣漲了，把債換成股票分享漲幅；幣跌了，到期拿回本金。投資人用利息換了一張『保本的看漲期權』；公司拿到幾乎零成本、且沒有強制平倉條款的長期資金。"],
+    n2: ["② 買入比特幣 · 全部、立刻", "募來的錢不投廠房、不囤現金、不做理財——全部立刻買成比特幣，進入多重簽名冷儲存。這類公司賬上唯一會生長的資產，就是幣本身。"],
+    n3: ["③ 每股含幣上升 · BTC Yield", "關鍵一步：只要增發時市場願意付溢價（mNAV>1），募資買回的幣就多於新股帶來的攤薄——老股東每一股背後的幣變多了。這個增速叫 BTC Yield，是這類公司的真正 KPI（參照系：MSTR 2024 財年 +74.3%）。下方計算器可親手驗證。"],
+    n4: ["④ 信任與溢價上升 · 回到第一步", "每股含幣持續上升、紀律公開可驗，市場便願意給更高溢價；溢價越高，下一輪募資條件越好——飛輪轉回第一步。注意：它的燃料是信任與溢價，不是幣價上漲。"]
+  };
+  if (dock) {
+    document.querySelectorAll(".pr-wheel .n").forEach(function (g) {
+      var key = (g.getAttribute("class") || "").match(/n[1-4]/);
+      if (!key) return;
+      var info = EXPLAIN[key[0]];
+      function show() {
+        document.querySelectorAll(".pr-wheel .n").forEach(function (o) { o.classList.remove("sel"); });
+        g.classList.add("sel");
+        dock.innerHTML = "";
+        var h = document.createElement("p"); h.className = "pr-dock-h"; h.textContent = info[0];
+        var b = document.createElement("p"); b.className = "pr-dock-b"; b.textContent = info[1];
+        dock.appendChild(h); dock.appendChild(b);
+      }
+      g.addEventListener("pointerenter", show);
+      g.addEventListener("click", show);
+    });
+  }
+
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var t = e.target;
+        if (t.classList.contains("pr-wheel")) t.classList.add("fired");
+        if (t.classList.contains("vault-wall")) t.classList.add("stocked");
+        if (t.classList.contains("cnt")) countUp(t);
+        io.unobserve(t);
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll(".pr-wheel, .cnt, .vault-wall").forEach(function (t) { io.observe(t); });
+  } else {
+    document.querySelectorAll(".cnt").forEach(countUp);
+    var w = document.querySelector(".pr-wheel"); if (w) w.classList.add("fired");
+  }
+})();
+</script>
+<script src="assets/flow.js?v=20260612r" defer></script>
+<script src="assets/games.js?v=20260612r" defer></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<!-- generated from ../lab.html by tools/build_i18n.py · 改源文件后重跑，勿直接编辑 -->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<title>互動實驗室 · 胡侃比特</title>
+<meta name="description" content="在瀏覽器裏親手體驗：通脹的複利、銀行的貨幣乘數、SHA-256 哈希、工作量證明挖礦，和比特幣的 2100 萬供給曲線。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡侃比特">
+<meta property="og:title" content="胡侃比特 · 互動實驗室">
+<meta property="og:description" content="十二個在瀏覽器本地運行的實驗：真實 SHA-256 挖礦、雙花問題、拜占庭將軍、沙盒轉賬錢包。">
+<meta property="og:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<meta property="og:url" content="https://roserparker.github.io/hukanbit/zh-hant/lab.html">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="胡侃比特 · 互動實驗室">
+<meta name="twitter:description" content="十二個在瀏覽器本地運行的實驗：真實 SHA-256 挖礦、雙花問題、拜占庭將軍、沙盒轉賬錢包。">
+<meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<link rel="alternate" hreflang="zh-Hans" href="https://roserparker.github.io/hukanbit/lab.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://roserparker.github.io/hukanbit/zh-hant/lab.html">
+<link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/lab.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/style.css?v=20260612r">
+<link rel="stylesheet" href="../assets/games.css?v=20260612r">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="index.html">首頁</a>
+      <a href="index.html#articles">文章</a>
+      <a href="lab.html" class="active">實驗室</a>
+      <a href="gallery.html">長廊</a>
+      <a href="satoshi.html">文獻</a>
+      <a href="study.html">學堂</a>
+      <a href="treasury.html">金庫</a>
+      <a href="index.html#about">關於</a>
+    </nav>
+    <div class="lang-switch" aria-label="語言 / Language"><a href="../lab.html" lang="zh-Hans" data-lang="zh-hans">简</a><strong>繁</strong><a href="../en/index.html" lang="en" data-lang="en">EN</a></div>
+    <button class="font-switch" id="font-switch" type="button" aria-label="切換正文字體" aria-haspopup="true">字</button>
+    <div class="font-menu" id="font-menu" hidden>
+      <button type="button" class="f-song" data-f="song">宋 · 館方正體</button>
+      <button type="button" class="f-kai" data-f="kai">楷 · 手寫溫度</button>
+      <button type="button" class="f-hei" data-f="hei">黑 · 現代極簡</button>
+    </div>
+  </div>
+</header>
+
+<main class="lab-main">
+  <p class="kicker" style="font-family:var(--sans);font-size:0.76rem;letter-spacing:0.3em;color:var(--accent-ink);margin:0 0 1.1rem;">PLAYGROUND</p>
+  <h1 style="font-size:clamp(1.9rem,5vw,2.5rem);letter-spacing:0.08em;margin:0 0 1.2rem;">互動實驗室</h1>
+  <p class="intro">概念讀十遍，不如親手玩一遍。下面所有實驗都在你的瀏覽器裏真實運行——沒有服務器，沒有數據上傳，挖礦用的是真實的 SHA-256 算法。</p>
+
+  <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="mkgold" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#efc26b"/>
+        <stop offset="0.55" stop-color="#c98e3a"/>
+        <stop offset="1" stop-color="#8a4f1d"/>
+      </linearGradient>
+    </defs>
+    <symbol id="mk-inflation" viewBox="0 0 48 48"><path class="mk" d="M14,9 h20 M14,39 h20 M16,10 c0,8 6,10 8,14 c2,-4 8,-6 8,-14 M16,38 c0,-8 6,-10 8,-14 c2,4 8,6 8,14"/></symbol>
+    <symbol id="mk-bread" viewBox="0 0 48 48"><path class="mk" d="M10,30 a14,13 0 1 1 28,0 v4 a2,2 0 0 1 -2,2 H12 a2,2 0 0 1 -2,-2 z M17,23 l3,-5 M24,22 l3,-5 M31,23 l3,-5"/></symbol>
+    <symbol id="mk-multiplier" viewBox="0 0 48 48"><path class="mk" d="M16,30 a4.5,4.5 0 1 1 -0.01,0 M25,17.5 a14,14 0 0 1 4.5,21 M32,10.5 a21,21 0 0 1 6.5,30"/></symbol>
+    <symbol id="mk-hash" viewBox="0 0 48 48"><path class="mk" d="M24,41 c-9,-2 -15,-9 -15,-18 a15,15 0 0 1 30,0 c0,5 -2,10 -6,13 M24,34 c-5,-2 -8,-6 -8,-11 a8,8 0 0 1 16,0 c0,4 -1,7 -4,9 M24,22 a1.5,1.5 0 0 1 0,2"/></symbol>
+    <symbol id="mk-double" viewBox="0 0 48 48"><path class="mk" d="M17,24 a8.5,8.5 0 1 1 -0.01,0 M31,24 a8.5,8.5 0 1 1 -0.01,0 M37,12 L24,36"/></symbol>
+    <symbol id="mk-byzantine" viewBox="0 0 48 48"><path class="mk" d="M16,40 V20 h-4 v-6 h6 v3 h4 v-3 h4 v3 h4 v-3 h6 v6 h-4 v20 M11,40 h26 M24,40 v-8 a3,3 0 0 0 -6,0"/></symbol>
+    <symbol id="mk-mining" viewBox="0 0 48 48"><path class="mk" d="M14,40 L31,23 M19,16 q12,-8 20,1 q-9,-2 -15,4 M19,16 l5,5 M37.5,9.5 a1.6,1.6 0 1 1 -0.01,0"/></symbol>
+    <symbol id="mk-pow" viewBox="0 0 48 48"><path class="mk" d="M24,7 v13 M24,21.5 a2.2,2.2 0 1 1 -0.01,0 M15,32 a9,9 0 0 1 18,0 M10,39 a14,14 0 0 1 28,0"/></symbol>
+    <symbol id="mk-supply" viewBox="0 0 48 48"><path class="mk" d="M9,12 h8 v9 h7 v7 h6 v5 h5 v4 h4 M9,40 h30" stroke-dasharray="0"/><path class="mk" d="M9,40 h30" stroke-dasharray="2 4"/></symbol>
+    <symbol id="mk-mempool" viewBox="0 0 48 48"><path class="mk" d="M7,33 h34 M11,33 c2,-14 24,-14 26,0 M14,40 a1.7,1.7 0 1 1 -0.01,0 M21,40 a1.7,1.7 0 1 1 -0.01,0 M28,40 a1.7,1.7 0 1 1 -0.01,0 M35,40 a1.7,1.7 0 1 1 -0.01,0"/></symbol>
+    <symbol id="mk-firsttx" viewBox="0 0 48 48"><path class="mk" d="M9,27 L39,13 L27,39 L23,29 Z M23,29 L39,13"/></symbol>
+    <symbol id="mk-quiz" viewBox="0 0 48 48"><path class="mk" d="M17,16 a7,7 0 1 1 10.5,6 c-2.2,1.3 -3.2,2.8 -3.2,5 M24.2,31.5 a1.5,1.5 0 1 1 -0.01,0 M16,40.5 l3.5,3.5 7.5,-8.5"/></symbol>
+  </svg>
+
+  <div class="hall" id="hall">
+    <div class="hall-head">第一廳 · 法幣診室<small>先看清問題：你的錢出了什麼事</small></div>
+    <a class="hall-card" href="#inflation" data-room="inflation"><svg><use href="#mk-inflation"/></svg><span class="hall-no">實驗 ①</span><h3>通脹時光機</h3><span class="hall-sub">2% 的複利真相</span></a>
+    <a class="hall-card" href="#time-machine" data-room="time-machine"><svg><use href="#mk-bread"/></svg><span class="hall-no">實驗 ②</span><h3>購買力時光機</h3><span class="hall-sub">1971 年以來的麪包</span></a>
+    <a class="hall-card" href="#multiplier" data-room="multiplier"><svg><use href="#mk-multiplier"/></svg><span class="hall-no">實驗 ③</span><h3>貨幣乘數機</h3><span class="hall-sub">100 元變出 1000 元</span></a>
+    <div class="hall-head">第二廳 · 比特幣工坊<small>由淺入深：先會用，再懂原理，最後見全貌</small></div>
+    <a class="hall-card" href="#first-tx" data-room="first-tx"><svg><use href="#mk-firsttx"/></svg><span class="hall-no">實驗 ④</span><h3>第一筆轉賬</h3><span class="hall-sub">五步沙盒錢包</span></a>
+    <a class="hall-card" href="#mempool" data-room="mempool"><svg><use href="#mk-mempool"/></svg><span class="hall-no">實驗 ⑤</span><h3>Mempool 停車場</h3><span class="hall-sub">手續費＝過橋競價</span></a>
+    <a class="hall-card" href="#mining" data-room="mining"><svg><use href="#mk-mining"/></svg><span class="hall-no">實驗 ⑥</span><h3>挖礦模擬器</h3><span class="hall-sub">親眼看一次"打包"</span></a>
+    <a class="hall-card" href="#pow-miner" data-room="pow-miner"><svg><use href="#mk-pow"/></svg><span class="hall-no">實驗 ⑦</span><h3>孤勇者礦工</h3><span class="hall-sub">你親手當礦機</span></a>
+    <a class="hall-card" href="#hash" data-room="hash"><svg><use href="#mk-hash"/></svg><span class="hall-no">實驗 ⑧</span><h3>哈希實驗臺</h3><span class="hall-sub">萬物的指紋</span></a>
+    <a class="hall-card" href="#double-spend" data-room="double-spend"><svg><use href="#mk-double"/></svg><span class="hall-no">實驗 ⑨</span><h3>雙花問題</h3><span class="hall-sub">把一枚幣花兩次</span></a>
+    <a class="hall-card" href="#byzantine" data-room="byzantine"><svg><use href="#mk-byzantine"/></svg><span class="hall-no">實驗 ⑩</span><h3>拜占庭將軍</h3><span class="hall-sub">謊言免費的世界</span></a>
+    <a class="hall-card" href="#supply" data-room="supply"><svg><use href="#mk-supply"/></svg><span class="hall-no">實驗 ⑪</span><h3>2100 萬與減半</h3><span class="hall-sub">收斂的級數</span></a>
+    <a class="hall-card" href="#quiz" data-room="quiz"><svg><use href="#mk-quiz"/></svg><span class="hall-no">實驗 ⑫</span><h3>五分鐘小測驗</h3><span class="hall-sub">檢驗全部所學</span></a>
+  </div>
+
+  <!-- ① 通脹時光機 -->
+  <section class="experiment reveal" id="inflation">
+    <p class="exp-kicker">實驗 ① · 對應 <a href="articles/01.html" style="color:inherit">第一篇 · 何爲金錢</a></p>
+    <h2>⏳ 通脹時光機</h2>
+    <p class="exp-desc">央行說“溫和的 2% 通脹”守護了你的財富。把你的存款放進時光機，親眼看看若干年後它還剩多少購買力。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>年通脹率</label>
+        <input type="range" id="inf-rate" min="0" max="15" step="0.5" value="2">
+        <span class="val" id="inf-rate-val">2%</span>
+      </div>
+      <div class="control-row">
+        <label>經過年數</label>
+        <input type="range" id="inf-years" min="1" max="50" step="1" value="30">
+        <span class="val" id="inf-years-val">30 年</span>
+      </div>
+      <div class="big-stat" id="inf-result">¥55 萬</div>
+      <p class="stat-note" id="inf-note"></p>
+      <svg class="mini-chart" id="inf-chart" viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" aria-label="購買力衰減曲線"></svg>
+    </div>
+  </section>
+  <!-- ② 購買力時光機 -->
+  <section class="experiment reveal" id="time-machine">
+    <p class="exp-kicker">實驗 ② · 對應 <a href="articles/01.html" style="color:inherit">第一篇 · 何爲金錢</a></p>
+    <h2>🍞 購買力時光機</h2>
+    <p class="exp-desc">上面那臺算的是假設的複利，這一臺回放真實的歷史：從 1971 年美元與黃金脫鉤開始，拖動年份，看 100 美元還能買幾條麪包。旁邊是另一套系統的回答——一個永遠鎖死的數字。</p>
+    <div class="game-embed" data-game="time-machine">
+      <p class="game-fallback">這個互動實驗需要 JavaScript 才能運行。</p>
+    </div>
+  </section>
+  <!-- ③ 貨幣乘數機 -->
+  <section class="experiment reveal" id="multiplier">
+    <p class="exp-kicker">實驗 ③ · 對應 <a href="articles/02.html" style="color:inherit">第二篇 · 債務驅動的世界</a></p>
+    <h2>🏦 貨幣乘數機</h2>
+    <p class="exp-desc">你存進銀行 100 元，銀行留下一點準備金，把剩下的貸出去；貸出去的錢又被存回銀行，再貸出去……看看這 100 元最終能“變”出多少錢。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>準備金率</label>
+        <input type="range" id="mul-rate" min="1" max="20" step="1" value="10">
+        <span class="val" id="mul-rate-val">10%</span>
+      </div>
+      <div class="control-row">
+        <button class="btn" id="mul-run" type="button">存入 ¥100，開始放貸</button>
+        <button class="btn ghost" id="mul-reset" type="button">重置</button>
+      </div>
+      <div class="stat-grid">
+        <div class="cell"><span class="label">真實的現金</span><span class="value">¥100</span></div>
+        <div class="cell"><span class="label">市面上的“錢”</span><span class="value" id="mul-total">¥0</span></div>
+        <div class="cell"><span class="label">理論上限</span><span class="value" id="mul-max">¥1,000</span></div>
+      </div>
+      <div class="ledger" id="mul-ledger"></div>
+      <p class="stat-note" id="mul-note" style="margin-top:0.9rem"></p>
+    </div>
+  </section>
+  <!-- ④ 第一筆轉賬 -->
+  <section class="experiment reveal" id="first-tx">
+    <p class="exp-kicker">實驗 ④ · 對應 <a href="articles/05.html" style="color:inherit">第五篇 · 諾亞方舟</a></p>
+    <h2>💸 你的第一筆轉賬</h2>
+    <p class="exp-desc">普通人最大的心理門檻不是“懂不懂”，而是“怕按錯”。這是一個沙盒錢包：粘貼地址、用聰定價、給手續費出價、按住發送、看着交易進塊——走完五步你會發現，轉一筆比特幣並不比掃碼付款更難。全程模擬，零真實資金。</p>
+    <div class="game-embed" data-game="first-tx">
+      <p class="game-fallback">這個互動實驗需要 JavaScript 才能運行。</p>
+    </div>
+  </section>
+  <!-- ⑤ Mempool 停車場 -->
+  <section class="experiment reveal" id="mempool">
+    <p class="exp-kicker">實驗 ⑤ · 對應 <a href="articles/03.html" style="color:inherit">第三篇 · 無形的堅硬</a></p>
+    <h2>🚗 Mempool 停車場</h2>
+    <p class="exp-desc">區塊就像一座寬度固定的橋，每筆交易是一輛出了價的小車。你來當一回礦工：在有限的空間裏選誰先過橋——裝完一個區塊，你就明白了手續費市場的全部博弈，以及爲什麼沒人用主網買咖啡。</p>
+    <div class="game-embed" data-game="mempool">
+      <p class="game-fallback">這個互動實驗需要 JavaScript 才能運行。</p>
+    </div>
+  </section>
+  <!-- ⑥ 挖礦模擬器 -->
+  <section class="experiment reveal" id="mining">
+    <p class="exp-kicker">實驗 ⑥ · 對應 <a href="articles/03.html" style="color:inherit">第三篇</a> 與 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
+    <h2>⛏️ 挖礦模擬器</h2>
+    <p class="exp-desc">挖礦就是不停地“試”：把區塊內容加上一個隨機數（nonce）做哈希，直到指紋以足夠多的 0 開頭。難度每加一位，平均要多試 16 倍——你的電腦馬上就會體會到什麼叫“工作量證明”。</p>
+    <p class="exp-primer">怎麼玩：<b>⑥</b> 下面這隻"紙箱"裏裝着幾筆待打包的轉賬　<b>⑥</b> 難度＝要求指紋開頭有幾個 0（每多一個，平均難 16 倍）　<b>⑥</b> 點「開始挖礦」，礦機瘋狂抽籤——抽中的那一刻，就叫<b>"打包"</b>：箱子封死，誰也改不了。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>待打包的轉賬（一隻待封的紙箱）</label>
+      </div>
+      <input type="text" id="mine-data" value="小明 → 小紅：0.5 BTC ｜ 小剛 → 小美：1.2 BTC">
+      <div class="control-row" style="margin-top:1rem">
+        <label>難度（開頭 0 的個數）</label>
+        <span class="seg" id="mine-diff">
+          <button type="button" data-d="2">2</button>
+          <button type="button" data-d="3" class="on">3</button>
+          <button type="button" data-d="4">4</button>
+        </span>
+        <button class="btn" id="mine-go" type="button">開始挖礦</button>
+      </div>
+      <div class="stat-grid">
+        <div class="cell"><span class="label">已嘗試次數</span><span class="value" id="mine-tries">0</span></div>
+        <div class="cell"><span class="label">速度</span><span class="value" id="mine-speed">—</span></div>
+        <div class="cell"><span class="label">用時</span><span class="value" id="mine-time">—</span></div>
+      </div>
+      <div class="mining-log" id="mine-log">點擊「開始挖礦」，礦機開始抽彩票……</div>
+      <div id="mine-result"></div>
+    </div>
+  </section>
+  <!-- ⑦ 孤勇者礦工 -->
+  <section class="experiment reveal" id="pow-miner">
+    <p class="exp-kicker">實驗 ⑦ · 對應 <a href="articles/03.html" style="color:inherit">第三篇 · 無形的堅硬</a></p>
+    <h2>👆 孤勇者礦工</h2>
+    <p class="exp-desc">上面的模擬器是機器自己跑，這一次你親手當礦機：每一下點擊都是真實的 SHA-256 運算。看着亂碼飛滾，直到那個以 0 開頭的幸運兒出現——用手指頭理解什麼叫“消耗能源，換取賬本的真理”。</p>
+    <div class="game-embed" data-game="pow-miner">
+      <p class="game-fallback">這個互動實驗需要 JavaScript 才能運行。</p>
+    </div>
+  </section>
+  <!-- ⑧ 哈希實驗臺 -->
+  <section class="experiment reveal" id="hash">
+    <p class="exp-kicker">實驗 ⑧ · 對應 <a href="articles/03.html" style="color:inherit">第三篇 · 無形的堅硬</a></p>
+    <h2>🔐 哈希實驗臺</h2>
+    <p class="exp-desc">SHA-256 是比特幣的指紋機：任何內容進去，出來一串固定長度的“指紋”。試試只改一個字——指紋會面目全非。這就是“雪崩效應”，也是賬本不可篡改的根基。</p>
+    <div class="panel">
+      <textarea id="hash-input" rows="3">中本聰在 2009 年 1 月 3 日挖出了創世區塊</textarea>
+      <div class="hash-out" id="hash-output">計算中……</div>
+      <p class="stat-note" id="hash-note" style="margin-top:0.8rem">輸入任意內容，指紋實時更新。</p>
+    </div>
+  </section>
+  <!-- ⑨ 雙花問題 -->
+  <section class="experiment reveal" id="double-spend">
+    <p class="exp-kicker">實驗 ⑨ · 對應 <a href="articles/03.html" style="color:inherit">第三篇 · 無形的堅硬</a></p>
+    <h2>👯 雙花問題</h2>
+    <p class="exp-desc">在理解比特幣之前，先理解它要解決什麼：數字的東西天生可以複製——那數字的錢怎麼辦？親手把一枚幣花兩次，看看世界會發生什麼。</p>
+    <div class="game-embed" data-game="double-spend">
+      <p class="game-fallback">這個互動實驗需要 JavaScript 才能運行。</p>
+    </div>
+  </section>
+  <!-- ⑩ 拜占庭將軍 -->
+  <section class="experiment reveal" id="byzantine">
+    <p class="exp-kicker">實驗 ⑩ · 對應 <a href="articles/03.html" style="color:inherit">第三篇 · 無形的堅硬</a></p>
+    <h2>🏯 拜占庭將軍</h2>
+    <p class="exp-desc">賬本要大家一起記，但人羣裏有騙子，消息還可以僞造——誠實的多數如何達成一致？調一調叛徒人數，再打開「火漆印」開關，親眼看共識如何從不可能變爲可能。</p>
+    <div class="game-embed" data-game="byzantine">
+      <p class="game-fallback">這個互動實驗需要 JavaScript 才能運行。</p>
+    </div>
+  </section>
+  <!-- ⑪ 供給曲線 -->
+  <section class="experiment reveal" id="supply">
+    <p class="exp-kicker">實驗 ⑪ · 對應 <a href="articles/03.html" style="color:inherit">第三篇</a> 與 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
+    <h2>📉 2100 萬與減半</h2>
+    <p class="exp-desc">比特幣的發行規則寫死在代碼裏：每約四年區塊獎勵減半，總量永遠不會超過 2100 萬枚。拖動時間軸，看看每個年代發生了什麼。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>年份</label>
+        <input type="range" id="sup-year" min="2009" max="2140" step="1" value="2026">
+        <span class="val" id="sup-year-val">2026</span>
+      </div>
+      <div class="stat-grid">
+        <div class="cell"><span class="label">區塊獎勵</span><span class="value" id="sup-reward">3.125 BTC</span></div>
+        <div class="cell"><span class="label">已發行</span><span class="value" id="sup-issued">—</span></div>
+        <div class="cell"><span class="label">佔 2100 萬</span><span class="value" id="sup-pct">—</span></div>
+      </div>
+      <svg class="mini-chart" id="sup-chart" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" aria-label="比特幣供給曲線"></svg>
+      <p class="stat-note">對比一下：法幣的這條曲線沒有上限，而且斜率由央行隨時決定。</p>
+      <p class="stat-note" style="margin-top:1.1rem"><strong>爲什麼是這個速度？</strong>早期沒人相信它的時候，大額區塊獎勵僱來了第一批礦工守護網絡——用未來的稀缺，補貼今天的安全。而每四年減半一次，是給世界留出"慢慢相信"的時間：供給的水龍頭按寫死的節奏越擰越緊，任何人都無法開會放水，也無法臨時加速。</p>
+      <p class="stat-note"><strong>爲什麼必然是 2100 萬、一分不多？</strong>兩重保險。<strong>數學上</strong>，發行總量是一列收斂的幾何級數：</p>
+      <p class="stat-note" style="font-family:var(--mono);font-size:0.78rem;letter-spacing:0.02em">210,000 塊 × (50 + 25 + 12.5 + 6.25 + …) BTC = 210,000 × 100 = 21,000,000</p>
+      <p class="stat-note">無論減半多少次，總和永遠卡在 2100 萬——不是有人守着開關，是級數自己收斂。<strong>制度上</strong>，每個全節點都獨立驗算每一個新區塊的獎勵：哪怕多發一聰，那個區塊都會被全網當場扔掉。上限不寫在哪臺服務器裏，而寫在幾十萬個節點的"拒絕"裏。約 2140 年最後一聰發完後，礦工收入將完全由手續費接棒——還記得停車場實驗嗎？那就是爲那一天準備的市場。</p>
+    </div>
+  </section>
+  <!-- ⑫ 小測驗 -->
+  <section class="experiment reveal" id="quiz">
+    <p class="exp-kicker">實驗 ⑫ · 綜合全部五篇</p>
+    <h2>✅ 五分鐘小測驗</h2>
+    <p class="exp-desc">七道題，檢驗你對金錢與比特幣的理解。答錯也沒關係——每題都附詳細解析，比答對更有收穫。</p>
+    <div class="panel" id="quiz-panel"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div class="ticker-slot" data-game="btc-ticker"></div>
+    <p>胡侃比特 © <span id="year"></span> · 知識分享，自由轉載，註明出處即可。</p>
+    <p class="disclaimer">本站所有內容僅爲個人觀點與知識科普，不構成任何投資建議。加密資產價格波動巨大，請獨立思考、自主決策，並只動用你能承受損失的資金。</p>
+  </div>
+</footer>
+
+<script src="assets/main.js?v=20260612r"></script>
+<script src="assets/flow.js?v=20260612r" defer></script>
+<script src="assets/lab.js?v=20260612r"></script>
+<script src="assets/games.js?v=20260612r" defer></script>
+<script>
+/* 展廳模式：導覽牆 ↔ 單間展品。無 JS 時自動退化爲傳統長頁。 */
+(function () {
+  "use strict";
+  var hall = document.getElementById("hall");
+  var rooms = Array.prototype.slice.call(document.querySelectorAll(".experiment"));
+  if (!hall || !rooms.length) return;
+  document.body.classList.add("hall-mode");
+
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 忽略 */ } }
+  };
+
+  /* 房間導航條 */
+  var nav = document.createElement("div");
+  nav.className = "room-nav";
+  var prevB = document.createElement("button");
+  var hallB = document.createElement("button");
+  var nextB = document.createElement("button");
+  prevB.type = hallB.type = nextB.type = "button";
+  hallB.className = "room-hall-btn";
+  hallB.textContent = "▦ 返回導覽牆";
+  nav.appendChild(prevB); nav.appendChild(hallB); nav.appendChild(nextB);
+
+  var current = -1;
+
+  function title(i) {
+    var h = rooms[i].querySelector("h2");
+    return h ? h.textContent.replace(/^[^一-龥A-Za-z0-9]+/, "") : "";
+  }
+
+  function refreshSeen() {
+    hall.querySelectorAll(".hall-card").forEach(function (c) {
+      if (store.get("hkb-x-" + c.getAttribute("data-room")) === "1") c.classList.add("seen");
+    });
+  }
+
+  function openRoom(id) {
+    var i = rooms.findIndex(function (r) { return r.id === id; });
+    if (i < 0) return false;
+    current = i;
+    rooms.forEach(function (r, k) {
+      r.classList.toggle("open", k === i);
+      if (k === i) r.classList.add("visible");
+    });
+    hall.classList.add("hidden");
+    rooms[i].appendChild(nav);
+    prevB.textContent = i > 0 ? "← " + title(i - 1) : "←";
+    prevB.disabled = i === 0;
+    nextB.textContent = i < rooms.length - 1 ? title(i + 1) + " →" : "→";
+    nextB.disabled = i === rooms.length - 1;
+    store.set("hkb-x-" + id, "1");
+    if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
+    window.scrollTo({ top: hall.offsetTop - 90, behavior: "auto" });
+    return true;
+  }
+
+  function showHall() {
+    current = -1;
+    rooms.forEach(function (r) { r.classList.remove("open"); });
+    hall.classList.remove("hidden");
+    if (nav.parentNode) nav.parentNode.removeChild(nav);
+    history.replaceState(null, "", location.pathname);
+    refreshSeen();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  hall.addEventListener("click", function (ev) {
+    var card = ev.target.closest(".hall-card");
+    if (!card) return;
+    ev.preventDefault();
+    openRoom(card.getAttribute("data-room"));
+  });
+  prevB.addEventListener("click", function () { if (current > 0) openRoom(rooms[current - 1].id); });
+  nextB.addEventListener("click", function () { if (current < rooms.length - 1) openRoom(rooms[current + 1].id); });
+  hallB.addEventListener("click", showHall);
+  window.addEventListener("hashchange", function () {
+    var id = location.hash.slice(1);
+    if (!id || !openRoom(id)) showHall();
+  });
+
+  refreshSeen();
+  var boot = location.hash.slice(1);
+  if (!boot || !openRoom(boot)) showHall();
+})();
+</script>
+</body>
+</html>
