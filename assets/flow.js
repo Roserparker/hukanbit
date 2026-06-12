@@ -121,7 +121,10 @@
     canvas.width = W * DPR;
     canvas.height = H * DPR;
     brush.setTransform(DPR, 0, 0, DPR, 0, 0);
-    var count = Math.max(36, Math.min(110, Math.round((W * H) / 22000)));
+    var isMobile = W < 640;
+    var count = isMobile
+      ? Math.max(20, Math.min(40, Math.round((W * H) / 22000)))   /* 低端手机友好 */
+      : Math.max(36, Math.min(110, Math.round((W * H) / 22000)));
     while (essence.length < count) essence.push(birth());
     essence.length = count;
   }

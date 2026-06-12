@@ -73,3 +73,17 @@ games.js 扫描 `[data-game]` 自动渲染；gm- 前缀类名；全部依赖 CSS
 ## 八、可调用的思维 Skills（本机）
 
 armstrong（产品/信任/简单）· hukanbit-author（站长声纹写作）· picasso（品味裁判/减法）· huashu-nuwa（造新 skill）。
+
+## 九、兼容性宪法（2026-06-12 馆主令）
+
+**目标排序：中国大陆可达性 > 低端手机性能 > 全设备兼容（iOS/Android/iPad/桌面）。**
+
+- **零 GFW 阻塞依赖**：字体走 fonts.loli.net 镜像且 media=print 异步加载（镜像失效→静默回退系统字体，永不阻塞首屏）；无 Google/Facebook/CDN 阻塞资源
+- **外部 API 仅三个且全部优雅降级**（CoinGecko 价格 / mempool.space·blockstream 区块高度）——失败只显示"暂不可用"，不影响任何核心功能；全站核心 100% 本地运行
+- **性能**：flow.js 移动端粒子 ≤40（桌面 ≤110）、DPR≤2、hidden 休眠、涟漪限流、reduced-motion 全链路
+- **已知风险与路线**：github.io 在大陆间歇性受限——路线 A 绑定自定义域名 + Cloudflare；路线 B Gitee Pages 同步镜像。待馆主选择。
+- **分享层**：九页 OG/Twitter Card + assets/og-cover.png（1200×630）
+
+## 十、云游路牌（index #wayfinding）
+
+赛博指路牌：中柱挑 ₿ 灯，六块箭头 signage 左右错落（clip-path 箭尖，纯 CSS 零脚本）。出口：BitcoinTalk / bitcoin.org 白皮书 / 中本聪研究所 / mempool.space / BTCStudy（中文）/ learnmeabitcoin。含安全提示（助记词）与网络环境注明。hover 守瓷器教义（只亮不动）。

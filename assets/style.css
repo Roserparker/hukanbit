@@ -325,6 +325,14 @@ textarea:focus-visible {
   letter-spacing: 0.1em;
 }
 
+.chain-cap {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  margin: 0.9rem 0 0;
+}
+
 .hero-chain {
   margin: 2.6rem auto 0;
   display: block;
@@ -1978,4 +1986,134 @@ body.hall-mode .experiment.open { display: block; }
 @media (max-width: 640px) {
   .hall { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
   .hall-card { padding: 0.95rem 0.7rem 0.85rem; }
+}
+
+/* ============================================================
+   云游 · 出口（赛博路牌）：中柱挑灯，箭头signage 左右错落
+   纯 CSS 雕作；瓷器教义（hover 只亮不动）。
+   ============================================================ */
+.way-wrap {
+  max-width: var(--w-read);
+  margin: 0 auto;
+  padding: 0 1.4rem;
+  position: relative;
+}
+
+.way-intro {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin: 0 0 2.2rem;
+}
+
+.way-post {
+  position: relative;
+  padding: 0.4rem 0 1.6rem;
+}
+
+/* 中柱与灯 */
+.way-post::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: linear-gradient(180deg, var(--accent), var(--line) 22%, var(--line) 88%, transparent);
+}
+
+.way-post::after {
+  content: "₿";
+  position: absolute;
+  left: 50%;
+  top: -1.7rem;
+  transform: translateX(-50%);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(240, 140, 62, 0.55);
+}
+
+.way-sign {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 46%;
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 0.7rem 1rem 0.65rem;
+  margin: 0.9rem 0;
+  transition: border-color var(--dur) var(--ease-breath), box-shadow var(--dur) var(--ease-breath), background var(--dur) var(--ease-breath);
+}
+
+/* 左右错落 + 箭头尖端 */
+.way-sign.r {
+  margin-left: 54%;
+  border-radius: 3px 10px 10px 3px;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);
+  padding-right: 1.8rem;
+}
+
+.way-sign.l {
+  margin-right: 54%;
+  margin-left: 0;
+  border-radius: 10px 3px 3px 10px;
+  clip-path: polygon(18px 0, 100% 0, 100% 100%, 18px 100%, 0 50%);
+  padding-left: 1.8rem;
+  text-align: right;
+}
+
+.way-sign:hover {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+  box-shadow: 0 0 18px rgba(240, 140, 62, 0.18);
+}
+
+.way-sign .way-no {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+}
+
+.way-sign .way-name {
+  font-family: var(--serif);
+  font-size: 1.0rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  margin: 0.15rem 0;
+}
+
+.way-sign .way-desc {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+
+.way-sign .way-host {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  margin-top: 0.3rem;
+}
+
+.way-note {
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  margin: 1.6rem 0 0;
+  line-height: 1.9;
+}
+
+@media (max-width: 600px) {
+  .way-sign, .way-sign.r, .way-sign.l { width: 100%; margin-left: 0; margin-right: 0; }
+  .way-post::before { left: 8px; }
+  .way-post::after { left: 8px; transform: none; }
+  .way-sign.l { text-align: left; border-radius: 3px 10px 10px 3px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); padding-left: 1rem; padding-right: 1.8rem; }
 }
