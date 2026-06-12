@@ -2367,3 +2367,106 @@ html[data-font="hei"] {
 .font-menu .f-song { font-family: "Songti SC", "Noto Serif SC", serif; }
 .font-menu .f-kai { font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; }
 .font-menu .f-hei { font-family: -apple-system, "PingFang SC", "Noto Sans SC", sans-serif; }
+
+/* ============================================================
+   自托管字体（子集化 woff2，懒加载：选了才下载）
+   霞鹜文楷 GB / 朱雀仿宋 —— 皆为 SIL OFL 开源授权
+   ============================================================ */
+@font-face {
+  font-family: "LXGW WenKai Sub";
+  src: url("fonts/wenkai-gb.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zhuque Fangsong Sub";
+  src: url("fonts/zhuque-fangsong.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+html[data-font="kai"] {
+  --serif: "LXGW WenKai Sub", "Kaiti SC", "STKaiti", "KaiTi", "Noto Serif SC", serif;
+}
+
+html[data-font="fang"] {
+  --serif: "Zhuque Fangsong Sub", "STFangsong", "FangSong", "Noto Serif SC", serif;
+}
+
+.font-menu .f-fang { font-family: "Zhuque Fangsong Sub", "STFangsong", "FangSong", serif; }
+
+/* ============================================================
+   金库 · 保险库开门仪式（每会话一次，可跳过，reduced-motion 直入）
+   ============================================================ */
+html.vault-seen .vault { display: none; }
+
+.vault {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  background: #14100c;
+  transition: opacity 0.7s var(--ease-breath);
+}
+
+.vault.done { opacity: 0; pointer-events: none; }
+
+.vault svg { width: min(300px, 70vw); height: auto; }
+.vault .door-ring { fill: none; stroke: #6b5d45; stroke-width: 2; }
+.vault .door-ring.outer { stroke: #4d4232; }
+.vault .bolt { stroke: #c2a071; stroke-width: 5; stroke-linecap: round; transition: transform 0.5s var(--ease-breath), opacity 0.5s; }
+.vault .wheel { transform-origin: 150px 150px; transition: transform 1.1s var(--ease-breath); }
+.vault .wheel circle, .vault .wheel line { stroke: #ffb056; stroke-width: 3; fill: none; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(255,176,86,.4)); }
+.vault .door-b { font-family: var(--serif); font-size: 44px; fill: #8a7a5e; }
+
+.vault.turn .wheel { transform: rotate(150deg); }
+.vault.unbolt .bolt { transform: scale(0.55); opacity: 0; transform-origin: 150px 150px; transform-box: view-box; }
+.vault.open svg { transform: scale(1.55); opacity: 0; transition: transform 0.9s var(--ease-breath), opacity 0.9s var(--ease-breath); }
+
+.vault-t {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.3em;
+  color: #8a7a5e;
+  margin: 0;
+}
+
+.vault-skip {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: #6b5d45;
+  background: transparent;
+  border: 1px solid #3a2f20;
+  border-radius: 999px;
+  padding: 0.35rem 1rem;
+  cursor: pointer;
+}
+
+.vault-skip:hover { color: #ffb056; border-color: #ffb056; }
+
+@media (prefers-reduced-motion: reduce) { .vault { display: none; } }
+
+/* 飞轮：滚动入场前蓄势，入场后点火轮转 */
+.pr-wheel .n { animation-play-state: paused; opacity: 0.4; }
+.pr-wheel.fired .n { animation-play-state: running; }
+
+/* 路线图：分站次第浮现 */
+.pr-road .pr-stop { opacity: 0; transition: opacity 0.8s var(--ease-breath); }
+.pr-road.visible .pr-stop { opacity: 1; }
+.pr-road.visible .pr-stop:nth-child(2) { transition-delay: 0.25s; }
+.pr-road.visible .pr-stop:nth-child(3) { transition-delay: 0.5s; }
+.pr-road.visible .pr-stop:nth-child(4) { transition-delay: 0.75s; }
+
+/* ============================================================
+   阅读亮度层次（Substack 式：正文微退，重点自亮）
+   ============================================================ */
+.prose { color: color-mix(in srgb, var(--ink) 86%, var(--paper)); }
+.prose strong, .prose h2 { color: var(--ink); }
+.prose a { color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); transition: border-color var(--dur-fast) var(--ease-breath); }
+.prose a:hover { border-bottom-color: var(--accent); }

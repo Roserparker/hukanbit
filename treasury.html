@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<script>try{if(sessionStorage.getItem("hkb-vault"))document.documentElement.className+=" vault-seen"}catch(e){}</script>
 <title>金库 · 模型说明书 · 胡侃比特</title>
 <meta name="description" content="比特币储备公司在做什么：飞轮、BTC Yield、mNAV、与 ETF 的本质区别——以及一份把『归零=全损』写在最前面的诚实说明。教育性内容，非证券要约。">
 <meta property="og:type" content="website">
@@ -19,8 +20,8 @@
 <meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="assets/style.css?v=20260612e">
-<link rel="stylesheet" href="assets/games.css?v=20260612e">
+<link rel="stylesheet" href="assets/style.css?v=20260612f">
+<link rel="stylesheet" href="assets/games.css?v=20260612f">
 </head>
 <body>
 
@@ -40,10 +41,32 @@
     <div class="font-menu" id="font-menu" hidden>
       <button type="button" class="f-song" data-f="song">宋 · 馆方正体</button>
       <button type="button" class="f-kai" data-f="kai">楷 · 手写温度</button>
+      <button type="button" class="f-fang" data-f="fang">仿 · 公文风骨</button>
       <button type="button" class="f-hei" data-f="hei">黑 · 现代极简</button>
     </div>
   </div>
 </header>
+
+<div class="vault" id="vault" aria-hidden="true">
+  <svg viewBox="0 0 300 300">
+    <circle class="door-ring outer" cx="150" cy="150" r="142"/>
+    <circle class="door-ring" cx="150" cy="150" r="112"/>
+    <line class="bolt" x1="150" y1="18" x2="150" y2="40"/>
+    <line class="bolt" x1="150" y1="260" x2="150" y2="282"/>
+    <line class="bolt" x1="18" y1="150" x2="40" y2="150"/>
+    <line class="bolt" x1="260" y1="150" x2="282" y2="150"/>
+    <g class="wheel">
+      <circle cx="150" cy="150" r="52"/>
+      <line x1="150" y1="98" x2="150" y2="202"/>
+      <line x1="98" y1="150" x2="202" y2="150"/>
+      <line x1="113" y1="113" x2="187" y2="187"/>
+      <line x1="187" y1="113" x2="113" y2="187"/>
+    </g>
+    <text class="door-b" x="150" y="166" text-anchor="middle">₿</text>
+  </svg>
+  <p class="vault-t">正在开启金库……</p>
+  <button class="vault-skip" type="button">跳过</button>
+</div>
 
 <main class="pr-main">
   <p class="section-label" style="margin-top:0">PROSPECTUS · 模型说明书</p>
@@ -85,7 +108,7 @@
 
   <p class="pr-sec">§2 · 飞轮的数学</p>
   <h2 class="pr-h">BTC Yield：每股含币增速</h2>
-  <p class="pr-p">Saylor 给这台机器装的仪表盘不是利润，而是 <strong>BTC Yield</strong>：每股（完全稀释后）所含比特币数量的增长率。MSTR 2024 财年做到了 <span class="num"><strong>74.3%</strong></span>——意思是：你一年前的一股若含 1 聪，年底就含 1.743 聪。下面这台计算器是飞轮数学的全部秘密，亲手拧一拧：</p>
+  <p class="pr-p">Saylor 给这台机器装的仪表盘不是利润，而是 <strong>BTC Yield</strong>：每股（完全稀释后）所含比特币数量的增长率。MSTR 2024 财年做到了 <span class="num"><strong class="cnt" data-n="74.3" data-d="1" data-suf="%">0%</strong></span>——意思是：你一年前的一股若含 1 聪，年底就含 1.743 聪。下面这台计算器是飞轮数学的全部秘密，亲手拧一拧：</p>
 
   <div class="game-embed" data-game="btc-yield">
     <p class="game-fallback">这个计算器需要 JavaScript 才能运行。</p>
@@ -94,10 +117,10 @@
   <p class="pr-sec">§3 · 参照系</p>
   <h2 class="pr-h">原型机：MSTR</h2>
   <div class="pr-grid">
-    <div class="pr-card"><p class="k">持仓（2026 年初口径）</p><p class="v"><span class="num">709,715</span> ₿ · 均价 <span class="num">$75,979</span> · 比特币市值对总债务覆盖约 <span class="num">7×</span></p></div>
+    <div class="pr-card"><p class="k">持仓（2026 年初口径）</p><p class="v"><span class="num cnt" data-n="709715">0</span> ₿ · 均价 <span class="num">$75,979</span> · 比特币市值对总债务覆盖约 <span class="num">7×</span></p></div>
     <div class="pr-card"><p class="k">弹药成本</p><p class="v">总债务约 <span class="num">$8.2B</span>，加权利率仅 <span class="num">0.42%</span>——年付息约 <span class="num">$34.6M</span>，被一个软件业务轻松覆盖</p></div>
   </div>
-  <p class="pr-p">但参照系也包含<strong>反面教材</strong>：MSTR 后期发行的优先股（STRK/STRF/STRD）带来了每年约 <span class="num">$689M</span> 的固定股息义务——这是熊市里真正咬人的东西。一家年轻的储备公司若学这一层，等于婴儿举杠铃。<span style="color:var(--ink-faint)">（另：港股早有先例——美图等上市公司多年前即把比特币纳入储备。数据为公开披露口径，本馆整理，非实时。）</span></p>
+  <p class="pr-p">但参照系也包含<strong>反面教材</strong>：MSTR 后期发行的优先股（STRK/STRF/STRD）带来了每年约 <span class="num cnt" data-n="689" data-pre="$" data-suf="M">$0M</span> 的固定股息义务——这是熊市里真正咬人的东西。一家年轻的储备公司若学这一层，等于婴儿举杠铃。<span style="color:var(--ink-faint)">（另：港股早有先例——美图等上市公司多年前即把比特币纳入储备。数据为公开披露口径，本馆整理，非实时。）</span></p>
 
   <p class="pr-sec">§4 · 我们的纪律</p>
   <h2 class="pr-h">一家还没出生就先立规矩的公司</h2>
@@ -134,8 +157,68 @@
   </div>
 </footer>
 
-<script src="assets/main.js?v=20260612e"></script>
-<script src="assets/flow.js?v=20260612e" defer></script>
-<script src="assets/games.js?v=20260612e" defer></script>
+<script src="assets/main.js?v=20260612f"></script>
+<script>
+(function () {
+  "use strict";
+  /* —— 保险库开门 —— */
+  var v = document.getElementById("vault");
+  if (v && !document.documentElement.className.match(/vault-seen/)) {
+    var done = false;
+    var finish = function () {
+      if (done) return;
+      done = true;
+      v.classList.add("done");
+      try { sessionStorage.setItem("hkb-vault", "1"); } catch (e) {}
+      setTimeout(function () { if (v.parentNode) v.parentNode.removeChild(v); }, 750);
+    };
+    setTimeout(function () { v.classList.add("turn"); }, 350);
+    setTimeout(function () { v.classList.add("unbolt"); }, 1450);
+    setTimeout(function () { v.classList.add("open"); }, 2000);
+    setTimeout(finish, 2750);
+    v.addEventListener("click", finish);
+  } else if (v && v.parentNode) {
+    v.parentNode.removeChild(v);
+  }
+
+  /* —— Apple 式滚动剧场：飞轮点火 · 路线图次第亮 · 数字滚上 —— */
+  var rm = false;
+  try { rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  function fmtN(x, d) {
+    return d ? x.toFixed(d) : Math.round(x).toLocaleString("zh-CN");
+  }
+  function countUp(eln) {
+    var n = parseFloat(eln.getAttribute("data-n"));
+    var d = parseInt(eln.getAttribute("data-d") || "0", 10);
+    var pre = eln.getAttribute("data-pre") || "";
+    var suf = eln.getAttribute("data-suf") || "";
+    if (rm) { eln.textContent = pre + fmtN(n, d) + suf; return; }
+    var t0 = performance.now(), DUR = 1300;
+    (function tick(t) {
+      var p = Math.min(1, (t - t0) / DUR);
+      var e = 1 - Math.pow(1 - p, 3);
+      eln.textContent = pre + fmtN(n * e, d) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var t = e.target;
+        if (t.classList.contains("pr-wheel")) t.classList.add("fired");
+        if (t.classList.contains("cnt")) countUp(t);
+        io.unobserve(t);
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll(".pr-wheel, .cnt").forEach(function (t) { io.observe(t); });
+  } else {
+    document.querySelectorAll(".cnt").forEach(countUp);
+    var w = document.querySelector(".pr-wheel"); if (w) w.classList.add("fired");
+  }
+})();
+</script>
+<script src="assets/flow.js?v=20260612f" defer></script>
+<script src="assets/games.js?v=20260612f" defer></script>
 </body>
 </html>
