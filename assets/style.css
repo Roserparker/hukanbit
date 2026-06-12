@@ -1459,3 +1459,202 @@ body.gallery-page {
 @media (prefers-reduced-motion: reduce) {
   .gx-live { animation: none; }
 }
+
+/* ============================================================
+   布道厅 · 中本聪文献（satoshi.html）
+   1979 年的琥珀磷光终端：高级橙色赛博朋克的史实原型。
+   ============================================================ */
+body.satoshi-page {
+  --paper: #0c0907;
+  --paper-2: #141008;
+  --card: #16110a;
+  --ink: #e8c79c;
+  --ink-soft: #c2a071;
+  --ink-faint: #8a6f4a;
+  --line: #3a2d1a;
+  --accent: #ffb056;
+  --accent-ink: #f5a045;
+  --accent-wash: rgba(255, 176, 86, 0.1);
+  --celadon: #7fa090;
+  background: var(--paper);
+}
+
+/* CRT：扫描线 + 暗角，克制到几乎察觉不到 */
+body.satoshi-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.09) 2px 3px),
+    radial-gradient(ellipse 120% 90% at 50% 45%, transparent 62%, rgba(0, 0, 0, 0.32) 100%);
+}
+
+.st-main {
+  max-width: var(--w-read);
+  margin: 0 auto;
+  padding: 4.5rem 1.4rem 0;
+  font-family: var(--mono);
+}
+
+.st-head {
+  font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-shadow: 0 0 14px rgba(255, 176, 86, 0.45);
+  margin: 0 0 0.8rem;
+  font-weight: 400;
+}
+
+.st-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  background: var(--accent);
+  vertical-align: -0.12em;
+  box-shadow: 0 0 10px rgba(255, 176, 86, 0.7);
+  animation: st-blink 1.1s steps(1) infinite;
+}
+
+@keyframes st-blink { 50% { opacity: 0; } }
+
+.st-meta {
+  font-size: 0.72rem;
+  line-height: 2;
+  color: var(--ink-faint);
+  margin: 0 0 2.2rem;
+}
+
+.st-meta a { color: var(--ink-soft); }
+
+/* 主题滤波器 */
+.st-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 2.4rem;
+}
+
+.st-filter {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.st-filter:hover { border-color: var(--accent); color: var(--accent); }
+
+.st-filter.on {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(255, 176, 86, 0.25), inset 0 0 8px rgba(255, 176, 86, 0.08);
+}
+
+/* 传输条目 */
+.st-entry {
+  border-left: 2px solid var(--line);
+  padding: 0.2rem 0 0.2rem 1.3rem;
+  margin: 0 0 2.6rem;
+  transition: border-color 0.3s, opacity 0.3s;
+}
+
+.st-entry:hover { border-left-color: var(--accent); }
+.st-entry.dim { opacity: 0.18; }
+
+.st-log {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  margin: 0 0 0.7rem;
+}
+
+.st-log .st-theme {
+  color: var(--accent-ink);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.06rem 0.45rem;
+  margin-left: 0.6rem;
+}
+
+.st-en {
+  font-size: 0.88rem;
+  line-height: 1.95;
+  color: var(--ink);
+  text-shadow: 0 0 8px rgba(255, 176, 86, 0.22);
+  margin: 0 0 0.7rem;
+  word-break: break-word;
+}
+
+.st-zh {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  line-height: 2.05;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.st-note {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  line-height: 1.9;
+  color: var(--ink-faint);
+  border-left: 2px solid var(--celadon);
+  padding-left: 0.8rem;
+  margin: 0.8rem 0 0;
+}
+
+.st-hex {
+  font-size: 0.62rem;
+  line-height: 1.8;
+  color: var(--ink-faint);
+  word-break: break-all;
+  opacity: 0.75;
+  margin: 0 0 0.6rem;
+}
+
+/* PGP 式告别框 */
+.st-pgp {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper-2);
+  padding: 1.1rem 1.3rem;
+  margin: 0.6rem 0 0;
+  box-shadow: inset 0 0 24px rgba(255, 176, 86, 0.04);
+}
+
+.st-pgp .st-pgp-rule {
+  font-size: 0.66rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+/* 永恒的提示符 */
+.st-prompt {
+  margin: 3rem 0 0;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.st-epitaph {
+  font-family: var(--serif);
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 2.2;
+  margin: 2.6rem 0 0;
+}
+
+@media (max-width: 600px) {
+  .st-entry { padding-left: 0.9rem; margin-bottom: 2.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-cursor { animation: none; }
+}

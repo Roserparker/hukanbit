@@ -92,6 +92,8 @@
   if (/lab\.html$/.test(location.pathname)) store.set("hkb-lab", "1");
   // 长廊：记下"参观过"（为将来的集章寻宝留钩子）
   if (/gallery\.html$/.test(location.pathname)) store.set("hkb-gallery", "1");
+  // 布道厅
+  if (/satoshi\.html$/.test(location.pathname)) store.set("hkb-satoshi", "1");
 
   // 首页：点亮已读标签、阅读进度与"三步上手"的完成态
   var toc = document.querySelector(".toc");
