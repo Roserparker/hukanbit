@@ -29,6 +29,9 @@
 | 数字是主角 / tabular | 游戏组件沿用 gm-big + tabular-nums（已有，保持） |
 | 不碰媚俗 | 全站既有原则，与 Armstrong 反模式一致（无火箭/倒计时/红绿轰炸） |
 
+## 布道厅（satoshi.html，2026-06-12）
+琥珀磷光终端（1979 amber phosphor CRT = "高级橙色赛博朋克"的史实原型）。body.satoshi-page 强制暗琥珀色板（bg #0c0907 / 磷光 #e8c79c / 亮 #ffb056）；CRT 层=极淡扫描线+暗角（body::after，opacity 克制）。15 条中本聪原话按时间排列：`[日期] · 出处` 日志行 + EN（mono 辉光）+ 中译（衬线）+ 站长按（celadon 左线）；主题滤波器 7 类。仪式三件套：创世条目展示真实 coinbase hex（已用 python 解码验证）+ IntersectionObserver 打字机；告别信 PGP 框；结尾永亮空提示符 `$ ▌`+"他再也没有回来。光标还亮着。"。日期出处均核自 satoshi.nakamotoinstitute.org。
+
 ## 组件契约
 - 互动组件经 `[data-game]` 挂载：time-machine / pow-miner / mempool / bazi-calendar / btc-ticker / first-tx
 - games.css 类名一律 `gm-` 前缀；颜色只用 style.css 的 CSS 变量（自动暗色模式）

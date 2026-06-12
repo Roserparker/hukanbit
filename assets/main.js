@@ -132,4 +132,75 @@
       if (st) st.textContent = "✓ 已完成";
     });
   }
+
+  /* ---------- 创世拓片：十六进制 ↔ 头条的双向映射 ----------
+     前 16 个十六进制字符（04ffff001d010445）是脚本前缀；
+     其后每两个字符是一个 ASCII 字节，对应头条的一个字母。 */
+  var stele = document.getElementById("gen-stele");
+  if (stele) {
+    var hexEl = stele.querySelector(".gen-hex");
+    var enEl = stele.querySelector(".gen-en");
+    var raw = hexEl.getAttribute("data-hex") || "";
+    var PRE = 16;
+    var frag = document.createDocumentFragment();
+    var gi, gsp;
+    for (gi = 0; gi < PRE; gi += 2) {
+      gsp = document.createElement("span");
+      gsp.className = "gen-pre";
+      gsp.textContent = raw.slice(gi, gi + 2);
+      frag.appendChild(gsp);
+    }
+    var gidx = 0, gchars = [];
+    for (gi = PRE; gi < raw.length; gi += 2, gidx++) {
+      var pair = raw.slice(gi, gi + 2);
+      gsp = document.createElement("span");
+      gsp.className = "gen-byte";
+      gsp.setAttribute("data-i", gidx);
+      gsp.style.transitionDelay = (gidx * 16) + "ms";
+      gsp.textContent = pair;
+      frag.appendChild(gsp);
+      gchars.push(String.fromCharCode(parseInt(pair, 16)));
+    }
+    hexEl.textContent = "";
+    hexEl.appendChild(frag);
+
+    var ef = document.createDocumentFragment();
+    gchars.forEach(function (ch, k) {
+      var c = document.createElement("span");
+      c.setAttribute("data-i", k);
+      c.style.transitionDelay = (500 + k * 14) + "ms";
+      c.textContent = ch;
+      ef.appendChild(c);
+    });
+    enEl.textContent = "";
+    enEl.appendChild(ef);
+
+    var litAll = function (k, on) {
+      stele.querySelectorAll('[data-i="' + k + '"]').forEach(function (n) {
+        n.classList.toggle("lit", on);
+      });
+    };
+    stele.addEventListener("mouseover", function (ev) {
+      var t = ev.target;
+      if (t.getAttribute && t.getAttribute("data-i") != null) litAll(t.getAttribute("data-i"), true);
+    });
+    stele.addEventListener("mouseout", function (ev) {
+      var t = ev.target;
+      if (t.getAttribute && t.getAttribute("data-i") != null) litAll(t.getAttribute("data-i"), false);
+    });
+
+    var fire = function () { stele.classList.add("on"); };
+    var rmGen = false;
+    try { rmGen = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* 忽略 */ }
+    if (rmGen || !("IntersectionObserver" in window)) {
+      fire();
+    } else {
+      var gio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { fire(); gio.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      gio.observe(stele);
+    }
+  }
 })();

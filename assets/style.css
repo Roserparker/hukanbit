@@ -1658,3 +1658,91 @@ body.satoshi-page::after {
 @media (prefers-reduced-motion: reduce) {
   .st-cursor { animation: none; }
 }
+
+/* ============================================================
+   创世拓片（首页）：第 0 区块 = 一方碑
+   墨色碑面固定不随明暗模式变化——砚是砚，纸是纸。
+   ============================================================ */
+.gen-wrap {
+  max-width: var(--w-read);
+  margin: 0 auto;
+  padding: 0 1.4rem;
+}
+
+.gen-stele {
+  background: #15110c;
+  border: 1px solid #3a2f20;
+  border-radius: 12px;
+  padding: 1.8rem 1.9rem 1.6rem;
+}
+
+.gen-meta {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: #8a7a5e;
+  margin: 0 0 1.2rem;
+}
+
+.gen-hex {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  line-height: 2.15;
+  letter-spacing: 0.04em;
+  word-break: break-all;
+  color: #6b5d45;
+  margin: 0 0 1.3rem;
+  cursor: default;
+}
+
+.gen-hex span { margin-right: 0.14em; transition: color 0.5s ease, text-shadow 0.5s ease; }
+.gen-hex .gen-pre { color: #4d4232; }
+
+/* 拓印完成：文字字节泛起琥珀温度（逐字延迟由 JS 写入） */
+.gen-stele.on .gen-byte { color: #d9a35c; }
+
+.gen-en {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 2;
+  color: #e3c693;
+  margin: 0 0 0.5rem;
+  min-height: 2em;
+  cursor: default;
+}
+
+.gen-en span { opacity: 0; transition: opacity 0.45s ease, color 0.3s, text-shadow 0.3s; }
+.gen-stele.on .gen-en span { opacity: 1; }
+
+/* 双向映射：碰到字节，亮起字母；碰到字母，亮起字节 */
+.gen-stele .lit {
+  color: #ffc775 !important;
+  text-shadow: 0 0 10px rgba(255, 176, 86, 0.55);
+}
+
+.gen-zh {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: #cbbb9b;
+  line-height: 2.05;
+  margin: 0 0 1rem;
+}
+
+.gen-note {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  color: #8a7a5e;
+  line-height: 2;
+  margin: 0;
+}
+
+.gen-note a { color: var(--accent-ink); text-decoration: none; }
+.gen-note a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .gen-stele { padding: 1.3rem 1.1rem 1.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gen-hex span, .gen-en span { transition: none; }
+}
