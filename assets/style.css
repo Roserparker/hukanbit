@@ -2592,3 +2592,36 @@ html.vault-seen .vault { display: none; }
   margin-top: 0.4rem;
 }
 .hall-head small { display: block; font-family: var(--sans); font-weight: 400; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--ink-faint); margin-top: 0.15rem; }
+
+/* ============================================================
+   首页六板块：弦纹分隔 + 温和滚动停靠（proximity，不锁死）
+   ============================================================ */
+html:has(body.home-page) { scroll-snap-type: y proximity; }
+
+.blk {
+  scroll-snap-align: start;
+  scroll-margin-top: 56px;
+  padding: 4.6rem 0 4.2rem;
+  position: relative;
+}
+
+.home-page .hero.blk { padding-top: 5.5rem; }
+
+/* 板块间一道居中的短弦纹 */
+.blk + .blk::before,
+.home-page main > section.blk:not(.hero)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.6rem;
+  height: 1px;
+  background: var(--line);
+}
+
+.home-page .blk .section-label { margin-top: 0; }
+
+@media (max-width: 600px) {
+  .blk { padding: 3.4rem 0 3rem; }
+}

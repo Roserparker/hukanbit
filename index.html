@@ -19,10 +19,10 @@
 <meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="assets/style.css?v=20260612n">
-<link rel="stylesheet" href="assets/games.css?v=20260612n">
+<link rel="stylesheet" href="assets/style.css?v=20260612o">
+<link rel="stylesheet" href="assets/games.css?v=20260612o">
 </head>
-<body>
+<body class="home-page">
 
 <header class="site-header">
   <div class="inner">
@@ -48,7 +48,7 @@
 </header>
 
 <main>
-  <section class="hero">
+  <section class="hero blk">
     <p class="kicker">一份关于金钱与比特币的科普专栏</p>
     <h1>胡侃比特</h1>
     <p class="sub">把复杂的金钱问题讲简单。这里不喊单、不预测价格、不贩卖焦虑——只是认真聊聊：钱是什么，它出了什么问题，以及比特币为什么值得理解。</p>
@@ -61,31 +61,7 @@
     <p class="chain-cap">每个方块＝一个区块 · 圆点＝装进区块的交易 · 最右虚线块正在打包，装满四笔即封存前进</p>
   </section>
 
-  <p class="section-label" id="start">START</p>
-  <h2 class="section-title">三步上手</h2>
-
-  <div class="steps3 reveal">
-    <a class="step-card" href="articles/01.html" data-step="read">
-      <span class="step-num">①</span>
-      <h3>读懂「钱」本身</h3>
-      <p>从第一篇开始，先弄清我们手里的钱到底出了什么问题。</p>
-      <span class="step-status">约 30 分钟</span>
-    </a>
-    <a class="step-card" href="lab.html#pow-miner" data-step="mine">
-      <span class="step-num">②</span>
-      <h3>亲手挖一个区块</h3>
-      <p>在实验室点动鼠标，用真实的 SHA-256 体验工作量证明。</p>
-      <span class="step-status">约 1 分钟</span>
-    </a>
-    <a class="step-card" href="lab.html#first-tx" data-step="tx">
-      <span class="step-num">③</span>
-      <h3>走一遍模拟转账</h3>
-      <p>沙盒钱包，五步完成你的第一笔转账——零风险、零真实资金。</p>
-      <span class="step-status">约 2 分钟</span>
-    </a>
-  </div>
-  <p class="steps-trust">全程免费 · 无需注册 · 不收集任何数据——所有实验都在你自己的浏览器里运行。</p>
-
+  <section class="blk">
   <p class="section-label" id="articles">ARTICLES</p>
   <h2 class="section-title">系列文章</h2>
   <p class="read-progress" id="read-progress" hidden></p>
@@ -143,28 +119,20 @@
     </li>
   </ol>
 
+  </section>
+
+  <section class="blk">
   <p class="section-label" id="lab">PLAYGROUND</p>
   <h2 class="section-title">互动实验室</h2>
 
   <div class="lab-teaser reveal">
-    <p class="about" style="padding:0">光读不够？这些小实验都在你的浏览器里真实运行——亲手挖一次矿、亲眼看一遍银行怎么“造钱”，比读十遍定义都管用。</p>
-    <div class="chips">
-      <a class="chip" href="lab.html#inflation">⏳ 通胀时光机</a>
-      <a class="chip" href="lab.html#time-machine">🍞 购买力时光机</a>
-      <a class="chip" href="lab.html#multiplier">🏦 货币乘数机</a>
-      <a class="chip" href="lab.html#first-tx">💸 你的第一笔转账</a>
-      <a class="chip" href="lab.html#mempool">🚗 Mempool 停车场</a>
-      <a class="chip" href="lab.html#mining">⛏️ 挖矿模拟器</a>
-      <a class="chip" href="lab.html#pow-miner">👆 孤勇者矿工</a>
-      <a class="chip" href="lab.html#hash">🔐 哈希实验台</a>
-      <a class="chip" href="lab.html#double-spend">👯 双花问题</a>
-      <a class="chip" href="lab.html#byzantine">🏯 拜占庭将军</a>
-      <a class="chip" href="lab.html#supply">📉 2100 万与减半</a>
-      <a class="chip" href="lab.html#quiz">✅ 五分钟小测验</a>
-    </div>
+    <p class="about" style="padding:0">概念读十遍，不如亲手玩一遍。十二个实验已按两厅课纲排好：<strong>法币诊室</strong>先看清问题，<strong>比特币工坊</strong>由浅入深——从第一笔转账，一路玩到拜占庭将军。全部在你的浏览器本地运行。</p>
     <a class="btn warm" href="lab.html">进入实验室</a>
   </div>
 
+  </section>
+
+  <section class="blk">
   <p class="section-label" id="genesis">GENESIS</p>
   <h2 class="section-title">账本的第一行</h2>
 
@@ -188,6 +156,9 @@
     </div>
   </div>
 
+  </section>
+
+  <section class="blk">
   <p class="section-label" id="debt">THE OTHER LEDGER</p>
   <h2 class="section-title">另一本账</h2>
 
@@ -198,67 +169,9 @@
     <p class="gen-note" style="margin-top:1rem">上面那本账，第一页写完就封存了；这一本，每一秒都在往后写。这本账谁来还？<a href="articles/02.html">第二篇</a> 拆给你看；它为何必然失控，<a href="articles/04.html">第四篇</a> 算给你看。</p>
   </div>
 
-  <p class="section-label" id="almanac">ALMANAC</p>
-  <h2 class="section-title">今日 · 流日黄历</h2>
+  </section>
 
-  <div class="alm-wrap reveal">
-    <div class="game-embed" data-game="bazi-calendar">
-      <p class="game-fallback">这个小挂件需要 JavaScript 才能运行。</p>
-    </div>
-  </div>
-
-  <p class="section-label" id="wayfinding">WAYFINDING</p>
-  <h2 class="section-title">云游 · 出口</h2>
-
-  <div class="way-wrap reveal">
-    <p class="way-intro">本馆只是入口。比特的海洋在墙外——这座路牌指向那些值得亲自去一趟的地方。</p>
-    <div class="way-post">
-      <a class="way-sign r" href="https://bitcointalk.org" target="_blank" rel="noopener">
-        <span class="way-no">EXIT 01 · FORUM</span>
-        <span class="way-name">BitcoinTalk</span>
-        <span class="way-desc">中本聪亲手创办的论坛。他的 575 个帖子都发在这里——后来的一切争论也是。</span>
-        <span class="way-host">bitcointalk.org</span>
-      </a>
-      <a class="way-sign l" href="https://www.reddit.com/r/Bitcoin/" target="_blank" rel="noopener">
-        <span class="way-no">EXIT 02 · FORUM</span>
-        <span class="way-name">r/Bitcoin</span>
-        <span class="way-desc">全球最大的比特币社区：数百万人在这里提问、互助、争吵——以及给新人泼必要的冷水。</span>
-        <span class="way-host">reddit.com/r/Bitcoin</span>
-      </a>
-      <a class="way-sign r" href="https://bitcoin.org/zh_CN/" target="_blank" rel="noopener">
-        <span class="way-no">EXIT 03 · ORIGIN</span>
-        <span class="way-name">Bitcoin.org</span>
-        <span class="way-desc">白皮书原文（含中文译本）与钱包入门。一切的说明书。</span>
-        <span class="way-host">bitcoin.org</span>
-      </a>
-      <a class="way-sign l" href="https://satoshi.nakamotoinstitute.org" target="_blank" rel="noopener">
-        <span class="way-no">EXIT 04 · ARCHIVE</span>
-        <span class="way-name">中本聪研究所</span>
-        <span class="way-desc">他公开说过的每一个字，按日期编目。本馆布道厅的全部底稿来自这里。</span>
-        <span class="way-host">satoshi.nakamotoinstitute.org</span>
-      </a>
-      <a class="way-sign r" href="https://mempool.space/zh/" target="_blank" rel="noopener">
-        <span class="way-no">EXIT 05 · LIVE</span>
-        <span class="way-name">Mempool.Space</span>
-        <span class="way-desc">链上实况：看每一个区块此刻被铸出来。停车场实验的真实版。</span>
-        <span class="way-host">mempool.space</span>
-      </a>
-      <a class="way-sign l" href="https://www.btcstudy.org" target="_blank" rel="noopener">
-        <span class="way-no">EXIT 06 · 中文</span>
-        <span class="way-name">BTC Study</span>
-        <span class="way-desc">高质量的中文比特币文库——读完本馆五篇，从这里继续深潜。</span>
-        <span class="way-host">btcstudy.org</span>
-      </a>
-      <a class="way-sign r" href="https://learnmeabitcoin.com" target="_blank" rel="noopener">
-        <span class="way-no">EXIT 07 · TECH</span>
-        <span class="way-name">Learn Me a Bitcoin</span>
-        <span class="way-desc">把每个技术细节画成图：交易、脚本、默克尔树。工程师的下一站。</span>
-        <span class="way-host">learnmeabitcoin.com</span>
-      </a>
-    </div>
-    <p class="way-note">部分目的地在部分地区需要合适的网络环境。出门在外，注意安全：永远不要把助记词告诉任何网站。</p>
-  </div>
-
+  <section class="blk">
   <p class="section-label" id="about">ABOUT</p>
   <h2 class="section-title">关于本专栏</h2>
 
@@ -267,6 +180,8 @@
     <p>建议按顺序阅读：先弄清“钱”本身（第一、二篇），再看比特币给出的答案（第三、四篇），最后是对未来的推演（第五篇）。每篇文章末尾都有对应的互动小实验。</p>
     <p>这里没有行情、没有价格预测、没有“最后上车机会”。如果读完你只记住一件事，我希望是：<strong>在花钱和存钱之前，先理解钱。</strong></p>
   </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -277,8 +192,8 @@
   </div>
 </footer>
 
-<script src="assets/main.js?v=20260612n"></script>
-<script src="assets/flow.js?v=20260612n" defer></script>
-<script src="assets/games.js?v=20260612n" defer></script>
+<script src="assets/main.js?v=20260612o"></script>
+<script src="assets/flow.js?v=20260612o" defer></script>
+<script src="assets/games.js?v=20260612o" defer></script>
 </body>
 </html>
