@@ -30,20 +30,35 @@
   <h1 style="font-size:clamp(1.9rem,5vw,2.5rem);letter-spacing:0.08em;margin:0 0 1.2rem;">互动实验室</h1>
   <p class="intro">概念读十遍，不如亲手玩一遍。下面所有实验都在你的浏览器里真实运行——没有服务器，没有数据上传，挖矿用的是真实的 SHA-256 算法。</p>
 
-  <nav class="lab-nav">
-    <a class="chip" href="#inflation">⏳ 通胀时光机</a>
-    <a class="chip" href="#time-machine">🍞 购买力时光机</a>
-    <a class="chip" href="#multiplier">🏦 货币乘数机</a>
-    <a class="chip" href="#hash">🔐 哈希实验台</a>
-    <a class="chip" href="#double-spend">👯 双花问题</a>
-    <a class="chip" href="#byzantine">🏯 拜占庭将军</a>
-    <a class="chip" href="#mining">⛏️ 挖矿模拟器</a>
-    <a class="chip" href="#pow-miner">👆 孤勇者矿工</a>
-    <a class="chip" href="#supply">📉 2100 万与减半</a>
-    <a class="chip" href="#mempool">🚗 Mempool 停车场</a>
-    <a class="chip" href="#first-tx">💸 第一笔转账</a>
-    <a class="chip" href="#quiz">✅ 小测验</a>
-  </nav>
+  <svg style="display:none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="mk-inflation" viewBox="0 0 48 48"><path class="mk" d="M14,9 h20 M14,39 h20 M16,10 c0,8 6,10 8,14 c2,-4 8,-6 8,-14 M16,38 c0,-8 6,-10 8,-14 c2,4 8,6 8,14"/></symbol>
+    <symbol id="mk-bread" viewBox="0 0 48 48"><path class="mk" d="M10,30 a14,13 0 1 1 28,0 v4 a2,2 0 0 1 -2,2 H12 a2,2 0 0 1 -2,-2 z M17,23 l3,-5 M24,22 l3,-5 M31,23 l3,-5"/></symbol>
+    <symbol id="mk-multiplier" viewBox="0 0 48 48"><path class="mk" d="M18,24 a4,4 0 1 1 -0.01,0 M26,12 a17,17 0 0 1 0,24 M33,7 a24,24 0 0 1 0,34"/></symbol>
+    <symbol id="mk-hash" viewBox="0 0 48 48"><path class="mk" d="M24,41 c-9,-2 -15,-9 -15,-18 a15,15 0 0 1 30,0 c0,5 -2,10 -6,13 M24,34 c-5,-2 -8,-6 -8,-11 a8,8 0 0 1 16,0 c0,4 -1,7 -4,9 M24,22 a1.5,1.5 0 0 1 0,2"/></symbol>
+    <symbol id="mk-double" viewBox="0 0 48 48"><path class="mk" d="M18,24 m-9,0 a9,9 0 1 0 18,0 a9,9 0 1 0 -18,0 M30,24 m-9,0 a9,9 0 1 0 18,0 a9,9 0 1 0 -18,0 M36,13 l-9,22"/></symbol>
+    <symbol id="mk-byzantine" viewBox="0 0 48 48"><path class="mk" d="M16,40 V20 h-4 v-6 h6 v3 h4 v-3 h4 v3 h4 v-3 h6 v6 h-4 v20 M11,40 h26 M24,40 v-8 a3,3 0 0 0 -6,0"/></symbol>
+    <symbol id="mk-mining" viewBox="0 0 48 48"><path class="mk" d="M13,39 L29,23 M21,15 q11,-7 18,3 q-9,-1 -14,3 M21,15 l4,4"/></symbol>
+    <symbol id="mk-pow" viewBox="0 0 48 48"><path class="mk" d="M24,8 v14 M14,32 a10,7 0 0 0 20,0 M16,13 l-4,-4 M32,13 l4,-4"/></symbol>
+    <symbol id="mk-supply" viewBox="0 0 48 48"><path class="mk" d="M9,12 h8 v9 h7 v7 h6 v5 h5 v4 h4 M9,40 h30" stroke-dasharray="0"/><path class="mk" d="M9,40 h30" stroke-dasharray="2 4"/></symbol>
+    <symbol id="mk-mempool" viewBox="0 0 48 48"><path class="mk" d="M8,34 h32 M12,34 c2,-13 22,-13 24,0 M11,40 a1.5,1.5 0 0 1 0,0.01 M18,40 a1.5,1.5 0 0 1 0,0.01 M25,40 a1.5,1.5 0 0 1 0,0.01"/></symbol>
+    <symbol id="mk-firsttx" viewBox="0 0 48 48"><path class="mk" d="M9,27 L39,13 L27,39 L23,29 Z M23,29 L39,13"/></symbol>
+    <symbol id="mk-quiz" viewBox="0 0 48 48"><path class="mk" d="M17,17 a7,7 0 1 1 10,7 c-2,1.5 -3,3 -3,5 M19,37 l3,3 7,-8"/></symbol>
+  </svg>
+
+  <div class="hall" id="hall">
+    <a class="hall-card" href="#inflation" data-room="inflation"><svg><use href="#mk-inflation"/></svg><span class="hall-no">实验 ①</span><h3>通胀时光机</h3><span class="hall-sub">2% 的复利真相</span></a>
+    <a class="hall-card" href="#time-machine" data-room="time-machine"><svg><use href="#mk-bread"/></svg><span class="hall-no">实验 ②</span><h3>购买力时光机</h3><span class="hall-sub">1971 年以来的面包</span></a>
+    <a class="hall-card" href="#multiplier" data-room="multiplier"><svg><use href="#mk-multiplier"/></svg><span class="hall-no">实验 ③</span><h3>货币乘数机</h3><span class="hall-sub">100 元变出 1000 元</span></a>
+    <a class="hall-card" href="#hash" data-room="hash"><svg><use href="#mk-hash"/></svg><span class="hall-no">实验 ④</span><h3>哈希实验台</h3><span class="hall-sub">万物的指纹</span></a>
+    <a class="hall-card" href="#double-spend" data-room="double-spend"><svg><use href="#mk-double"/></svg><span class="hall-no">实验 ⑤</span><h3>双花问题</h3><span class="hall-sub">把一枚币花两次</span></a>
+    <a class="hall-card" href="#byzantine" data-room="byzantine"><svg><use href="#mk-byzantine"/></svg><span class="hall-no">实验 ⑥</span><h3>拜占庭将军</h3><span class="hall-sub">谎言免费的世界</span></a>
+    <a class="hall-card" href="#mining" data-room="mining"><svg><use href="#mk-mining"/></svg><span class="hall-no">实验 ⑦</span><h3>挖矿模拟器</h3><span class="hall-sub">机器抽彩票</span></a>
+    <a class="hall-card" href="#pow-miner" data-room="pow-miner"><svg><use href="#mk-pow"/></svg><span class="hall-no">实验 ⑧</span><h3>孤勇者矿工</h3><span class="hall-sub">你亲手当矿机</span></a>
+    <a class="hall-card" href="#supply" data-room="supply"><svg><use href="#mk-supply"/></svg><span class="hall-no">实验 ⑨</span><h3>2100 万与减半</h3><span class="hall-sub">收敛的级数</span></a>
+    <a class="hall-card" href="#mempool" data-room="mempool"><svg><use href="#mk-mempool"/></svg><span class="hall-no">实验 ⑩</span><h3>Mempool 停车场</h3><span class="hall-sub">区块空间拍卖</span></a>
+    <a class="hall-card" href="#first-tx" data-room="first-tx"><svg><use href="#mk-firsttx"/></svg><span class="hall-no">实验 ⑪</span><h3>第一笔转账</h3><span class="hall-sub">五步沙盒钱包</span></a>
+    <a class="hall-card" href="#quiz" data-room="quiz"><svg><use href="#mk-quiz"/></svg><span class="hall-no">实验 ⑫</span><h3>五分钟小测验</h3><span class="hall-sub">检验全部所学</span></a>
+  </div>
 
   <!-- ① 通胀时光机 -->
   <section class="experiment reveal" id="inflation">
@@ -239,5 +254,92 @@
 <script src="assets/flow.js" defer></script>
 <script src="assets/lab.js"></script>
 <script src="assets/games.js" defer></script>
+<script>
+/* 展厅模式：导览墙 ↔ 单间展品。无 JS 时自动退化为传统长页。 */
+(function () {
+  "use strict";
+  var hall = document.getElementById("hall");
+  var rooms = Array.prototype.slice.call(document.querySelectorAll(".experiment"));
+  if (!hall || !rooms.length) return;
+  document.body.classList.add("hall-mode");
+
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 忽略 */ } }
+  };
+
+  /* 房间导航条 */
+  var nav = document.createElement("div");
+  nav.className = "room-nav";
+  var prevB = document.createElement("button");
+  var hallB = document.createElement("button");
+  var nextB = document.createElement("button");
+  prevB.type = hallB.type = nextB.type = "button";
+  hallB.className = "room-hall-btn";
+  hallB.textContent = "▦ 返回导览墙";
+  nav.appendChild(prevB); nav.appendChild(hallB); nav.appendChild(nextB);
+
+  var current = -1;
+
+  function title(i) {
+    var h = rooms[i].querySelector("h2");
+    return h ? h.textContent.replace(/^[^一-龥A-Za-z0-9]+/, "") : "";
+  }
+
+  function refreshSeen() {
+    hall.querySelectorAll(".hall-card").forEach(function (c) {
+      if (store.get("hkb-x-" + c.getAttribute("data-room")) === "1") c.classList.add("seen");
+    });
+  }
+
+  function openRoom(id) {
+    var i = rooms.findIndex(function (r) { return r.id === id; });
+    if (i < 0) return false;
+    current = i;
+    rooms.forEach(function (r, k) {
+      r.classList.toggle("open", k === i);
+      if (k === i) r.classList.add("visible");
+    });
+    hall.classList.add("hidden");
+    rooms[i].appendChild(nav);
+    prevB.textContent = i > 0 ? "← " + title(i - 1) : "←";
+    prevB.disabled = i === 0;
+    nextB.textContent = i < rooms.length - 1 ? title(i + 1) + " →" : "→";
+    nextB.disabled = i === rooms.length - 1;
+    store.set("hkb-x-" + id, "1");
+    if (location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
+    window.scrollTo({ top: hall.offsetTop - 90, behavior: "auto" });
+    return true;
+  }
+
+  function showHall() {
+    current = -1;
+    rooms.forEach(function (r) { r.classList.remove("open"); });
+    hall.classList.remove("hidden");
+    if (nav.parentNode) nav.parentNode.removeChild(nav);
+    history.replaceState(null, "", location.pathname);
+    refreshSeen();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  hall.addEventListener("click", function (ev) {
+    var card = ev.target.closest(".hall-card");
+    if (!card) return;
+    ev.preventDefault();
+    openRoom(card.getAttribute("data-room"));
+  });
+  prevB.addEventListener("click", function () { if (current > 0) openRoom(rooms[current - 1].id); });
+  nextB.addEventListener("click", function () { if (current < rooms.length - 1) openRoom(rooms[current + 1].id); });
+  hallB.addEventListener("click", showHall);
+  window.addEventListener("hashchange", function () {
+    var id = location.hash.slice(1);
+    if (!id || !openRoom(id)) showHall();
+  });
+
+  refreshSeen();
+  var boot = location.hash.slice(1);
+  if (!boot || !openRoom(boot)) showHall();
+})();
+</script>
 </body>
 </html>

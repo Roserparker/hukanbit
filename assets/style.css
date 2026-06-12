@@ -1746,3 +1746,123 @@ body.satoshi-page::after {
 @media (prefers-reduced-motion: reduce) {
   .gen-hex span, .gen-en span { transition: none; }
 }
+
+/* ============================================================
+   实验室 · 展厅导览墙（hall）与单线徽标（mk-*）
+   ============================================================ */
+.mk {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  margin: 2rem 0 3rem;
+}
+
+.hall.hidden { display: none; }
+
+.hall-card {
+  display: block;
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.15rem 1.1rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.hall-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 2px 6px rgba(60, 40, 10, 0.04), 0 14px 36px rgba(60, 40, 10, 0.1);
+}
+
+.hall-card svg {
+  width: 42px;
+  height: 42px;
+  color: var(--ink-soft);
+  transition: color 0.3s, filter 0.3s;
+  margin-bottom: 0.35rem;
+}
+
+.hall-card:hover svg {
+  color: var(--accent);
+  filter: drop-shadow(0 0 7px rgba(194, 65, 12, 0.35));
+}
+
+.hall-card .hall-no {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  color: var(--ink-faint);
+  margin-bottom: 0.2rem;
+}
+
+.hall-card h3 {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.25rem;
+  color: var(--ink);
+}
+
+.hall-card .hall-sub {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  line-height: 1.7;
+}
+
+/* 已造访：徽标换豆青釉 */
+.hall-card.seen svg { color: var(--celadon); }
+.hall-card.seen .hall-no::after { content: " · ✓ 已造访"; color: var(--celadon); letter-spacing: 0.05em; }
+
+/* 单间模式：导览墙打开某件展品时，其余全部隐去 */
+body.hall-mode .experiment { display: none; }
+body.hall-mode .experiment.open { display: block; }
+
+.room-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--sans);
+}
+
+.room-nav button {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.room-nav button:hover { color: var(--accent-ink); border-color: var(--accent); }
+.room-nav button:disabled { opacity: 0.35; cursor: default; }
+.room-nav .room-hall-btn { color: var(--accent-ink); }
+
+@media (max-width: 640px) {
+  .hall { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+  .hall-card { padding: 0.95rem 0.7rem 0.85rem; }
+}
