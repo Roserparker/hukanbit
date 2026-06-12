@@ -133,74 +133,119 @@
     });
   }
 
-  /* ---------- 创世拓片：十六进制 ↔ 头条的双向映射 ----------
-     前 16 个十六进制字符（04ffff001d010445）是脚本前缀；
-     其后每两个字符是一个 ASCII 字节，对应头条的一个字母。 */
+  /* ---------- 创世转储：285 字节的显影 ----------
+     区块 #0 以原始三栏转储陈列（偏移 | 字节 | ASCII，与 2009 年的
+     十六进制查看器同款）。初看全是机器呓语；随滚动，报头的 69 个
+     字节逐字升温走到光里，随后报纸复刻显影。 */
   var stele = document.getElementById("gen-stele");
   if (stele) {
-    var hexEl = stele.querySelector(".gen-hex");
-    var enEl = stele.querySelector(".gen-en");
-    var raw = hexEl.getAttribute("data-hex") || "";
-    var PRE = 16;
-    var frag = document.createDocumentFragment();
-    var gi, gsp;
-    for (gi = 0; gi < PRE; gi += 2) {
-      gsp = document.createElement("span");
-      gsp.className = "gen-pre";
-      gsp.textContent = raw.slice(gi, gi + 2);
-      frag.appendChild(gsp);
+    var dump = document.getElementById("gen-dump");
+    var clip = document.getElementById("gen-clip");
+    /* 创世区块原始字节（285B）：区块头 + 1 笔 coinbase 交易 */
+    var HEX =
+      "0100000000000000000000000000000000000000000000000000000000000000" +
+      "000000003BA3EDFD7A7B12B27AC72C3E67768F617FC81BC3888A51323A9FB8AA" +
+      "4B1E5E4A29AB5F49FFFF001D1DAC2B7C01010000000100000000000000000000" +
+      "00000000000000000000000000000000000000000000FFFFFFFF4D04FFFF001D" +
+      "0104455468652054696D65732030332F4A616E2F32303039204368616E63656C" +
+      "6C6F72206F6E206272696E6B206F66207365636F6E64206261696C6F75742066" +
+      "6F722062616E6B73FFFFFFFF0100F2052A01000000434104678AFDB0FE554827" +
+      "1967F1A67130B7105CD6A828E03909A67962E0EA1F61DEB649F6BC3F4CEF38C4" +
+      "F35504E51EC112DE5C384DF7BA0B8D578A4C702B6BF11D5FAC00000000";
+    var MSG_START = 131, MSG_LEN = 69, LEN_BYTE = 130;
+    var CP1252 = { 128:"€",130:"‚",131:"ƒ",132:"„",133:"…",134:"†",135:"‡",136:"ˆ",137:"‰",138:"Š",139:"‹",140:"Œ",142:"Ž",145:"‘",146:"’",147:"“",148:"”",149:"•",150:"–",151:"—",152:"˜",153:"™",154:"š",155:"›",156:"œ",158:"ž",159:"Ÿ" };
+    function glyph(b) {
+      if (b === 32) return " ";
+      if (b > 32 && b < 127) return String.fromCharCode(b);
+      if (b >= 160) return String.fromCharCode(b);
+      if (CP1252[b]) return CP1252[b];
+      return ".";
     }
-    var gidx = 0, gchars = [];
-    for (gi = PRE; gi < raw.length; gi += 2, gidx++) {
-      var pair = raw.slice(gi, gi + 2);
-      gsp = document.createElement("span");
-      gsp.className = "gen-byte";
-      gsp.setAttribute("data-i", gidx);
-      gsp.style.transitionDelay = (gidx * 16) + "ms";
-      gsp.textContent = pair;
-      frag.appendChild(gsp);
-      gchars.push(String.fromCharCode(parseInt(pair, 16)));
+    var bytes = [];
+    for (var bi = 0; bi < HEX.length; bi += 2) bytes.push(parseInt(HEX.substr(bi, 2), 16));
+
+    var mB = [], mA = [], rIdx, cIdx, gi;
+    for (rIdx = 0; rIdx < Math.ceil(bytes.length / 16); rIdx++) {
+      var row = document.createElement("div");
+      row.className = "gen-row";
+      var off = document.createElement("span");
+      off.className = "gen-off";
+      off.textContent = ("00000000" + (rIdx * 16).toString(16).toUpperCase()).slice(-8);
+      row.appendChild(off);
+      var bcol = document.createElement("span");
+      bcol.className = "gen-bytes";
+      var acol = document.createElement("span");
+      acol.className = "gen-ascii";
+      for (cIdx = 0; cIdx < 16; cIdx++) {
+        gi = rIdx * 16 + cIdx;
+        if (gi >= bytes.length) break;
+        var bs = document.createElement("span");
+        bs.textContent = HEX.substr(gi * 2, 2);
+        if (cIdx === 7) bs.className = "gap";
+        var as = document.createElement("span");
+        as.textContent = glyph(bytes[gi]);
+        if (gi >= MSG_START && gi < MSG_START + MSG_LEN) {
+          var mk = gi - MSG_START;
+          bs.className += (bs.className ? " " : "") + "gen-m";
+          as.className = "gen-m";
+          bs.setAttribute("data-m", mk);
+          as.setAttribute("data-m", mk);
+          mB[mk] = bs; mA[mk] = as;
+        }
+        if (gi === LEN_BYTE) { bs.title = "0x45 = 69：头条的字节长度"; as.title = bs.title; }
+        bcol.appendChild(bs);
+        acol.appendChild(as);
+      }
+      row.appendChild(bcol);
+      row.appendChild(acol);
+      dump.appendChild(row);
     }
-    hexEl.textContent = "";
-    hexEl.appendChild(frag);
 
-    var ef = document.createDocumentFragment();
-    gchars.forEach(function (ch, k) {
-      var c = document.createElement("span");
-      c.setAttribute("data-i", k);
-      c.style.transitionDelay = (500 + k * 14) + "ms";
-      c.textContent = ch;
-      ef.appendChild(c);
-    });
-    enEl.textContent = "";
-    enEl.appendChild(ef);
+    /* 悬停：字节 ↔ 字母 双向点亮 */
+    function hot(t, on) {
+      var k = t.getAttribute && t.getAttribute("data-m");
+      if (k == null) return;
+      if (mB[k]) mB[k].classList.toggle("hot", on);
+      if (mA[k]) mA[k].classList.toggle("hot", on);
+    }
+    dump.addEventListener("mouseover", function (ev) { hot(ev.target, true); });
+    dump.addEventListener("mouseout", function (ev) { hot(ev.target, false); });
 
-    var litAll = function (k, on) {
-      stele.querySelectorAll('[data-i="' + k + '"]').forEach(function (n) {
-        n.classList.toggle("lit", on);
-      });
-    };
-    stele.addEventListener("mouseover", function (ev) {
-      var t = ev.target;
-      if (t.getAttribute && t.getAttribute("data-i") != null) litAll(t.getAttribute("data-i"), true);
-    });
-    stele.addEventListener("mouseout", function (ev) {
-      var t = ev.target;
-      if (t.getAttribute && t.getAttribute("data-i") != null) litAll(t.getAttribute("data-i"), false);
-    });
-
-    var fire = function () { stele.classList.add("on"); };
-    var rmGen = false;
-    try { rmGen = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* 忽略 */ }
-    if (rmGen || !("IntersectionObserver" in window)) {
-      fire();
+    /* 滚动显影 */
+    var lastLit = -1, clipShown = false, ticking = false;
+    function applyLit(n) {
+      if (n === lastLit) return;
+      for (var k = 0; k < MSG_LEN; k++) {
+        var on = k < n;
+        mB[k].classList.toggle("lit", on);
+        mA[k].classList.toggle("lit", on);
+      }
+      stele.classList.toggle("focused", n > 8);
+      lastLit = n;
+    }
+    function measure() {
+      var r = stele.getBoundingClientRect();
+      var vh = window.innerHeight || 800;
+      var span = Math.max(120, Math.min(r.height * 0.72, vh * 1.05));
+      var p = (vh * 0.88 - r.top) / span;
+      p = Math.max(0, Math.min(1, p));
+      applyLit(Math.round(p * MSG_LEN));
+      if (p >= 1 && !clipShown) { clipShown = true; clip.classList.add("show"); }
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; measure(); });
+    }
+    var rmG = false;
+    try { rmG = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* 忽略 */ }
+    if (rmG) {
+      applyLit(MSG_LEN);
+      clip.classList.add("show");
     } else {
-      var gio = new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (e.isIntersecting) { fire(); gio.disconnect(); }
-        });
-      }, { threshold: 0.35 });
-      gio.observe(stele);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      measure();
     }
   }
 })();

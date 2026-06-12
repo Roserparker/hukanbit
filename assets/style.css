@@ -1719,40 +1719,119 @@ body.satoshi-page::after {
   margin: 0 0 1.2rem;
 }
 
-.gen-hex {
+.gen-hint {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  color: #8a7a5e;
+  margin: 0 0 1rem;
+}
+
+/* —— 三栏原始转储（偏移 | 字节 | ASCII），与 2009 年的查看器同款 —— */
+.gen-dump {
   font-family: var(--mono);
-  font-size: 0.68rem;
-  line-height: 2.15;
-  letter-spacing: 0.04em;
-  word-break: break-all;
+  font-size: clamp(0.54rem, 1.55vw, 0.68rem);
+  line-height: 2.05;
+  letter-spacing: 0.02em;
   color: #6b5d45;
-  margin: 0 0 1.3rem;
+  margin: 0 0 1.4rem;
+  overflow-x: auto;
   cursor: default;
+  white-space: nowrap;
 }
 
-.gen-hex span { margin-right: 0.14em; transition: color 0.5s ease, text-shadow 0.5s ease; }
-.gen-hex .gen-pre { color: #4d4232; }
+.gen-row { display: flex; }
+.gen-off { color: #463c2d; flex: none; margin-right: 1.4em; }
+.gen-bytes { flex: none; }
+.gen-bytes span { margin-right: 0.55em; transition: color 0.45s var(--ease-breath), text-shadow 0.45s var(--ease-breath), opacity 0.45s; }
+.gen-bytes span.gap { margin-right: 1.2em; }
+.gen-ascii { flex: none; margin-left: 1.6em; color: #57492f; }
+.gen-ascii span { transition: color 0.45s var(--ease-breath), text-shadow 0.45s var(--ease-breath); }
 
-/* 拓印完成：文字字节泛起琥珀温度（逐字延迟由 JS 写入） */
-.gen-stele.on .gen-byte { color: #d9a35c; }
+/* 显影：报头字节逐个升温；其余呓语随之退后 */
+span.gen-m.lit { color: #e8b35f; text-shadow: 0 0 9px rgba(255, 176, 86, 0.4); }
+.gen-ascii span.gen-m.lit { color: #ffc775; text-shadow: 0 0 11px rgba(255, 176, 86, 0.55); }
+.gen-stele.focused .gen-bytes span:not(.gen-m),
+.gen-stele.focused .gen-ascii span:not(.gen-m),
+.gen-stele.focused .gen-off { opacity: 0.42; }
 
-.gen-en {
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  line-height: 2;
-  color: #e3c693;
-  margin: 0 0 0.5rem;
-  min-height: 2em;
-  cursor: default;
+/* 双向映射悬停 */
+.gen-stele .hot { color: #ffd99a !important; text-shadow: 0 0 12px rgba(255, 200, 120, 0.7) !important; }
+
+/* —— 报纸复刻：显影完成后浮现 —— */
+.gen-clip {
+  opacity: 0;
+  transition: opacity 1.1s var(--ease-breath);
+  margin: 1.8rem 0 1.4rem;
 }
 
-.gen-en span { opacity: 0; transition: opacity 0.45s ease, color 0.3s, text-shadow 0.3s; }
-.gen-stele.on .gen-en span { opacity: 1; }
+.gen-clip.show { opacity: 1; }
 
-/* 双向映射：碰到字节，亮起字母；碰到字母，亮起字节 */
-.gen-stele .lit {
-  color: #ffc775 !important;
-  text-shadow: 0 0 10px rgba(255, 176, 86, 0.55);
+.gen-clip-paper {
+  background: #f1e9d6;
+  color: #26221b;
+  border-radius: 4px;
+  padding: 1.4rem 1.6rem 1.1rem;
+  max-width: 34rem;
+  margin: 0 auto;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.38);
+}
+
+.gen-clip-mast {
+  font-family: var(--serif);
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  letter-spacing: 0.24em;
+  margin: 0 0 0.45rem;
+  border-bottom: 3px double #26221b;
+  padding-bottom: 0.5rem;
+}
+
+.gen-clip-date {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #56503f;
+  border-bottom: 1px solid #b9b09a;
+  padding: 0.35rem 0;
+  margin-bottom: 0.95rem;
+}
+
+.gen-clip-head {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.12rem, 3.4vw, 1.5rem);
+  line-height: 1.35;
+  margin: 0 0 0.45rem;
+  color: #181510;
+}
+
+.gen-clip-by {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #56503f;
+  margin: 0 0 0.85rem;
+}
+
+.gen-clip-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.9rem; }
+.gen-clip-col {
+  height: 62px;
+  background: repeating-linear-gradient(0deg, #9a917b 0 1px, transparent 1px 6px);
+  opacity: 0.45;
+}
+
+.gen-clip-cap {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  color: #6b6450;
+  border-top: 1px solid #c7bea6;
+  padding-top: 0.5rem;
+  margin: 0.95rem 0 0;
 }
 
 .gen-zh {
