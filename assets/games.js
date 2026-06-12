@@ -1583,7 +1583,226 @@
     return function () { clearInterval(timer); };
   }
 
-  /* ================= 9. registry + 启动 ================= */
+  /* ================= 9. 双花问题（信任的难题 · 之一） ================= */
+
+  function createDoubleSpend(root) {
+    root.innerHTML = "";
+    root.appendChild(el("p", "gm-kicker", "信任的难题 · 之一"));
+    root.appendChild(el("p", "gm-title", "双花问题 Double Spending"));
+    root.appendChild(el("p", "gm-desc", "数字的东西天生可以复制。一段可以被复制的“钱”，还能叫钱吗？中本聪要杀死的第一个敌人，就是 Ctrl+C。"));
+
+    var stage = el("div");
+    root.appendChild(stage);
+
+    function btnRow() { return el("div", "gm-row"); }
+
+    /* —— 第一幕：没有账本的世界 —— */
+    function actOne() {
+      stage.innerHTML = "";
+      stage.appendChild(el("p", "gm-note", "这是你的一枚“数字硬币”——本质上是一个文件。"));
+      var coins = el("div", "gm-ds-coins");
+      coins.appendChild(coin());
+      stage.appendChild(coins);
+      var note = el("p", "gm-note", "");
+      stage.appendChild(note);
+      var row = btnRow();
+      var dup = btn("gm-btn gm-ghost", "复制粘贴这枚币");
+      var pay = btn("gm-btn", "用“同一枚”同时付款 →");
+      row.appendChild(dup); row.appendChild(pay);
+      stage.appendChild(row);
+
+      var n = 1;
+      dup.addEventListener("click", function () {
+        if (n >= 14) return;
+        n++;
+        coins.appendChild(coin());
+        note.textContent = "复制不要钱。若它可以复制，每一枚的价值 → " + fmt(100 / n, 1) + "%。它的稀缺性正在蒸发。";
+      });
+      pay.addEventListener("click", actTwo);
+    }
+
+    /* —— 第二幕：双花成功 = 货币死亡 —— */
+    function actTwo() {
+      stage.innerHTML = "";
+      stage.appendChild(el("p", "gm-note", "你把“同一枚币”的文件，同时发给了两个人："));
+      var recv = el("div", "gm-ds-recv");
+      var a = el("div", "gm-ds-card"); a.innerHTML = "🙋‍♀️ 小红<br><span class='state'>收到文件，验证为真 ✓</span>";
+      var b = el("div", "gm-ds-card"); b.innerHTML = "🙋 小刚<br><span class='state'>收到文件，验证为真 ✓</span>";
+      recv.appendChild(a); recv.appendChild(b);
+      stage.appendChild(recv);
+      setTimeout(function () { a.classList.add("got"); }, reducedMotion ? 0 : 250);
+      setTimeout(function () { b.classList.add("got"); }, reducedMotion ? 0 : 550);
+      stage.appendChild(el("p", "gm-note", "两人各自检查文件——都是真的，于是都收下了。两笔支付同时成立：这就是“双花”。一种能被花两次的钱，价值必然归零。在没有账本的世界里，这无法阻止。"));
+      var row = btnRow();
+      var go = btn("gm-btn", "进入账本的世界 →");
+      row.appendChild(go);
+      stage.appendChild(row);
+      go.addEventListener("click", actThree);
+    }
+
+    /* —— 第三幕：账本的世界 —— */
+    function actThree() {
+      stage.innerHTML = "";
+      stage.appendChild(el("p", "gm-note", "现在，钱不再是文件——钱是这本公共账本上的一条记录："));
+      var led = el("div", "gm-ds-ledger");
+      led.appendChild(el("div", "ok", "区块 #1 ｜ 铸造 → 你：1 枚 ✓"));
+      stage.appendChild(led);
+      var row = btnRow();
+      var p1 = btn("gm-btn", "付给小红");
+      var p2 = btn("gm-btn gm-ghost", "再把“同一枚”付给小刚");
+      p2.disabled = true;
+      row.appendChild(p1); row.appendChild(p2);
+      stage.appendChild(row);
+      var tail = el("div");
+      stage.appendChild(tail);
+
+      p1.addEventListener("click", function () {
+        if (p1.disabled) return;
+        p1.disabled = true;
+        led.appendChild(el("div", "ok", "区块 #2 ｜ 你 → 小红：1 枚 ✓（你的余额：0）"));
+        p2.disabled = false;
+      });
+      p2.addEventListener("click", function () {
+        if (p2.disabled) return;
+        p2.disabled = true;
+        var rej = el("div", "no", "区块 #✗ ｜ 你 → 小刚：1 枚 —— 被全网拒绝：账本显示你的余额为 0");
+        led.appendChild(rej);
+        if (!reducedMotion) { led.classList.add("gm-shake"); setTimeout(function () { led.classList.remove("gm-shake"); }, 450); }
+        var v = el("div", "gm-verdict");
+        v.appendChild(el("p", null, "看到了吗：钱不在文件里，钱在账本里。文件可以复制，但账本上的“先后顺序”无法复制——后到的那笔，自动作废。"));
+        v.appendChild(el("p", null, "可是新的问题来了：这本账由谁来记？如果记账的人自己作弊呢？这就是下一个实验——拜占庭将军问题。"));
+        var rs = btn("gm-btn gm-ghost", "重看一遍");
+        rs.addEventListener("click", actOne);
+        tail.appendChild(v);
+        tail.appendChild(rs);
+      });
+    }
+
+    actOne();
+  }
+
+  /* ================= 10. 拜占庭将军（信任的难题 · 之二） ================= */
+
+  function createByzantine(root) {
+    root.innerHTML = "";
+    root.appendChild(el("p", "gm-kicker", "信任的难题 · 之二"));
+    root.appendChild(el("p", "gm-title", "拜占庭将军问题"));
+    root.appendChild(el("p", "gm-desc", "九路联军围城，必须同时进攻才能取胜。军中混着叛徒，信使可以撒谎、冒名、对不同人说不同话。没有统帅，诚实的将军们如何达成一致？——这道难题悬了几十年，直到 2008 年。"));
+
+    var row1 = el("div", "gm-row");
+    var lab = el("label", null, "叛徒人数");
+    var seg = el("span", "gm-seg");
+    var tCount = 2;
+    [0, 1, 2, 3, 4].forEach(function (k) {
+      var b = btn(null, String(k));
+      if (k === tCount) b.className = "gm-on";
+      b.addEventListener("click", function () {
+        tCount = k;
+        seg.querySelectorAll("button").forEach(function (o) { o.className = ""; });
+        b.className = "gm-on";
+      });
+      seg.appendChild(b);
+    });
+    var powBtn = btn("gm-btn gm-ghost", "火漆印：关");
+    var pow = false;
+    powBtn.addEventListener("click", function () {
+      pow = !pow;
+      powBtn.textContent = pow ? "火漆印：开 ✓" : "火漆印：关";
+      powBtn.className = pow ? "gm-btn" : "gm-btn gm-ghost";
+    });
+    var go = btn("gm-btn", "传令 · 进攻");
+    row1.appendChild(lab); row1.appendChild(seg); row1.appendChild(powBtn); row1.appendChild(go);
+    root.appendChild(row1);
+    root.appendChild(el("p", "gm-note gm-tip", "「火漆印」= 每道军令必须附一枚耗费真实时间才能铸出的印章（工作量证明）。开关它，看看世界有什么不同。"));
+
+    var field = el("div", "gm-bz-field");
+    var city = el("div", "gm-bz-city", "🏯");
+    field.appendChild(city);
+    var gens = [];
+    for (var i = 0; i < 9; i++) {
+      var g = el("span", "gm-bz-gen");
+      var ang = (i / 9) * TAU - Math.PI / 2;
+      g.style.left = (50 + 44 * Math.cos(ang)) + "%";
+      g.style.top = (50 + 44 * Math.sin(ang)) + "%";
+      field.appendChild(g);
+      gens.push(g);
+    }
+    root.appendChild(field);
+
+    var log = el("div", "gm-log");
+    log.style.height = "auto";
+    log.style.minHeight = "5.5em";
+    log.textContent = "调好叛徒人数，点「传令」。";
+    root.appendChild(log);
+    var verdictBox = el("div");
+    root.appendChild(verdictBox);
+
+    function logLines(lines) {
+      log.innerHTML = "";
+      lines.forEach(function (t, k) {
+        var d = el("div", null, t);
+        if (reducedMotion) log.appendChild(d);
+        else setTimeout(function () { log.appendChild(d); }, 300 * k);
+      });
+    }
+
+    function run() {
+      verdictBox.innerHTML = "";
+      city.classList.remove("fallen");
+      gens.forEach(function (g) { g.className = "gm-bz-gen"; });
+
+      var idx = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(function () { return Math.random() - 0.5; });
+      var traitors = idx.slice(0, tCount);
+      var isT = function (k) { return traitors.indexOf(k) >= 0; };
+
+      if (!pow) {
+        /* 谎言免费的世界：军令互相矛盾，诚实者分裂 */
+        var atk = 0, rtr = 0;
+        gens.forEach(function (g, k) {
+          var attack = isT(k) ? Math.random() < 0.5 : Math.random() < 0.5 + 0.4 / (tCount + 1);
+          setTimeout(function () {
+            g.classList.add(attack ? "attack" : "retreat");
+            if (isT(k)) g.classList.add("traitor");
+          }, reducedMotion ? 0 : 150 * k);
+          if (attack) atk++; else rtr++;
+        });
+        logLines([
+          "> 叛徒向不同的人发出了不同的军令（伪造一条命令的成本：0）",
+          "> 有人还冒用了忠诚将军的名义乱发消息",
+          "> 结果：进攻 " + atk + " 路 · 后撤 " + rtr + " 路 —— 兵力不足，攻城失败",
+          "> 虚线圈出的是叛徒——事前，你根本看不出来"
+        ]);
+        var v1 = el("div", "gm-verdict");
+        v1.appendChild(el("p", null, "问题不在于诚实的人不够多，而在于谎言和真话一样便宜。只要伪造零成本，再多的诚实也汇不成一致。"));
+        verdictBox.appendChild(v1);
+      } else {
+        /* 火漆印的世界：说话有成本，最长令链由诚实多数铸成 */
+        gens.forEach(function (g, k) {
+          setTimeout(function () {
+            g.classList.add("attack");
+            if (isT(k)) g.classList.add("traitor");
+          }, reducedMotion ? 0 : 150 * k);
+        });
+        setTimeout(function () { city.classList.add("fallen"); }, reducedMotion ? 0 : 1600);
+        var lines = [
+          "> 新规生效：每道军令必须附「火漆印」——铸一枚要烧一炷香",
+          "> 叛徒只有 " + tCount + "/9 的铸印能力，伪造的命令既慢又少",
+          "> 诚实多数铸出了最长的那条令链，所有人只认它",
+          "> 九路同时进攻 —— 城破 ✓"
+        ];
+        if (tCount >= 4) lines.push("> 警告：叛徒已达 4/9。一旦过半，最长链也会撒谎——这就是「51% 攻击」的含义。");
+        logLines(lines);
+        var v2 = el("div", "gm-verdict");
+        v2.appendChild(el("p", null, "无须认识彼此，无须信任信使——只需跟随“耗费能量最多的那条链”。这就是中本聪给拜占庭将军们的答案，也是此刻全球几十万个比特币节点正在做的事。"));
+        verdictBox.appendChild(v2);
+      }
+    }
+
+    go.addEventListener("click", run);
+    root.appendChild(el("p", "gm-note faint", "极简化演示。严格表述见 Lamport 等《拜占庭将军问题》（1982）与比特币白皮书第 4 节。"));
+  }
+
+  /* ================= 11. registry + 启动 ================= */
 
   var registry = {
     "time-machine": createTimeMachine,
@@ -1592,7 +1811,9 @@
     "bazi-calendar": createAlmanac,
     "btc-ticker": createTicker,
     "first-tx": createFirstTx,
-    "chain": createChain
+    "chain": createChain,
+    "double-spend": createDoubleSpend,
+    "byzantine": createByzantine
   };
 
   function boot() {

@@ -1116,3 +1116,93 @@
   display: block;
   transform: rotate(12deg);
 }
+
+/* ============================================================
+   信任的两道难题：双花问题 + 拜占庭将军
+   ============================================================ */
+.gm-ds-coins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  font-size: 1.5rem;
+  min-height: 2.2rem;
+  margin: 0.6rem 0;
+}
+
+.gm-ds-recv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin: 0.8rem 0;
+}
+
+.gm-ds-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.9;
+  transition: border-color 0.3s;
+}
+
+.gm-ds-card.got { border-color: var(--good); }
+.gm-ds-card .state { font-weight: 700; }
+
+.gm-ds-ledger {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  line-height: 2;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.7rem 0.95rem;
+  margin: 0.8rem 0;
+}
+
+.gm-ds-ledger .ok { color: var(--good); }
+.gm-ds-ledger .no { color: var(--bad); font-weight: 700; }
+
+/* 拜占庭沙盘 */
+.gm-bz-field {
+  position: relative;
+  height: 250px;
+  max-width: 320px;
+  margin: 1.1rem auto;
+}
+
+.gm-bz-city {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.1rem;
+  opacity: 0.85;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.gm-bz-city.fallen { transform: translate(-50%, -50%) scale(0.82); opacity: 0.45; }
+
+.gm-bz-gen {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink-faint);
+  transform: translate(-50%, -50%);
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+
+.gm-bz-gen.attack {
+  background: var(--good);
+  border-color: var(--good);
+  box-shadow: 0 0 10px rgba(63, 111, 79, 0.5);
+}
+
+.gm-bz-gen.retreat { background: var(--bad); border-color: var(--bad); }
+.gm-bz-gen.traitor { border-style: dashed; border-width: 2px; }
+
+.gm-note.faint { color: var(--ink-faint); font-size: 0.74rem; }

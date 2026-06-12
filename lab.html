@@ -35,6 +35,8 @@
     <a class="chip" href="#time-machine">🍞 购买力时光机</a>
     <a class="chip" href="#multiplier">🏦 货币乘数机</a>
     <a class="chip" href="#hash">🔐 哈希实验台</a>
+    <a class="chip" href="#double-spend">👯 双花问题</a>
+    <a class="chip" href="#byzantine">🏯 拜占庭将军</a>
     <a class="chip" href="#mining">⛏️ 挖矿模拟器</a>
     <a class="chip" href="#pow-miner">👆 孤勇者矿工</a>
     <a class="chip" href="#supply">📉 2100 万与减半</a>
@@ -112,9 +114,29 @@
     </div>
   </section>
 
-  <!-- ⑤ 挖矿模拟器 -->
+  <!-- ⑤ 双花问题 -->
+  <section class="experiment reveal" id="double-spend">
+    <p class="exp-kicker">实验 ⑤ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
+    <h2>👯 双花问题</h2>
+    <p class="exp-desc">在理解比特币之前，先理解它要解决什么：数字的东西天生可以复制——那数字的钱怎么办？亲手把一枚币花两次，看看世界会发生什么。</p>
+    <div class="game-embed" data-game="double-spend">
+      <p class="game-fallback">这个互动实验需要 JavaScript 才能运行。</p>
+    </div>
+  </section>
+
+  <!-- ⑥ 拜占庭将军 -->
+  <section class="experiment reveal" id="byzantine">
+    <p class="exp-kicker">实验 ⑥ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
+    <h2>🏯 拜占庭将军</h2>
+    <p class="exp-desc">账本要大家一起记，但人群里有骗子，消息还可以伪造——诚实的多数如何达成一致？调一调叛徒人数，再打开「火漆印」开关，亲眼看共识如何从不可能变为可能。</p>
+    <div class="game-embed" data-game="byzantine">
+      <p class="game-fallback">这个互动实验需要 JavaScript 才能运行。</p>
+    </div>
+  </section>
+
+  <!-- ⑦ 挖矿模拟器 -->
   <section class="experiment reveal" id="mining">
-    <p class="exp-kicker">实验 ⑤ · 对应 <a href="articles/03.html" style="color:inherit">第三篇</a> 与 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
+    <p class="exp-kicker">实验 ⑦ · 对应 <a href="articles/03.html" style="color:inherit">第三篇</a> 与 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
     <h2>⛏️ 挖矿模拟器</h2>
     <p class="exp-desc">挖矿就是不停地“试”：把区块内容加上一个随机数（nonce）做哈希，直到指纹以足够多的 0 开头。难度每加一位，平均要多试 16 倍——你的电脑马上就会体会到什么叫“工作量证明”。</p>
     <div class="panel">
@@ -141,9 +163,9 @@
     </div>
   </section>
 
-  <!-- ⑥ 孤勇者矿工 -->
+  <!-- ⑧ 孤勇者矿工 -->
   <section class="experiment reveal" id="pow-miner">
-    <p class="exp-kicker">实验 ⑥ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
+    <p class="exp-kicker">实验 ⑧ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
     <h2>👆 孤勇者矿工</h2>
     <p class="exp-desc">上面的模拟器是机器自己跑，这一次你亲手当矿机：每一下点击都是真实的 SHA-256 运算。看着乱码飞滚，直到那个以 0 开头的幸运儿出现——用手指头理解什么叫“消耗能源，换取账本的真理”。</p>
     <div class="game-embed" data-game="pow-miner">
@@ -151,9 +173,9 @@
     </div>
   </section>
 
-  <!-- ⑦ 供给曲线 -->
+  <!-- ⑨ 供给曲线 -->
   <section class="experiment reveal" id="supply">
-    <p class="exp-kicker">实验 ⑦ · 对应 <a href="articles/03.html" style="color:inherit">第三篇</a> 与 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
+    <p class="exp-kicker">实验 ⑨ · 对应 <a href="articles/03.html" style="color:inherit">第三篇</a> 与 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
     <h2>📉 2100 万与减半</h2>
     <p class="exp-desc">比特币的发行规则写死在代码里：每约四年区块奖励减半，总量永远不会超过 2100 万枚。拖动时间轴，看看每个年代发生了什么。</p>
     <div class="panel">
@@ -169,12 +191,16 @@
       </div>
       <svg class="mini-chart" id="sup-chart" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" aria-label="比特币供给曲线"></svg>
       <p class="stat-note">对比一下：法币的这条曲线没有上限，而且斜率由央行随时决定。</p>
+      <p class="stat-note" style="margin-top:1.1rem"><strong>为什么是这个速度？</strong>早期没人相信它的时候，大额区块奖励雇来了第一批矿工守护网络——用未来的稀缺，补贴今天的安全。而每四年减半一次，是给世界留出"慢慢相信"的时间：供给的水龙头按写死的节奏越拧越紧，任何人都无法开会放水，也无法临时加速。</p>
+      <p class="stat-note"><strong>为什么必然是 2100 万、一分不多？</strong>两重保险。<strong>数学上</strong>，发行总量是一列收敛的几何级数：</p>
+      <p class="stat-note" style="font-family:var(--mono);font-size:0.78rem;letter-spacing:0.02em">210,000 块 × (50 + 25 + 12.5 + 6.25 + …) BTC = 210,000 × 100 = 21,000,000</p>
+      <p class="stat-note">无论减半多少次，总和永远卡在 2100 万——不是有人守着开关，是级数自己收敛。<strong>制度上</strong>，每个全节点都独立验算每一个新区块的奖励：哪怕多发一聪，那个区块都会被全网当场扔掉。上限不写在哪台服务器里，而写在几十万个节点的"拒绝"里。约 2140 年最后一聪发完后，矿工收入将完全由手续费接棒——还记得停车场实验吗？那就是为那一天准备的市场。</p>
     </div>
   </section>
 
-  <!-- ⑧ Mempool 停车场 -->
+  <!-- ⑩ Mempool 停车场 -->
   <section class="experiment reveal" id="mempool">
-    <p class="exp-kicker">实验 ⑧ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
+    <p class="exp-kicker">实验 ⑩ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
     <h2>🚗 Mempool 停车场</h2>
     <p class="exp-desc">区块就像一座宽度固定的桥，每笔交易是一辆出了价的小车。你来当一回矿工：在有限的空间里选谁先过桥——装完一个区块，你就明白了手续费市场的全部博弈，以及为什么没人用主网买咖啡。</p>
     <div class="game-embed" data-game="mempool">
@@ -182,9 +208,9 @@
     </div>
   </section>
 
-  <!-- ⑨ 第一笔转账 -->
+  <!-- ⑪ 第一笔转账 -->
   <section class="experiment reveal" id="first-tx">
-    <p class="exp-kicker">实验 ⑨ · 对应 <a href="articles/05.html" style="color:inherit">第五篇 · 诺亚方舟</a></p>
+    <p class="exp-kicker">实验 ⑪ · 对应 <a href="articles/05.html" style="color:inherit">第五篇 · 诺亚方舟</a></p>
     <h2>💸 你的第一笔转账</h2>
     <p class="exp-desc">普通人最大的心理门槛不是“懂不懂”，而是“怕按错”。这是一个沙盒钱包：粘贴地址、用聪定价、给手续费出价、按住发送、看着交易进块——走完五步你会发现，转一笔比特币并不比扫码付款更难。全程模拟，零真实资金。</p>
     <div class="game-embed" data-game="first-tx">
@@ -192,9 +218,9 @@
     </div>
   </section>
 
-  <!-- ⑩ 小测验 -->
+  <!-- ⑫ 小测验 -->
   <section class="experiment reveal" id="quiz">
-    <p class="exp-kicker">实验 ⑩ · 综合全部五篇</p>
+    <p class="exp-kicker">实验 ⑫ · 综合全部五篇</p>
     <h2>✅ 五分钟小测验</h2>
     <p class="exp-desc">七道题，检验你对金钱与比特币的理解。答错也没关系——每题都附详细解析，比答对更有收获。</p>
     <div class="panel" id="quiz-panel"></div>
