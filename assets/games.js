@@ -75,6 +75,51 @@
   }
 
   /* ---- 数字格式化（中文千分位习惯）---- */
+  var TAU = Math.PI * 2;
+
+  /* ---- 序幕引导：首次进入时用三句话讲清"你将要做什么" ----
+     看过即记（localStorage），右上角 ❔ 可随时重看。 */
+  function gmIntro(root, name, steps, build) {
+    var KEY = "hkb-intro-" + name;
+    var seen = false;
+    try { seen = localStorage.getItem(KEY) === "1"; } catch (e) { /* 忽略 */ }
+
+    function start() {
+      try { localStorage.setItem(KEY, "1"); } catch (e) { /* 忽略 */ }
+      root.innerHTML = "";
+      build();
+      var rp = btn("gm-replay", "❔ 引导");
+      rp.addEventListener("click", function () { show(0); });
+      root.appendChild(rp);
+    }
+
+    function show(i) {
+      root.innerHTML = "";
+      var p = el("div", "gm-primer");
+      p.appendChild(el("p", "gm-primer-step", "引导 " + (i + 1) + " / " + steps.length));
+      p.appendChild(el("p", "gm-primer-big", steps[i][0]));
+      if (steps[i][1]) p.appendChild(el("p", "gm-primer-sm", steps[i][1]));
+      var row = el("div", "gm-row");
+      row.style.justifyContent = "center";
+      if (i < steps.length - 1) {
+        var sk = btn("gm-btn gm-ghost", "跳过引导");
+        sk.addEventListener("click", start);
+        row.appendChild(sk);
+        var nx = btn("gm-btn", "下一步 →");
+        nx.addEventListener("click", function () { show(i + 1); });
+        row.appendChild(nx);
+      } else {
+        var go = btn("gm-btn", "开始 ▶");
+        go.addEventListener("click", start);
+        row.appendChild(go);
+      }
+      p.appendChild(row);
+      root.appendChild(p);
+    }
+
+    if (seen) start(); else show(0);
+  }
+
   function fmt(n, digits) {
     return n.toLocaleString("zh-CN", { maximumFractionDigits: digits == null ? 0 : digits });
   }
@@ -170,7 +215,7 @@
     return Math.min(total, 21000000);
   }
 
-  function createTimeMachine(root) {
+  function buildTimeMachine(root) {
     var Y_MIN = 1971, Y_MAX = 2026;
     var BREAD_ICONS = 40; // 每个 🍞 代表 10 条
 
@@ -323,7 +368,7 @@
 
   /* ================= 3. 游戏二 · 孤勇者矿工 ================= */
 
-  function createPowMiner(root) {
+  function buildPowMiner(root) {
     var MANUAL_DIFF = 2;      // 手动模式固定难度：2 个前导 0
     var CLICK_BATCH = 30;     // 每次点击执行的真实 SHA-256 次数
     var MAX_LOG_LINES = 30;   // 乱码区最多保留的行数
@@ -456,6 +501,13 @@
 
     function celebrate(hit, diff) {
       found = true;
+      lockUntil = performance.now() + 1600;
+      mineBtn.disabled = true;
+      mineBtn.textContent = "✓ 已铸造";
+      setTimeout(function () {
+        mineBtn.disabled = false;
+        mineBtn.textContent = "继续挖下一块 ⛏";
+      }, 1600);
       try { localStorage.setItem("hkb-mined", "1"); } catch (e) { /* 隐私模式忽略 */ }
       var elapsed = ((performance.now() - blockT0) / 1000).toFixed(1);
       resultBox.innerHTML = "";
@@ -470,13 +522,13 @@
       card.appendChild(hashP);
       card.appendChild(el("p", "gm-note", "Nonce = " + fmt(hit.n) + " · 本块共尝试 " + fmt(blockTries) + " 次 · 用时 " + elapsed + " 秒"));
       card.appendChild(el("p", "gm-note", "这条记录从此与前一个区块咬合。想伪造它？把刚才的功夫从头再来一遍——而且要快过全世界。"));
+      card.appendChild(el("p", "gm-note faint", "能量对照：你这块试了 " + fmt(blockTries) + " 次，设备约耗 " + (blockTries * 0.0004).toFixed(2) + " 焦耳。真实比特币网络铸造一个区块，平均要试约 4×10²² 次、烧掉约 290 万度电——相当于北京全城 10 分钟的用电。你的尝试是其中一粒尘埃，而亿万粒尘埃的总和，就是无法伪造的城墙。"));
       resultBox.appendChild(card);
       if (!reducedMotion) {
         panel.classList.remove("gm-flash");
         void panel.offsetWidth; // 重新触发动画
         panel.classList.add("gm-flash");
       }
-      mineBtn.textContent = "继续挖下一块 ⛏";
       prevHash = hit.h;
       blockHeight++;
     }
@@ -491,8 +543,10 @@
     }
 
     /* ---- 手动挖矿 ---- */
+    var lockUntil = 0;
     function manualStep() {
       if (autoOn) return;
+      if (performance.now() < lockUntil) return; /* 铸造后冷却：防误触吞结果 */
       if (found) startNextBlock();
       clicks++;
       var hit = runBatch(CLICK_BATCH, MANUAL_DIFF, 7);
@@ -669,7 +723,7 @@
     });
   }
 
-  function createMempool(root) {
+  function buildMempool(root) {
     /* ---- 骨架 ---- */
     root.appendChild(el("p", "gm-kicker", "互动 · 内存池停车场"));
     root.appendChild(el("h3", "gm-title", "区块空间拍卖：你来当一回矿工"));
@@ -1413,6 +1467,7 @@
           if (n >= 6) {
             clearInterval(iv);
             try { localStorage.setItem("hkb-first-tx", "1"); } catch (e) { /* 隐私模式忽略 */ }
+            confLabel.textContent = "六块已咬合成链——你的转账压在最底层，每一块都是一道再也搬不开的封印。";
             var ok = el("div", "gm-success");
             var okLine = el("div");
             okLine.appendChild(coin());
@@ -1585,7 +1640,7 @@
 
   /* ================= 9. 双花问题（信任的难题 · 之一） ================= */
 
-  function createDoubleSpend(root) {
+  function buildDoubleSpend(root) {
     root.innerHTML = "";
     root.appendChild(el("p", "gm-kicker", "信任的难题 · 之一"));
     root.appendChild(el("p", "gm-title", "双花问题 Double Spending"));
@@ -1599,6 +1654,7 @@
     /* —— 第一幕：没有账本的世界 —— */
     function actOne() {
       stage.innerHTML = "";
+      stage.appendChild(el("p", "gm-act", "第一幕 · 复制自由"));
       stage.appendChild(el("p", "gm-note", "这是你的一枚“数字硬币”——本质上是一个文件。"));
       var coins = el("div", "gm-ds-coins");
       coins.appendChild(coin());
@@ -1624,6 +1680,7 @@
     /* —— 第二幕：双花成功 = 货币死亡 —— */
     function actTwo() {
       stage.innerHTML = "";
+      stage.appendChild(el("p", "gm-act", "第二幕 · 双花成功 = 货币死亡"));
       stage.appendChild(el("p", "gm-note", "你把“同一枚币”的文件，同时发给了两个人："));
       var recv = el("div", "gm-ds-recv");
       var a = el("div", "gm-ds-card"); a.innerHTML = "🙋‍♀️ 小红<br><span class='state'>收到文件，验证为真 ✓</span>";
@@ -1643,6 +1700,7 @@
     /* —— 第三幕：账本的世界 —— */
     function actThree() {
       stage.innerHTML = "";
+      stage.appendChild(el("p", "gm-act", "第三幕 · 账本的世界"));
       stage.appendChild(el("p", "gm-note", "现在，钱不再是文件——钱是这本公共账本上的一条记录："));
       var led = el("div", "gm-ds-ledger");
       led.appendChild(el("div", "ok", "区块 #1 ｜ 铸造 → 你：1 枚 ✓"));
@@ -1683,7 +1741,7 @@
 
   /* ================= 10. 拜占庭将军（信任的难题 · 之二） ================= */
 
-  function createByzantine(root) {
+  function buildByzantine(root) {
     root.innerHTML = "";
     root.appendChild(el("p", "gm-kicker", "信任的难题 · 之二"));
     root.appendChild(el("p", "gm-title", "拜占庭将军问题"));
@@ -1933,6 +1991,47 @@
     sm.addEventListener("input", upd);
     sd.addEventListener("input", upd);
     upd();
+  }
+
+  /* ---- 序幕接线：五个需要"先讲清你在干嘛"的游戏 ---- */
+  function createTimeMachine(root) {
+    gmIntro(root, "time-machine", [
+      ["这是一台时间机器", "它只回答一个问题：你的钱，随时间去了哪里。"],
+      ["左边是法币的世界", "拖动年份，看 100 美元还能买几条面包。"],
+      ["右边是另一套系统", "一条永远锁死在 21,000,000 的线。"]
+    ], function () { buildTimeMachine(root); });
+  }
+
+  function createPowMiner(root) {
+    gmIntro(root, "pow-miner", [
+      ["你即将成为一台矿机", "挖矿不是挖土——是亿万次地『猜』一个幸运数字。"],
+      ["每点一下 = 真算 30 次 SHA-256", "目标：找到一个以 0 开头的哈希。找到，就铸出一个区块。"],
+      ["这会消耗真实能量", "正因为作假必须把能量重烧一遍，账本才无法伪造。这就是『能量货币』。"]
+    ], function () { buildPowMiner(root); });
+  }
+
+  function createMempool(root) {
+    gmIntro(root, "mempool", [
+      ["你现在是矿工", "面前是一座宽度固定的桥（区块），和一群想过桥的车（转账）。"],
+      ["每辆车都出了运费", "桥装不下所有车——载谁先过？你说了算。"],
+      ["装满后点『打包』", "看看你的直觉，和真实矿工的算法差多少。"]
+    ], function () { buildMempool(root); });
+  }
+
+  function createDoubleSpend(root) {
+    gmIntro(root, "double-spend", [
+      ["先认识比特币的头号敌人", "数字的东西天生能复制——可钱，绝不能被复制。"],
+      ["你将亲手『作恶』一次", "把同一枚币花给两个人，看没有账本的世界怎么崩塌。"],
+      ["然后进入账本的世界", "看同样的把戏，如何被全网当场拒绝。"]
+    ], function () { buildDoubleSpend(root); });
+  }
+
+  function createByzantine(root) {
+    gmIntro(root, "byzantine", [
+      ["九路大军围住一座城", "必须同时进攻才能赢——但军中有叛徒，信使还会撒谎。"],
+      ["这是悬了几十年的难题", "当谎言和真话一样便宜，共识就不可能。"],
+      ["直到有人发明了『火漆印』", "让说话变贵。调好叛徒人数，亲自传一次令。"]
+    ], function () { buildByzantine(root); });
   }
 
   /* ================= 13. registry + 启动 ================= */

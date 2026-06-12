@@ -1315,3 +1315,56 @@
   color: var(--ink-faint);
   margin: 0.5rem 0 0;
 }
+
+/* ============================================================
+   序幕引导 / 三幕标头 / 重看引导 / 确认链咬合
+   ============================================================ */
+.gm-box { position: relative; }
+
+.gm-primer { text-align: center; padding: 1.6rem 0.6rem 0.8rem; animation: gm-fadein 0.5s var(--ease-breath); }
+.gm-primer-step { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.24em; color: var(--ink-faint); margin: 0 0 1rem; }
+.gm-primer-big { font-family: var(--serif); font-size: 1.25rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); margin: 0 0 0.6rem; line-height: 1.8; }
+.gm-primer-sm { font-family: var(--serif); font-size: 0.92rem; color: var(--ink-soft); line-height: 2; margin: 0 0 1.4rem; }
+
+@keyframes gm-fadein { from { opacity: 0; } to { opacity: 1; } }
+
+.gm-replay {
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px solid var(--line-faint);
+  border-radius: 999px;
+  padding: 0.18rem 0.6rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-breath), border-color var(--dur-fast) var(--ease-breath);
+}
+.gm-replay:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+.gm-act {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  color: var(--accent-ink);
+  border-bottom: 1px solid var(--line-faint);
+  padding-bottom: 0.45rem;
+  margin: 0 0 0.9rem;
+}
+
+/* 确认链：六块之间的咬合杆 */
+.gm-confs { align-items: center; }
+.gm-conf { position: relative; }
+.gm-conf + .gm-conf::before {
+  content: "";
+  position: absolute;
+  left: -0.45rem;
+  top: 50%;
+  width: 0.45rem;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: var(--celadon);
+}

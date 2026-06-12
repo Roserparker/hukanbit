@@ -2470,3 +2470,30 @@ html.vault-seen .vault { display: none; }
 .prose strong, .prose h2 { color: var(--ink); }
 .prose a { color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); transition: border-color var(--dur-fast) var(--ease-breath); }
 .prose a:hover { border-bottom-color: var(--accent); }
+
+/* 实验前导卡（lab.js 老实验用的静态三步引导） */
+.exp-primer {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  line-height: 2;
+  color: var(--ink-soft);
+  background: var(--accent-wash);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin: 0 0 1.2rem;
+}
+.exp-primer b { color: var(--accent-ink); font-weight: 600; }
+
+/* 导览墙厅头 */
+.hall-head {
+  grid-column: 1 / -1;
+  font-family: var(--serif);
+  font-size: 1.0rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 0 0.5rem;
+  margin-top: 0.4rem;
+}
+.hall-head small { display: block; font-family: var(--sans); font-weight: 400; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--ink-faint); margin-top: 0.15rem; }

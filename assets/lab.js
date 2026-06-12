@@ -305,8 +305,8 @@
           return;
         }
         var pretty = '<span class="zero">' + found.h.slice(0, difficulty) + "</span>" + found.h.slice(difficulty);
-        resultEl.innerHTML = '<div class="success-card">⛏️ 挖到了！第 <strong>' + fmt(found.n + 1) +
-          "</strong> 次尝试找到了以 " + difficulty + " 个 0 开头的指纹，用时 " + elapsed.toFixed(1) + " 秒。<br>" +
+        resultEl.innerHTML = '<div class="success-card">📦 <strong>打包完成！</strong>纸箱已封死——箱里那几笔转账，从此谁也改不了。<br>⛏️ 第 <strong>' + fmt(found.n + 1) +
+          "</strong> 次尝试找到了以 " + difficulty + " 个 0 开头的指纹（封条），用时 " + elapsed.toFixed(1) + " 秒。<br>" +
           '<span style="font-family:var(--mono);font-size:0.72rem;">' + pretty + "</span><br>" +
           "理论上平均要试 " + fmt(Math.pow(16, difficulty)) + " 次（运气好就快，运气差就慢——这就是“抽彩票”）。" +
           "想伪造这个区块？一切从头再试一遍。每个区块都连着上一个区块，改一个就要全部重挖——这就是不可篡改的能量成本。</div>";
