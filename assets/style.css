@@ -1205,3 +1205,257 @@ textarea { resize: vertical; min-height: 4.2rem; }
   .panel { padding: 1.1rem 1rem; }
   .site-nav { gap: 0.9rem; }
 }
+
+/* ============================================================
+   货币文明长廊（gallery.html）· 巴洛克暗厅
+   无论系统明暗，长廊永远是暗的——灯很暗，是故意的。
+   ============================================================ */
+body.gallery-page {
+  --paper: #14100c;
+  --paper-2: #1b1611;
+  --card: #1e1812;
+  --ink: #e9e0d0;
+  --ink-soft: #b5a98f;
+  --ink-faint: #80755f;
+  --line: #362d21;
+  --accent: #f08c3e;
+  --accent-ink: #f7a45c;
+  --accent-wash: rgba(240, 140, 62, 0.12);
+  --celadon: #7fa090;
+  background: var(--paper);
+}
+
+.gx-main {
+  max-width: var(--w-read);
+  margin: 0 auto;
+  padding: 4.5rem 1.4rem 0;
+}
+
+.gx-foreword {
+  color: var(--ink-soft);
+  font-size: 1.0rem;
+  line-height: 2.1;
+  margin: 0 0 1rem;
+}
+
+.gx-motto {
+  text-align: center;
+  color: var(--accent-ink);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  margin: 2.2rem 0 0;
+  line-height: 2.2;
+}
+
+/* 展柜：黑暗中的一束侧光（卡拉瓦乔） */
+.gx-exhibit {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 2.2rem 2.1rem 2rem;
+  margin: 3rem 0;
+  overflow: hidden;
+  scroll-margin-top: 5rem;
+}
+
+.gx-exhibit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 48% at 18% -6%, rgba(240, 140, 62, 0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.gx-no {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--ink-faint);
+  margin: 0 0 1.2rem;
+}
+
+/* 单线插画展台 */
+.gx-art {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.6rem;
+  flex-wrap: wrap;
+  padding: 1.4rem 0 1.8rem;
+}
+
+.gx-art svg { display: block; }
+.gx-art .stroke {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 9px rgba(240, 140, 62, 0.35));
+}
+
+.gx-art-cap {
+  display: block;
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  margin-top: 0.7rem;
+}
+
+.gx-glyph-big {
+  font-family: var(--serif);
+  font-size: 5.2rem;
+  line-height: 1.15;
+  color: var(--ink);
+  text-align: center;
+  text-shadow: 0 0 22px rgba(240, 140, 62, 0.22);
+}
+
+/* 博物馆铭牌 */
+.gx-plate {
+  border-top: 1px solid var(--line);
+  padding-top: 1.1rem;
+  font-family: var(--sans);
+}
+
+.gx-plate .gx-title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.35rem;
+  color: var(--ink);
+}
+
+.gx-plate .gx-meta {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin: 0 0 1rem;
+}
+
+.gx-plate .gx-desc {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 2.05;
+  margin: 0;
+  text-align: justify;
+}
+
+/* 贝部字族 */
+.gx-family {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.3rem 0 0.9rem;
+}
+
+.gx-char {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--ink);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 0.55rem 0.7rem 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.gx-char:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+.gx-char.on {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  box-shadow: 0 0 14px rgba(240, 140, 62, 0.22);
+}
+
+.gx-family-note {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 2;
+  min-height: 4em;
+  border-left: 3px solid var(--celadon);
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.gx-family-note .gx-word { color: var(--accent-ink); font-weight: 700; }
+
+/* 第纳尔滑块 */
+.gx-silver-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  margin: 0.4rem 0 0.8rem;
+}
+
+.gx-silver-stat {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  min-width: 3.4em;
+  text-align: right;
+}
+
+.gx-era {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--accent-ink);
+  background: var(--accent-wash);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  line-height: 1.9;
+  min-height: 3.4em;
+}
+
+/* 活展品 ₿ */
+.gx-live {
+  font-family: var(--serif);
+  font-size: clamp(4.5rem, 13vw, 6.5rem);
+  line-height: 1.1;
+  text-align: center;
+  background: linear-gradient(180deg, #ffd98a 0%, #f08c3e 46%, #b3491c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 26px rgba(240, 140, 62, 0.45));
+  animation: thermal-breathe 6.5s ease-in-out infinite;
+}
+
+.gx-height {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  margin: 0.6rem 0 0;
+}
+
+.gx-exit {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 2.2;
+  margin: 3.5rem 0 0;
+}
+
+@media (max-width: 600px) {
+  .gx-exhibit { padding: 1.5rem 1.2rem 1.5rem; }
+  .gx-art { gap: 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gx-live { animation: none; }
+}
