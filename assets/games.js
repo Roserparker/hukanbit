@@ -422,6 +422,55 @@
     valTime.textContent = "0 秒";
     panel.appendChild(stats);
 
+    /* ---- 能量对照：你的尘埃 vs 全网的城市 ---- */
+    var emeter = el("div", "gm-energy");
+    var eYou = el("p", "gm-energy-row");
+    eYou.appendChild(el("span", "gm-energy-k", "你已燃烧"));
+    var eYouV = el("span", "gm-energy-v", "0 mJ");
+    eYou.appendChild(eYouV);
+    var eYouNote = el("span", "gm-energy-n", "——还不够点亮任何东西");
+    eYou.appendChild(eYouNote);
+    var eNet = el("p", "gm-energy-row");
+    eNet.appendChild(el("span", "gm-energy-k", "全网同期"));
+    var eNetV = el("span", "gm-energy-v net", "0 度电");
+    eNet.appendChild(eNetV);
+    eNet.appendChild(el("span", "gm-energy-n", "——功率约 200 亿瓦，≈ 整个泰国的全国用电"));
+    emeter.appendChild(eYou);
+    emeter.appendChild(eNet);
+    panel.appendChild(emeter);
+
+    var energyJ = 0;
+    var netT0 = performance.now();
+    var NET_KWH_PER_S = 5556; /* ≈20GW 口径 */
+    function fmtEnergy(j) {
+      return j < 1 ? (j * 1000).toFixed(0) + " mJ" : j.toFixed(2) + " J";
+    }
+    function energyNote(j) {
+      if (j < 0.05) return "——还不够点亮任何东西";
+      if (j < 5) return "——够一盏 LED 亮 " + (j / 0.05).toFixed(1) + " 秒";
+      return "——够手机亮屏 " + j.toFixed(0) + " 秒";
+    }
+    function updateEnergy() {
+      eYouV.textContent = fmtEnergy(energyJ);
+      eYouNote.textContent = energyNote(energyJ);
+    }
+    /* 全网电表：自你打开此页起，一座"国家"在替这本账呼吸 */
+    if (root.__netIv) clearInterval(root.__netIv);
+    root.__netIv = setInterval(function () {
+      var kwh = (performance.now() - netT0) / 1000 * NET_KWH_PER_S;
+      eNetV.textContent = fmt(Math.round(kwh)) + " 度电";
+    }, 1000);
+
+    /* 每次点击：一粒能量耗散的小数字 */
+    var zapLive = 0;
+    function spawnZap() {
+      if (reducedMotion || zapLive >= 5) return;
+      zapLive++;
+      var z = el("span", "gm-zap", "−12 mJ ⚡");
+      mineBtn.parentNode.appendChild(z);
+      setTimeout(function () { zapLive--; if (z.parentNode) z.parentNode.removeChild(z); }, 800);
+    }
+
     var log = el("div", "gm-log");
     log.setAttribute("aria-hidden", "true"); // 纯展示的乱码流，对读屏器静默
     panel.appendChild(log);
@@ -451,6 +500,11 @@
 
     function blockData() {
       return "胡侃比特·教学区块#" + blockHeight + "|prev:" + prevHash.slice(0, 12) + "|tx:老周→小胡 0.42 BTC|nonce:";
+    }
+
+    function burn(count) {
+      energyJ += count * 0.0004; /* 约 0.4 mJ/次（移动端 JS 哈希量级） */
+      updateEnergy();
     }
 
     function leadingZeros(h) {
@@ -496,6 +550,7 @@
         }
         if (ok) { foundHit = { n: n, h: h }; break; }
       }
+      burn(size);
       return foundHit;
     }
 
@@ -549,6 +604,7 @@
       if (performance.now() < lockUntil) return; /* 铸造后冷却：防误触吞结果 */
       if (found) startNextBlock();
       clicks++;
+      spawnZap();
       var hit = runBatch(CLICK_BATCH, MANUAL_DIFF, 7);
       updateStats("—（手动）");
       if (hit) celebrate(hit, MANUAL_DIFF);

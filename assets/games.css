@@ -1373,3 +1373,38 @@
   margin-top: -0.75px;
   background: var(--celadon);
 }
+
+/* ============================================================
+   孤勇者矿工 · 能量对照表 与 点击耗散粒
+   ============================================================ */
+.gm-energy {
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 0.65rem 0.95rem;
+  margin-top: 1rem;
+  font-family: var(--sans);
+}
+
+.gm-energy-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.45rem; margin: 0.15rem 0; font-size: 0.78rem; }
+.gm-energy-k { color: var(--ink-faint); letter-spacing: 0.08em; flex: none; }
+.gm-energy-v { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent-ink); }
+.gm-energy-v.net { color: var(--bad); }
+.gm-energy-n { color: var(--ink-faint); font-size: 0.7rem; }
+
+.gm-zap {
+  position: absolute;
+  right: 8%;
+  top: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  color: var(--accent-ink);
+  pointer-events: none;
+  animation: gm-zap-up 0.8s var(--ease-breath) forwards;
+}
+
+@keyframes gm-zap-up {
+  from { opacity: 0.9; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-26px); }
+}
+
+@media (prefers-reduced-motion: reduce) { .gm-zap { display: none; } }
