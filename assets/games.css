@@ -1084,3 +1084,35 @@
 @media (prefers-reduced-motion: reduce) {
   .gm-chain-block.mining, .gm-mempool .gm-tx-dot, .gm-tx-dot.pop, .gm-chain-block.just-sealed { animation: none; }
 }
+
+/* ============================================================
+   ₿ 铸币徽记：凡出现聪/比特币金额处，一枚有凹凸感的小金币
+   （让人真切知道：此刻经手的是比特币）
+   ============================================================ */
+.gm-coin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.06em;
+  height: 1.06em;
+  margin-right: 0.22em;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f6a93d 0%, #e8702a 55%, #b3491c 100%);
+  color: #faf7f1;
+  font-family: var(--serif);
+  font-size: 0.82em;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: -0.12em;
+  flex: none;
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 235, 200, 0.55),
+    inset 0 -1.5px 2px rgba(90, 30, 5, 0.4),
+    0 1px 6px rgba(194, 65, 12, 0.3);
+}
+
+.gm-coin::before {
+  content: "₿";
+  display: block;
+  transform: rotate(12deg);
+}

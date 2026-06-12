@@ -35,12 +35,12 @@
   var brush = canvas.getContext("2d");
 
   /* ---------- 釉色：明暗两窑 ---------- */
-  var palette = { dust: "184,134,11", link: "184,134,11", dustA: 0.5, linkA: 0.12 };
+  var palette = { dust: "184,134,11", link: "184,134,11", dustA: 0.5, linkA: 0.12, lit: "200,150,66", litA: 0.5 };
   function tunePalette(dark) {
     if (dark) {
-      palette = { dust: "196,148,58", link: "184,134,11", dustA: 0.55, linkA: 0.15 };
+      palette = { dust: "196,148,58", link: "184,134,11", dustA: 0.55, linkA: 0.15, lit: "226,172,86", litA: 0.55 };
     } else {
-      palette = { dust: "139,98,32", link: "146,104,36", dustA: 0.4, linkA: 0.1 };
+      palette = { dust: "139,98,32", link: "146,104,36", dustA: 0.4, linkA: 0.1, lit: "152,104,36", litA: 0.42 };
     }
   }
   try {
@@ -131,9 +131,38 @@
 
   /* ---------- 指尖的涟漪（带缓动的力场） ---------- */
   var ripple = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+
+  /* ---------- 光之画笔（毕加索 1949 光绘）：一条会消逝的线 ----------
+     原则（出自 picasso-perspective skill）：
+     · 一条线能说清，就删掉第二条——没有粒子拖尾，只有一根线
+     · 消逝要快于注意——残影寿命约 1 秒，长曝光式渐隐
+     · 暗室原则——线极细极淡，靠克制显贵 */
+  var STROKE_LIFE = 1050;
+  var stroke = [];        /* {x, y, t} */
+  var strokeRun = 0;      /* 自上次"闲笔显形"后画过的路程 */
+  var lastMoveT = 0;
+
+  /* 闲笔成形：停笔片刻，残光自己收束成一枚单线 ₿ 手势——
+     不是标准字形，正如毕加索的鸽子并不是一只鸽子 */
+  var BGLYPH = [
+    [0.30, 0.02], [0.34, 0.10], [0.32, 0.50], [0.29, 0.90], [0.27, 0.99],
+    [0.31, 0.88], [0.55, 0.86], [0.74, 0.80], [0.80, 0.66], [0.70, 0.54],
+    [0.42, 0.51], [0.68, 0.47], [0.78, 0.36], [0.74, 0.20], [0.56, 0.13],
+    [0.36, 0.14], [0.40, 0.04]
+  ];
+  var glyph = { on: false, t0: 0, x: 0, y: 0 };
+
   window.addEventListener("pointermove", function (e) {
     ripple.tx = e.clientX; ripple.ty = e.clientY;
     if (ripple.x < -999) { ripple.x = ripple.tx; ripple.y = ripple.ty; }
+    var now = performance.now();
+    lastMoveT = now;
+    var tail = stroke[stroke.length - 1];
+    if (!tail || Math.abs(tail.x - e.clientX) + Math.abs(tail.y - e.clientY) > 3) {
+      if (tail) strokeRun += Math.hypot(e.clientX - tail.x, e.clientY - tail.y);
+      stroke.push({ x: e.clientX, y: e.clientY, t: now });
+      if (stroke.length > 90) stroke.shift();
+    }
   }, { passive: true });
   function rippleAway() {
     ripple.x = ripple.tx = -9999;
@@ -225,6 +254,86 @@
     if (p.y < -m) p.y = H + m; else if (p.y > H + m) p.y = -m;
   }
 
+  /* ---------- 光电结网：近处的尘埃向指尖之光伸出金线 ---------- */
+  function linkToLight() {
+    if (ripple.tx < -999) return;
+    var r = 110, r2 = r * r, i, p, dx, dy, d2;
+    for (i = 0; i < essence.length; i++) {
+      p = essence[i];
+      dx = p.x - ripple.x; dy = p.y - ripple.y;
+      d2 = dx * dx + dy * dy;
+      if (d2 < r2) {
+        var t = 1 - Math.sqrt(d2) / r;
+        brush.strokeStyle = "rgba(" + palette.link + "," + (t * 0.18 * p.depth).toFixed(3) + ")";
+        brush.lineWidth = 0.6;
+        brush.beginPath();
+        brush.moveTo(p.x, p.y);
+        brush.lineTo(ripple.x, ripple.y);
+        brush.stroke();
+      }
+    }
+  }
+
+  /* ---------- 画一条平滑的线（两遍：晕光 + 笔芯） ---------- */
+  function strokePath(pts, alphaOf, baseW) {
+    if (pts.length < 3) return;
+    brush.lineCap = "round";
+    brush.lineJoin = "round";
+    for (var pass = 0; pass < 2; pass++) {
+      for (var i = 1; i < pts.length - 1; i++) {
+        var a = alphaOf(i);
+        if (a <= 0.005) continue;
+        brush.strokeStyle = "rgba(" + palette.lit + "," + (pass === 0 ? a * 0.25 : a).toFixed(3) + ")";
+        brush.lineWidth = pass === 0 ? baseW * 3.2 : baseW;
+        brush.beginPath();
+        brush.moveTo((pts[i - 1].x + pts[i].x) / 2, (pts[i - 1].y + pts[i].y) / 2);
+        brush.quadraticCurveTo(pts[i].x, pts[i].y, (pts[i].x + pts[i + 1].x) / 2, (pts[i].y + pts[i + 1].y) / 2);
+        brush.stroke();
+      }
+    }
+  }
+
+  /* ---------- 光笔残影 ---------- */
+  function drawBrush(now) {
+    while (stroke.length && now - stroke[0].t > STROKE_LIFE) stroke.shift();
+    if (stroke.length < 3) return;
+    strokePath(stroke, function (i) {
+      var k = 1 - (now - stroke[i].t) / STROKE_LIFE;
+      return k * k * palette.litA;
+    }, 1.4);
+  }
+
+  /* ---------- 闲笔成形的单线 ₿ ---------- */
+  var GLYPH_IN = 900, GLYPH_HOLD = 600, GLYPH_OUT = 1100;
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function drawGlyph(now) {
+    if (!glyph.on) {
+      if (ripple.tx > -999 && lastMoveT > 0 && strokeRun > 360 && now - lastMoveT > 2600) {
+        glyph.on = true;
+        glyph.t0 = now;
+        glyph.x = Math.min(Math.max(ripple.tx + 30, 36), W - 90);
+        glyph.y = Math.min(Math.max(ripple.ty - 86, 44), H - 100);
+        strokeRun = 0;
+      }
+      return;
+    }
+    var dt = now - glyph.t0;
+    if (dt > GLYPH_IN + GLYPH_HOLD + GLYPH_OUT) { glyph.on = false; return; }
+    var prog = Math.min(1, dt / GLYPH_IN);
+    var alpha = dt < GLYPH_IN + GLYPH_HOLD
+      ? Math.min(1, dt / 400)
+      : 1 - (dt - GLYPH_IN - GLYPH_HOLD) / GLYPH_OUT;
+    alpha *= palette.litA * 0.7;
+    var S = 58;
+    var n = Math.max(3, Math.round(BGLYPH.length * easeOut(prog)));
+    var pts = [];
+    for (var i = 0; i < n && i < BGLYPH.length; i++) {
+      pts.push({ x: glyph.x + BGLYPH[i][0] * S, y: glyph.y + BGLYPH[i][1] * S });
+    }
+    strokePath(pts, function () { return alpha; }, 1.2);
+  }
+
   /* ---------- 呼吸 ---------- */
   var rafId = 0;
   function breathe() {
@@ -241,6 +350,7 @@
 
     brush.clearRect(0, 0, W, H);
     weave();
+    linkToLight();
 
     for (i = 0; i < essence.length; i++) {
       var p = essence[i];
@@ -250,6 +360,10 @@
       brush.arc(p.x, p.y, p.size * p.depth, 0, TAU);
       brush.fill();
     }
+
+    var now = performance.now();
+    drawBrush(now);
+    drawGlyph(now);
 
     rafId = requestAnimationFrame(breathe);
   }

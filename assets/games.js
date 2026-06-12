@@ -94,6 +94,13 @@
     return b;
   }
 
+  /* ---- ₿ 铸币徽记：凡出现聪/比特币金额处佩戴 ---- */
+  function coin() {
+    var c = el("span", "gm-coin");
+    c.setAttribute("aria-hidden", "true");
+    return c;
+  }
+
   /* ---- reduced-motion：减少闪烁与大动画 ---- */
   var reducedMotion = false;
   try {
@@ -453,7 +460,10 @@
       var elapsed = ((performance.now() - blockT0) / 1000).toFixed(1);
       resultBox.innerHTML = "";
       var card = el("div", "gm-success");
-      card.appendChild(el("p", "gm-success-head", "✓ 区块 #" + blockHeight + " 已铸造"));
+      var head = el("p", "gm-success-head");
+      head.appendChild(coin());
+      head.appendChild(document.createTextNode("✓ 区块 #" + blockHeight + " 已铸造 · 奖励 3.125 比特币"));
+      card.appendChild(head);
       var hashP = el("p", "gm-mono");
       hashP.appendChild(el("span", "gm-zero", hit.h.slice(0, diff)));
       hashP.appendChild(document.createTextNode(hit.h.slice(diff)));
@@ -1119,7 +1129,7 @@
     var box = el("span", "gm-ticker");
     box.setAttribute("role", "status");
     box.setAttribute("aria-label", "比特币实时价格");
-    var sym = el("span", "gm-tk-btc", "₿");
+    var sym = coin();
     var price = el("span", "gm-tk-dim", "实时价格加载中…");
     var sats = el("span", "gm-tk-dim", "");
     var chg = el("span", "gm-tk-dim", "");
@@ -1270,7 +1280,10 @@
     /* —— 第 2 步：金额（学会用“聪”思考） —— */
     function stepAmount() {
       wallet.appendChild(el("h4", "gm-step-title", "② 金额"));
-      var big = el("p", "gm-big", fmt(state.sats) + " 聪");
+      var big = el("p", "gm-big");
+      big.appendChild(coin());
+      var bigNum = document.createTextNode(fmt(state.sats) + " 聪");
+      big.appendChild(bigNum);
       var sub = el("p", "gm-note", fiatHint(state.sats));
       var row = el("div", "gm-row");
       var slider = el("input", "gm-range");
@@ -1282,7 +1295,7 @@
       wallet.appendChild(el("p", "gm-note gm-tip", "1 比特币 = 1 亿聪（satoshi）。用聪来思考，你就不会再觉得“一个币太贵、与我无关”。"));
       slider.addEventListener("input", function () {
         state.sats = +slider.value;
-        big.textContent = fmt(state.sats) + " 聪";
+        bigNum.nodeValue = fmt(state.sats) + " 聪";
         sub.textContent = fiatHint(state.sats);
       });
       wallet.appendChild(nav(function () { go(0); }, function () { go(2); }).row);
@@ -1323,16 +1336,19 @@
       var o = FEE_OPTS[state.fee];
       var feeSats = o.rate * TX_VSIZE;
       var sum = el("div", "gm-summary");
-      function srow(k, v) {
+      function srow(k, v, mark) {
         var r = el("div", "row");
         r.appendChild(el("span", null, k));
-        r.appendChild(el("span", "v", v));
+        var val = el("span", "v");
+        if (mark) val.appendChild(coin());
+        val.appendChild(document.createTextNode(v));
+        r.appendChild(val);
         sum.appendChild(r);
       }
       srow("收款人", "老胡的咖啡店");
-      srow("金额", fmt(state.sats) + " 聪");
-      srow("手续费", fmt(feeSats) + " 聪（" + o.rate + " sat/vB）");
-      srow("合计", fmt(state.sats + feeSats) + " 聪 " + fiatHint(state.sats + feeSats));
+      srow("金额", fmt(state.sats) + " 聪", true);
+      srow("手续费", fmt(feeSats) + " 聪（" + o.rate + " sat/vB）", true);
+      srow("合计", fmt(state.sats + feeSats) + " 聪 " + fiatHint(state.sats + feeSats), true);
       wallet.appendChild(sum);
 
       var hold = btn("gm-hold", "");
@@ -1398,7 +1414,10 @@
             clearInterval(iv);
             try { localStorage.setItem("hkb-first-tx", "1"); } catch (e) { /* 隐私模式忽略 */ }
             var ok = el("div", "gm-success");
-            ok.appendChild(el("div", null, "✓ 到账。这笔（模拟的）转账没有经过任何银行、任何客服、任何审批——从你的手，直接到对方的手。这就是点对点。"));
+            var okLine = el("div");
+            okLine.appendChild(coin());
+            okLine.appendChild(document.createTextNode("✓ " + fmt(state.sats) + " 聪已到账。这笔（模拟的）转账没有经过任何银行、任何客服、任何审批——从你的手，直接到对方的手。这就是点对点。"));
+            ok.appendChild(okLine);
             wallet.appendChild(ok);
             var again = btn("gm-btn gm-ghost", "再来一笔");
             var row = el("div", "gm-wallet-row");
