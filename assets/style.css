@@ -2645,3 +2645,65 @@ html:has(body.home-page) { scroll-snap-type: y proximity; }
 .pr-dock-hint { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-faint); text-align: center; margin: 1.2em 0; }
 .pr-dock-h { font-family: var(--serif); font-weight: 700; font-size: 0.98rem; letter-spacing: 0.04em; margin: 0 0 0.4rem; color: var(--accent-ink); }
 .pr-dock-b { font-family: var(--serif); font-size: 0.92rem; line-height: 2.05; color: var(--ink-soft); margin: 0; }
+
+/* 金库币墙：鎏金币条逐根入库 */
+.vault-wall {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 7px 9px;
+  max-width: 30rem;
+  margin: 1.4rem auto 0.9rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--paper-2) 90%, #2a1c08) 0%, var(--paper-2) 75%);
+  border-radius: 8px;
+  box-shadow: inset 0 12px 22px rgba(40, 26, 6, 0.12), inset 0 -4px 10px rgba(40, 26, 6, 0.08);
+}
+
+.vbar {
+  height: 17px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f0d690 0%, #d2a04a 45%, #8a5a1f 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 244, 210, 0.8),
+    inset 0 -2px 2px rgba(48, 26, 2, 0.45),
+    0 2px 4px rgba(50, 30, 5, 0.3);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-breath);
+}
+
+.vault-wall.stocked .vbar { opacity: 1; }
+.vault-wall.stocked .vbar:nth-child(n) { transition-delay: calc(var(--i, 0) * 1ms); }
+.vault-wall.stocked .vbar:nth-child(1) { transition-delay: 90ms; }
+.vault-wall.stocked .vbar:nth-child(2) { transition-delay: 180ms; }
+.vault-wall.stocked .vbar:nth-child(3) { transition-delay: 270ms; }
+.vault-wall.stocked .vbar:nth-child(4) { transition-delay: 360ms; }
+.vault-wall.stocked .vbar:nth-child(5) { transition-delay: 450ms; }
+.vault-wall.stocked .vbar:nth-child(6) { transition-delay: 540ms; }
+.vault-wall.stocked .vbar:nth-child(7) { transition-delay: 630ms; }
+.vault-wall.stocked .vbar:nth-child(8) { transition-delay: 720ms; }
+.vault-wall.stocked .vbar:nth-child(9) { transition-delay: 810ms; }
+.vault-wall.stocked .vbar:nth-child(10) { transition-delay: 900ms; }
+.vault-wall.stocked .vbar:nth-child(11) { transition-delay: 990ms; }
+.vault-wall.stocked .vbar:nth-child(12) { transition-delay: 1080ms; }
+.vault-wall.stocked .vbar:nth-child(13) { transition-delay: 1170ms; }
+.vault-wall.stocked .vbar:nth-child(14) { transition-delay: 1260ms; }
+.vault-wall.stocked .vbar:nth-child(15) { transition-delay: 1350ms; }
+.vault-wall.stocked .vbar:nth-child(16) { transition-delay: 1440ms; }
+.vault-wall.stocked .vbar:nth-child(17) { transition-delay: 1530ms; }
+.vault-wall.stocked .vbar:nth-child(18) { transition-delay: 1620ms; }
+.vault-wall.stocked .vbar:nth-child(19) { transition-delay: 1710ms; }
+.vault-wall.stocked .vbar:nth-child(20) { transition-delay: 1800ms; }
+.vault-wall.stocked .vbar:nth-child(21) { transition-delay: 1890ms; }
+
+/* 最新一根：微微呼吸的窑火 */
+.vault-wall.stocked .vbar:last-child { animation: vbar-breathe 4.5s ease-in-out 2.4s infinite; }
+
+@keyframes vbar-breathe {
+  0%, 100% { box-shadow: inset 0 1px 1px rgba(255,244,210,0.8), inset 0 -2px 2px rgba(48,26,2,0.45), 0 2px 4px rgba(50,30,5,0.3); }
+  50% { box-shadow: inset 0 1px 1px rgba(255,244,210,0.9), inset 0 -2px 2px rgba(48,26,2,0.45), 0 0 12px rgba(214,166,76,0.55); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vbar { opacity: 1; transition: none; }
+  .vault-wall.stocked .vbar:last-child { animation: none; }
+}
