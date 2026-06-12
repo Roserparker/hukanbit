@@ -1,27 +1,22 @@
 /* ============================================================
-   胡侃比特 · 流场尘埃（最底层背景动画）
+   胡侃比特 · 链海与提灯（最底层背景，v2）
 
-   四条哲学，四套算法：
-   · 大象无形 —— z-index:-1，透明度 0.05–0.15，抽象点线，绝不扰文
-   · 上善若水 —— 手写 2D 柏林噪声流场，慢速漂移，无界环回，绝不反弹
-   · 道生万物 —— Boids 三力（聚拢/同游/疏离）+ 距离结缘金线：
-                节点自发成簇、同游、离散——去中心化网络的涌现
-   · 道法自然 —— 指尖力场 = 径向轻斥 + 切向绕行（水遇石而绕行），
-                力场位置带缓动，如水波有惯性
-
-   纯 Vanilla JS + Canvas，无依赖；粒子 36–110 随窗口自适应。
+   远景链海：极小的区块在深处缓缓沉浮、按各自相位呼吸；
+   相邻区块间不时结起一节豆青锁链——画入、停驻、化开。
+   密码学尘埃：稀疏的十六进制字符在暗处隐现。
+   提灯巡馆：光标是一盏暖光提灯，灯光所及，区块苏醒、结链更勤。
+   没有线条追逐鼠标；reduced-motion 时整层不存在。
    ============================================================ */
 (function () {
   "use strict";
 
-  /* —— 冥想优先：用户要求减少动效时，整层不存在 —— */
   try {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   } catch (e) { /* 忽略 */ }
 
   var TAU = Math.PI * 2;
 
-  /* ---------- 画布：垫在一切之下（大象无形） ---------- */
+  /* ---------- 画布 ---------- */
   var canvas = document.createElement("canvas");
   canvas.setAttribute("aria-hidden", "true");
   var cs = canvas.style;
@@ -34,351 +29,229 @@
   document.body.prepend(canvas);
   var brush = canvas.getContext("2d");
 
-  /* ---------- 釉色：明暗两窑 ---------- */
-  var palette = { dust: "184,134,11", link: "184,134,11", dustA: 0.5, linkA: 0.12, lit: "200,150,66", litA: 0.5 };
-  function tunePalette(dark) {
-    if (dark) {
-      palette = { dust: "196,148,58", link: "184,134,11", dustA: 0.55, linkA: 0.15, lit: "226,172,86", litA: 0.55 };
-    } else {
-      palette = { dust: "139,98,32", link: "146,104,36", dustA: 0.4, linkA: 0.1, lit: "152,104,36", litA: 0.42 };
-    }
+  /* ---------- 釉色（明暗两窑） ---------- */
+  var pal = { block: "139,98,32", link: "135,167,150", mote: "120,104,78", lant: "214,166,76", bA: 0.34, lA: 0.4, mA: 0.3, lantA: 0.05 };
+  function tune(dark) {
+    pal = dark
+      ? { block: "196,148,58", link: "127,160,144", mote: "150,128,94", lant: "236,189,98", bA: 0.4, lA: 0.45, mA: 0.34, lantA: 0.06 }
+      : { block: "128,92,34", link: "120,150,134", mote: "128,112,84", lant: "196,140,52", bA: 0.32, lA: 0.4, mA: 0.26, lantA: 0.045 };
   }
   try {
-    var darkMq = window.matchMedia("(prefers-color-scheme: dark)");
-    tunePalette(darkMq.matches);
-    if (typeof darkMq.addEventListener === "function") {
-      darkMq.addEventListener("change", function (e) { tunePalette(e.matches); });
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    tune(mq.matches);
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", function (e) { tune(e.matches); });
     }
-  } catch (e) { tunePalette(false); }
+  } catch (e) { tune(false); }
 
-  /* ---------- 柏林噪声（经典梯度噪声，2D） ---------- */
+  /* ---------- 轻噪声（缓慢漂移用） ---------- */
   var perm = new Uint8Array(512);
   (function seed() {
     var p = new Uint8Array(256), i, j, t;
     for (i = 0; i < 256; i++) p[i] = i;
-    for (i = 255; i > 0; i--) {
-      j = (Math.random() * (i + 1)) | 0;
-      t = p[i]; p[i] = p[j]; p[j] = t;
-    }
+    for (i = 255; i > 0; i--) { j = (Math.random() * (i + 1)) | 0; t = p[i]; p[i] = p[j]; p[j] = t; }
     for (i = 0; i < 512; i++) perm[i] = p[i & 255];
   })();
-
   function fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-  function grad(h, x, y) {
-    switch (h & 3) {
-      case 0: return x + y;
-      case 1: return -x + y;
-      case 2: return x - y;
-      default: return -x - y;
-    }
-  }
+  function grad(h, x, y) { switch (h & 3) { case 0: return x + y; case 1: return -x + y; case 2: return x - y; default: return -x - y; } }
   function noise2(x, y) {
     var X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
     x -= Math.floor(x); y -= Math.floor(y);
     var u = fade(x), v = fade(y);
     var a = perm[X] + Y, b = perm[X + 1] + Y;
-    return (
-      (1 - v) * ((1 - u) * grad(perm[a], x, y) + u * grad(perm[b], x - 1, y)) +
-      v * ((1 - u) * grad(perm[a + 1], x, y - 1) + u * grad(perm[b + 1], x - 1, y - 1))
-    ); /* ∈ 约 [-1, 1] */
+    return (1 - v) * ((1 - u) * grad(perm[a], x, y) + u * grad(perm[b], x - 1, y)) +
+           v * ((1 - u) * grad(perm[a + 1], x, y - 1) + u * grad(perm[b + 1], x - 1, y - 1));
   }
 
-  /* ---------- 心法参数（一处调，全局变） ---------- */
-  var FLOW_SCALE = 0.0011;  /* 流场疏密 */
-  var FLOW_PUSH  = 0.013;   /* 水流之力（极轻） */
-  var CALM       = 0.94;    /* 阻尼：一切归于平静 */
-  var MAX_V      = 0.45;    /* 慢，再慢一点 */
-  var LINK_DIST  = 96;      /* 结缘的距离 */
-  var COHERE     = 0.00012; /* 道生万物 · 聚拢：向邻居微微靠近 */
-  var ALIGN      = 0.010;   /* 道生万物 · 同游：与邻居速度趋同 */
-  var SEP_DIST   = 22;      /* 道生万物 · 疏离：太近则相敬 */
-  var SEP_F      = 0.05;
-  var RIP_R      = 130;     /* 指尖力场半径 */
-  var RIP_PUSH   = 0.45;    /* 道法自然 · 径向轻斥 */
-  var RIP_SWIRL  = 0.30;    /* 道法自然 · 切向绕行 */
-  var RIP_EASE   = 0.12;    /* 力场追随指尖的缓动 */
-
-  /* ---------- 尺度与粒子 ---------- */
+  /* ---------- 世界 ---------- */
   var W = 0, H = 0, DPR = 1;
-  var essence = [];
+  var blocks = [];   /* 远景小区块 */
+  var links = [];    /* 进行中的锁链 {a,b,t0,life} */
+  var motes = [];    /* 十六进制尘埃 {x,y,ch,t0,life} */
+  var HEXCH = "0123456789abcdef";
 
-  function birth() {
+  function newBlock() {
     return {
       x: Math.random() * W,
       y: Math.random() * H,
-      vx: 0,
-      vy: 0,
-      size: 0.6 + Math.random() * 1.1,     /* 极微小的尘 */
-      depth: 0.35 + Math.random() * 0.65,  /* 远近：影响亮度 */
-      drift: Math.random() * 1000          /* 各自的流场相位 */
+      s: 3.5 + Math.random() * 3.5,          /* 半边长 */
+      ph: Math.random() * TAU,               /* 呼吸相位 */
+      dr: Math.random() * 900,               /* 漂移相位 */
+      wake: 0                                /* 提灯唤醒度 0..1 */
     };
   }
 
   function resize() {
     DPR = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width = W * DPR;
-    canvas.height = H * DPR;
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
     brush.setTransform(DPR, 0, 0, DPR, 0, 0);
-    var isMobile = W < 640;
-    var count = isMobile
-      ? Math.max(20, Math.min(40, Math.round((W * H) / 22000)))   /* 低端手机友好 */
-      : Math.max(36, Math.min(110, Math.round((W * H) / 22000)));
-    while (essence.length < count) essence.push(birth());
-    essence.length = count;
+    var n = W < 640 ? 12 : Math.max(16, Math.min(26, Math.round((W * H) / 60000)));
+    while (blocks.length < n) blocks.push(newBlock());
+    blocks.length = n;
   }
-
   window.addEventListener("resize", resize);
   resize();
 
-  /* ---------- 指尖的涟漪（带缓动的力场） ---------- */
-  var ripple = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-
-  /* ---------- 光之画笔（毕加索 1949 光绘）：一条会消逝的线 ----------
-     原则（出自 picasso-perspective skill）：
-     · 一条线能说清，就删掉第二条——没有粒子拖尾，只有一根线
-     · 消逝要快于注意——残影寿命约 1 秒，长曝光式渐隐
-     · 暗室原则——线极细极淡，靠克制显贵 */
-  var STROKE_LIFE = 1050;
-  var stroke = [];        /* {x, y, t} */
-  var strokeRun = 0;      /* 自上次"闲笔显形"后画过的路程 */
-  var lastMoveT = 0;
-
-  /* 闲笔成形：停笔片刻，残光自己收束成一枚单线 ₿ 手势——
-     不是标准字形，正如毕加索的鸽子并不是一只鸽子 */
-  var BGLYPH = [
-    [0.30, 0.02], [0.34, 0.10], [0.32, 0.50], [0.29, 0.90], [0.27, 0.99],
-    [0.31, 0.88], [0.55, 0.86], [0.74, 0.80], [0.80, 0.66], [0.70, 0.54],
-    [0.42, 0.51], [0.68, 0.47], [0.78, 0.36], [0.74, 0.20], [0.56, 0.13],
-    [0.36, 0.14], [0.40, 0.04]
-  ];
-  var glyph = { on: false, t0: 0, x: 0, y: 0 };
-
+  /* ---------- 提灯（缓动跟随，无轨迹） ---------- */
+  var lant = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
   window.addEventListener("pointermove", function (e) {
-    ripple.tx = e.clientX; ripple.ty = e.clientY;
-    if (ripple.x < -999) { ripple.x = ripple.tx; ripple.y = ripple.ty; }
-    var now = performance.now();
-    lastMoveT = now;
-    var tail = stroke[stroke.length - 1];
-    if (!tail || Math.abs(tail.x - e.clientX) + Math.abs(tail.y - e.clientY) > 3) {
-      if (tail) strokeRun += Math.hypot(e.clientX - tail.x, e.clientY - tail.y);
-      stroke.push({ x: e.clientX, y: e.clientY, t: now });
-      if (stroke.length > 90) stroke.shift();
-    }
+    lant.tx = e.clientX; lant.ty = e.clientY;
+    if (lant.x < -999) { lant.x = lant.tx; lant.y = lant.ty; }
   }, { passive: true });
-  function rippleAway() {
-    ripple.x = ripple.tx = -9999;
-    ripple.y = ripple.ty = -9999;
-  }
-  window.addEventListener("pointerleave", rippleAway);
-  document.addEventListener("mouseleave", rippleAway);
+  function lantAway() { lant.x = lant.tx = -9999; lant.y = lant.ty = -9999; }
+  window.addEventListener("pointerleave", lantAway);
+  document.addEventListener("mouseleave", lantAway);
+  var LANT_R = 150;
 
-  /* ---------- 力之一：水流与涟漪 ---------- */
-  var chi = Math.random() * 100; /* 缓缓流逝的"气" */
-
-  function applyField(p) {
-    /* 上善若水：柏林噪声给出此处的流向 */
-    var a = noise2(p.x * FLOW_SCALE + p.drift, p.y * FLOW_SCALE - chi) * TAU * 1.8;
-    p.vx += Math.cos(a) * FLOW_PUSH;
-    p.vy += Math.sin(a) * FLOW_PUSH;
-
-    /* 道法自然：径向轻斥 + 切向绕行 */
-    var dx = p.x - ripple.x, dy = p.y - ripple.y;
-    var d2 = dx * dx + dy * dy;
-    if (d2 < RIP_R * RIP_R && d2 > 0.01) {
-      var d = Math.sqrt(d2);
-      var t = 1 - d / RIP_R;
-      var fr = t * t * RIP_PUSH;   /* 排斥：拨开水面 */
-      var ft = t * t * RIP_SWIRL;  /* 绕行：水遇石而行其侧 */
-      var nx = dx / d, ny = dy / d;
-      p.vx += nx * fr - ny * ft;
-      p.vy += ny * fr + nx * ft;
+  /* ---------- 结链 ---------- */
+  var LINK_DIST = 130;
+  function tryLink(boost) {
+    if (links.length >= (boost ? 7 : 4)) return;
+    var a = blocks[(Math.random() * blocks.length) | 0];
+    var best = null, bd = LINK_DIST * LINK_DIST;
+    for (var i = 0; i < blocks.length; i++) {
+      var b = blocks[i];
+      if (b === a) continue;
+      var dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy;
+      if (d2 < bd && d2 > 400) { bd = d2; best = b; }
     }
-  }
-
-  /* ---------- 力之二 + 结缘：一次配对，既画线又共生 ---------- */
-  function weave() {
-    var max2 = LINK_DIST * LINK_DIST;
-    var sep2 = SEP_DIST * SEP_DIST;
-    var i, j, a, b, dx, dy, d2, d, t;
-    for (i = 0; i < essence.length; i++) {
-      a = essence[i];
-      for (j = i + 1; j < essence.length; j++) {
-        b = essence[j];
-        dx = b.x - a.x; dy = b.y - a.y;
-        d2 = dx * dx + dy * dy;
-        if (d2 >= max2) continue;
-        d = Math.sqrt(d2) || 0.001;
-        t = 1 - d / LINK_DIST;
-
-        /* 结缘金线（道生万物的可见形） */
-        brush.strokeStyle = "rgba(" + palette.link + "," +
-          (t * palette.linkA * Math.min(a.depth, b.depth)).toFixed(3) + ")";
-        brush.lineWidth = 0.6;
-        brush.beginPath();
-        brush.moveTo(a.x, a.y);
-        brush.lineTo(b.x, b.y);
-        brush.stroke();
-
-        /* 聚拢：相连者微微靠近 */
-        a.vx += dx * COHERE; a.vy += dy * COHERE;
-        b.vx -= dx * COHERE; b.vy -= dy * COHERE;
-
-        /* 同游：相连者速度趋同 */
-        var avx = (b.vx - a.vx) * ALIGN, avy = (b.vy - a.vy) * ALIGN;
-        a.vx += avx; a.vy += avy;
-        b.vx -= avx; b.vy -= avy;
-
-        /* 疏离：太近则相敬如宾，不挤作一团 */
-        if (d2 < sep2) {
-          var s = (1 - d / SEP_DIST) * SEP_F;
-          var sx = (dx / d) * s, sy = (dy / d) * s;
-          a.vx -= sx; a.vy -= sy;
-          b.vx += sx; b.vy += sy;
-        }
-      }
+    if (!best) return;
+    /* 已有同对则不重复 */
+    for (var k = 0; k < links.length; k++) {
+      if ((links[k].a === a && links[k].b === best) || (links[k].a === best && links[k].b === a)) return;
     }
+    links.push({ a: a, b: best, t0: performance.now(), life: 3600 + Math.random() * 1800 });
   }
 
-  /* ---------- 归静与前行 ---------- */
-  function settle(p) {
-    p.vx *= CALM; p.vy *= CALM;
-    var v2 = p.vx * p.vx + p.vy * p.vy;
-    if (v2 > MAX_V * MAX_V) {
-      var k = MAX_V / Math.sqrt(v2);
-      p.vx *= k; p.vy *= k;
-    }
-    p.x += p.vx; p.y += p.vy;
-
-    /* 无界：从一边离开，自另一边归来（绝不反弹） */
-    var m = 24;
-    if (p.x < -m) p.x = W + m; else if (p.x > W + m) p.x = -m;
-    if (p.y < -m) p.y = H + m; else if (p.y > H + m) p.y = -m;
+  /* ---------- 尘埃 ---------- */
+  function tryMote() {
+    if (motes.length >= 7) return;
+    motes.push({
+      x: 20 + Math.random() * (W - 40),
+      y: 20 + Math.random() * (H - 40),
+      ch: HEXCH[(Math.random() * 16) | 0],
+      t0: performance.now(),
+      life: 3800 + Math.random() * 2400
+    });
   }
 
-  /* ---------- 光电结网：近处的尘埃向指尖之光伸出金线 ---------- */
-  function linkToLight() {
-    if (ripple.tx < -999) return;
-    var r = 110, r2 = r * r, i, p, dx, dy, d2;
-    for (i = 0; i < essence.length; i++) {
-      p = essence[i];
-      dx = p.x - ripple.x; dy = p.y - ripple.y;
-      d2 = dx * dx + dy * dy;
-      if (d2 < r2) {
-        var t = 1 - Math.sqrt(d2) / r;
-        brush.strokeStyle = "rgba(" + palette.link + "," + (t * 0.18 * p.depth).toFixed(3) + ")";
-        brush.lineWidth = 0.6;
-        brush.beginPath();
-        brush.moveTo(p.x, p.y);
-        brush.lineTo(ripple.x, ripple.y);
-        brush.stroke();
-      }
-    }
+  var lastLink = 0, lastMote = 0;
+  var chi = Math.random() * 100;
+
+  /* ---------- 绘制 ---------- */
+  function roundRect(x, y, s, r) {
+    brush.beginPath();
+    brush.moveTo(x - s + r, y - s);
+    brush.arcTo(x + s, y - s, x + s, y + s, r);
+    brush.arcTo(x + s, y + s, x - s, y + s, r);
+    brush.arcTo(x - s, y + s, x - s, y - s, r);
+    brush.arcTo(x - s, y - s, x + s, y - s, r);
+    brush.closePath();
   }
 
-  /* ---------- 画一条平滑的线（两遍：晕光 + 笔芯） ---------- */
-  function strokePath(pts, alphaOf, baseW) {
-    if (pts.length < 3) return;
-    brush.lineCap = "round";
-    brush.lineJoin = "round";
-    for (var pass = 0; pass < 2; pass++) {
-      for (var i = 1; i < pts.length - 1; i++) {
-        var a = alphaOf(i);
-        if (a <= 0.005) continue;
-        brush.strokeStyle = "rgba(" + palette.lit + "," + (pass === 0 ? a * 0.25 : a).toFixed(3) + ")";
-        brush.lineWidth = pass === 0 ? baseW * 3.2 : baseW;
-        brush.beginPath();
-        brush.moveTo((pts[i - 1].x + pts[i].x) / 2, (pts[i - 1].y + pts[i].y) / 2);
-        brush.quadraticCurveTo(pts[i].x, pts[i].y, (pts[i].x + pts[i + 1].x) / 2, (pts[i].y + pts[i + 1].y) / 2);
-        brush.stroke();
-      }
-    }
-  }
-
-  /* ---------- 光笔残影 ---------- */
-  function drawBrush(now) {
-    while (stroke.length && now - stroke[0].t > STROKE_LIFE) stroke.shift();
-    if (stroke.length < 3) return;
-    strokePath(stroke, function (i) {
-      var k = 1 - (now - stroke[i].t) / STROKE_LIFE;
-      return k * k * palette.litA;
-    }, 1.4);
-  }
-
-  /* ---------- 闲笔成形的单线 ₿ ---------- */
-  var GLYPH_IN = 900, GLYPH_HOLD = 600, GLYPH_OUT = 1100;
-  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-
-  function drawGlyph(now) {
-    if (!glyph.on) {
-      if (ripple.tx > -999 && lastMoveT > 0 && strokeRun > 360 && now - lastMoveT > 2600) {
-        glyph.on = true;
-        glyph.t0 = now;
-        glyph.x = Math.min(Math.max(ripple.tx + 30, 36), W - 90);
-        glyph.y = Math.min(Math.max(ripple.ty - 86, 44), H - 100);
-        strokeRun = 0;
-      }
-      return;
-    }
-    var dt = now - glyph.t0;
-    if (dt > GLYPH_IN + GLYPH_HOLD + GLYPH_OUT) { glyph.on = false; return; }
-    var prog = Math.min(1, dt / GLYPH_IN);
-    var alpha = dt < GLYPH_IN + GLYPH_HOLD
-      ? Math.min(1, dt / 400)
-      : 1 - (dt - GLYPH_IN - GLYPH_HOLD) / GLYPH_OUT;
-    alpha *= palette.litA * 0.7;
-    var S = 58;
-    var n = Math.max(3, Math.round(BGLYPH.length * easeOut(prog)));
-    var pts = [];
-    for (var i = 0; i < n && i < BGLYPH.length; i++) {
-      pts.push({ x: glyph.x + BGLYPH[i][0] * S, y: glyph.y + BGLYPH[i][1] * S });
-    }
-    strokePath(pts, function () { return alpha; }, 1.2);
-  }
-
-  /* ---------- 呼吸 ---------- */
   var rafId = 0;
-  function breathe() {
-    chi += 0.0016;
+  function breathe(now) {
+    chi += 0.0011;
 
-    /* 力场缓动追随指尖（水波有惯性） */
-    if (ripple.tx > -999) {
-      ripple.x += (ripple.tx - ripple.x) * RIP_EASE;
-      ripple.y += (ripple.ty - ripple.y) * RIP_EASE;
+    /* 提灯缓行 */
+    if (lant.tx > -999) {
+      lant.x += (lant.tx - lant.x) * 0.1;
+      lant.y += (lant.ty - lant.y) * 0.1;
     }
+    var lit = lant.tx > -999;
 
-    var i;
-    for (i = 0; i < essence.length; i++) applyField(essence[i]);
+    /* 节奏：平时偶尔结链；灯下勤一些 */
+    if (now - lastLink > (lit ? 700 : 1500)) { lastLink = now; tryLink(lit); }
+    if (now - lastMote > 2100) { lastMote = now; tryMote(); }
 
     brush.clearRect(0, 0, W, H);
-    weave();
-    linkToLight();
 
-    for (i = 0; i < essence.length; i++) {
-      var p = essence[i];
-      settle(p);
-      brush.fillStyle = "rgba(" + palette.dust + "," + (palette.dustA * p.depth).toFixed(3) + ")";
+    /* 灯晕 */
+    if (lit) {
+      var g = brush.createRadialGradient(lant.x, lant.y, 0, lant.x, lant.y, LANT_R);
+      g.addColorStop(0, "rgba(" + pal.lant + "," + pal.lantA + ")");
+      g.addColorStop(1, "rgba(" + pal.lant + ",0)");
+      brush.fillStyle = g;
       brush.beginPath();
-      brush.arc(p.x, p.y, p.size * p.depth, 0, TAU);
+      brush.arc(lant.x, lant.y, LANT_R, 0, TAU);
       brush.fill();
     }
 
-    var now = performance.now();
-    drawBrush(now);
-    drawGlyph(now);
+    /* 锁链：画入 → 停驻 → 化开 */
+    for (var li = links.length - 1; li >= 0; li--) {
+      var L = links[li];
+      var t = (now - L.t0) / L.life;
+      if (t >= 1) { links.splice(li, 1); continue; }
+      var alpha = t < 0.25 ? t / 0.25 : (t > 0.7 ? (1 - t) / 0.3 : 1);
+      var ax = L.a.x, ay = L.a.y, bx = L.b.x, by = L.b.y;
+      var prog = Math.min(1, t / 0.25); /* 画入进度 */
+      var mx = ax + (bx - ax) * prog, my = ay + (by - ay) * prog;
+      brush.strokeStyle = "rgba(" + pal.link + "," + (alpha * pal.lA).toFixed(3) + ")";
+      brush.lineWidth = 1;
+      brush.beginPath();
+      brush.moveTo(ax, ay);
+      brush.lineTo(mx, my);
+      brush.stroke();
+      /* 链节小点 */
+      brush.fillStyle = "rgba(" + pal.link + "," + (alpha * pal.lA * 0.9).toFixed(3) + ")";
+      brush.beginPath();
+      brush.arc((ax + mx) / 2, (ay + my) / 2, 1.2, 0, TAU);
+      brush.fill();
+    }
+
+    /* 区块 */
+    for (var i = 0; i < blocks.length; i++) {
+      var p = blocks[i];
+      /* 极缓漂移（轻噪声场） */
+      var a = noise2(p.x * 0.0008 + p.dr, p.y * 0.0008 - chi) * TAU;
+      p.x += Math.cos(a) * 0.06;
+      p.y += Math.sin(a) * 0.06 - 0.02; /* 微微上浮，像深海雪倒放 */
+      var m = 16;
+      if (p.x < -m) p.x = W + m; else if (p.x > W + m) p.x = -m;
+      if (p.y < -m) p.y = H + m; else if (p.y > H + m) p.y = -m;
+
+      /* 提灯唤醒 */
+      var tw = 0;
+      if (lit) {
+        var dx = p.x - lant.x, dy = p.y - lant.y;
+        var d2 = dx * dx + dy * dy;
+        if (d2 < LANT_R * LANT_R) tw = 1 - Math.sqrt(d2) / LANT_R;
+      }
+      p.wake += (tw - p.wake) * 0.08;
+
+      var breatheA = 0.62 + 0.38 * Math.sin(now * 0.00045 + p.ph);
+      var alpha2 = pal.bA * breatheA * (1 + p.wake * 1.1);
+      brush.strokeStyle = "rgba(" + pal.block + "," + Math.min(0.85, alpha2).toFixed(3) + ")";
+      brush.lineWidth = 1;
+      roundRect(p.x, p.y, p.s, 2);
+      brush.stroke();
+      /* 灯下显出块里的"交易"小点 */
+      if (p.wake > 0.25) {
+        brush.fillStyle = "rgba(" + pal.block + "," + (alpha2 * 0.85).toFixed(3) + ")";
+        brush.beginPath();
+        brush.arc(p.x, p.y, 1.1, 0, TAU);
+        brush.fill();
+      }
+    }
+
+    /* 十六进制尘埃 */
+    brush.font = "9px ui-monospace, Menlo, monospace";
+    for (var mi = motes.length - 1; mi >= 0; mi--) {
+      var M = motes[mi];
+      var mt = (now - M.t0) / M.life;
+      if (mt >= 1) { motes.splice(mi, 1); continue; }
+      var ma = Math.sin(mt * Math.PI);
+      brush.fillStyle = "rgba(" + pal.mote + "," + (ma * pal.mA).toFixed(3) + ")";
+      brush.fillText(M.ch, M.x, M.y);
+    }
 
     rafId = requestAnimationFrame(breathe);
   }
 
-  /* 页面不在眼前时，万物休眠 */
   document.addEventListener("visibilitychange", function () {
-    if (document.hidden) {
-      cancelAnimationFrame(rafId);
-      rafId = 0;
-    } else if (!rafId) {
-      rafId = requestAnimationFrame(breathe);
-    }
+    if (document.hidden) { cancelAnimationFrame(rafId); rafId = 0; }
+    else if (!rafId) { rafId = requestAnimationFrame(breathe); }
   });
 
   rafId = requestAnimationFrame(breathe);
