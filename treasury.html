@@ -20,8 +20,8 @@
 <meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="assets/style.css?v=20260612o">
-<link rel="stylesheet" href="assets/games.css?v=20260612o">
+<link rel="stylesheet" href="assets/style.css?v=20260612p">
+<link rel="stylesheet" href="assets/games.css?v=20260612p">
 </head>
 <body>
 
@@ -98,6 +98,8 @@
     </svg>
   </div>
 
+  <div class="pr-dock" id="wheel-dock"><p class="pr-dock-hint">把鼠标放到任一节点上（手机轻点）——看这一步到底发生了什么。</p></div>
+
   <p class="pr-p">注意第一步的工具：<strong>零利率可转换债券</strong>。投资人借钱给公司，不收利息——作为交换，拿到一个为期数年的选择权：币涨了，把债转成股票分享涨幅；币跌了，到期拿回本金。投资人用利息，换了一张"保本的比特币看涨期权"；公司则拿到了几乎没有现金流压力的弹药。<strong>没有强制平仓条款，没有追加保证金</strong>——这就是它和"加杠杆炒币"在结构上的天壤之别。</p>
 
   <h2 class="pr-h">它不是 ETF</h2>
@@ -124,7 +126,7 @@
 
   <p class="pr-sec">§4 · 我们的纪律</p>
   <h2 class="pr-h">一家还没出生就先立规矩的公司</h2>
-  <p class="pr-p">本馆馆主正在筹建一家面向<strong>海外华语世界</strong>的比特币储备公司——服务那些资金已合法在境外、想要比特币暴露、却被语言/渠道/托管挡在门外的人。市场上没有任何机构认真服务这个人群：对 BlackRock 太小，对西方私行有语言与信任之墙。在它出生之前，先把规矩公开立在这里：</p>
+  <p class="pr-p">读到这里你大概会问：华语世界有这样的公司吗？——几乎没有。资金已合法在境外、想要比特币暴露、却被语言/渠道/托管挡在门外的人，至今没人认真服务：对 BlackRock 太小，对西方私行隔着语言与信任之墙。<strong>本馆馆主正在朝这个方向筹备。</strong>但比起摊开计划书，更想先把"这类公司应当遵守的纪律"公开立在这里——既是科普的一部分，也是给未来那家公司的自我约束：</p>
   <ul class="pr-list">
     <li><strong>不把"币价上涨"当商业模式。</strong>涨价是 bonus，不是 base case——现金流设计必须扛得住比特币横盘五年。</li>
     <li><strong>早期只用零利率可转债（Layer B），绝不碰固定股息与抵押杠杆。</strong>每年固定现金义务是年轻公司的毒药——见上文 $689M 反面教材。</li>
@@ -144,6 +146,7 @@
 
   <p class="pr-sec">§6 · 联络</p>
   <p class="pr-p">现阶段仅接受<strong>熟人引荐</strong>的合格投资者私下沟通；正式联络通道筹备中。本页（与本站所有页面一样）不收集任何信息——读完即走，无痕。</p>
+  <p class="pr-p"><strong>现在最好的支持方式：</strong>把本馆转给一位还没看懂比特币的朋友。教育，就是这家未来公司最深的地基。</p>
 
   <p style="text-align:center;margin:2.8rem 0 0">
     <a class="btn warm" href="articles/01.html">还没读过五篇？从第一篇开始 →</a>
@@ -157,7 +160,7 @@
   </div>
 </footer>
 
-<script src="assets/main.js?v=20260612o"></script>
+<script src="assets/main.js?v=20260612p"></script>
 <script>
 (function () {
   "use strict";
@@ -201,6 +204,32 @@
       if (p < 1) requestAnimationFrame(tick);
     })(t0);
   }
+  /* —— 飞轮节点解说牌 —— */
+  var dock = document.getElementById("wheel-dock");
+  var EXPLAIN = {
+    n1: ["① 低成本募资 · 0% 可转债", "公司向投资人借钱，约定：不付利息。投资人图什么？图一个为期数年的选择权——币涨了，把债换成股票分享涨幅；币跌了，到期拿回本金。投资人用利息换了一张『保本的看涨期权』；公司拿到几乎零成本、且没有强制平仓条款的长期资金。"],
+    n2: ["② 买入比特币 · 全部、立刻", "募来的钱不投厂房、不囤现金、不做理财——全部立刻买成比特币，进入多重签名冷储存。这类公司账上唯一会生长的资产，就是币本身。"],
+    n3: ["③ 每股含币上升 · BTC Yield", "关键一步：只要增发时市场愿意付溢价（mNAV>1），募资买回的币就多于新股带来的摊薄——老股东每一股背后的币变多了。这个增速叫 BTC Yield，是这类公司的真正 KPI（参照系：MSTR 2024 财年 +74.3%）。下方计算器可亲手验证。"],
+    n4: ["④ 信任与溢价上升 · 回到第一步", "每股含币持续上升、纪律公开可验，市场便愿意给更高溢价；溢价越高，下一轮募资条件越好——飞轮转回第一步。注意：它的燃料是信任与溢价，不是币价上涨。"]
+  };
+  if (dock) {
+    document.querySelectorAll(".pr-wheel .n").forEach(function (g) {
+      var key = (g.getAttribute("class") || "").match(/n[1-4]/);
+      if (!key) return;
+      var info = EXPLAIN[key[0]];
+      function show() {
+        document.querySelectorAll(".pr-wheel .n").forEach(function (o) { o.classList.remove("sel"); });
+        g.classList.add("sel");
+        dock.innerHTML = "";
+        var h = document.createElement("p"); h.className = "pr-dock-h"; h.textContent = info[0];
+        var b = document.createElement("p"); b.className = "pr-dock-b"; b.textContent = info[1];
+        dock.appendChild(h); dock.appendChild(b);
+      }
+      g.addEventListener("pointerenter", show);
+      g.addEventListener("click", show);
+    });
+  }
+
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
@@ -218,7 +247,7 @@
   }
 })();
 </script>
-<script src="assets/flow.js?v=20260612o" defer></script>
-<script src="assets/games.js?v=20260612o" defer></script>
+<script src="assets/flow.js?v=20260612p" defer></script>
+<script src="assets/games.js?v=20260612p" defer></script>
 </body>
 </html>

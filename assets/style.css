@@ -2625,3 +2625,23 @@ html:has(body.home-page) { scroll-snap-type: y proximity; }
 @media (max-width: 600px) {
   .blk { padding: 3.4rem 0 3rem; }
 }
+
+/* 飞轮节点解说牌 */
+.pr-wheel .n { cursor: pointer; }
+.pr-wheel .n:hover circle.node,
+.pr-wheel .n.sel circle.node { stroke: var(--accent); stroke-width: 2; }
+.pr-wheel .n.sel { opacity: 1 !important; }
+
+.pr-dock {
+  max-width: 34rem;
+  margin: 0 auto 1.4rem;
+  min-height: 6.2em;
+  background: var(--card);
+  border: 1px solid var(--line-faint);
+  border-radius: 10px;
+  padding: 1rem 1.3rem;
+}
+
+.pr-dock-hint { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-faint); text-align: center; margin: 1.2em 0; }
+.pr-dock-h { font-family: var(--serif); font-weight: 700; font-size: 0.98rem; letter-spacing: 0.04em; margin: 0 0 0.4rem; color: var(--accent-ink); }
+.pr-dock-b { font-family: var(--serif); font-size: 0.92rem; line-height: 2.05; color: var(--ink-soft); margin: 0; }
