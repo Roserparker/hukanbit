@@ -4,6 +4,9 @@
 本站的视觉语言：安静杂志风（纸张色 + 衬线中文 + 琥珀 accent #b45309），定位纯科普、反 FOMO。
 **这一层是品牌，不可被替换。**
 
+## 设计系统 v1 回流（2026-06-12，Claude Design handoff 实装）
+来源：claude.ai/design「胡侃比特美术风格」导出包（tokens 六件套 + 系统 readme）。采纳：茶白地三色（--paper #f6f1e7 系）、--line-faint 私语线（卡边首选）、**瓷器教义**（hover/active 永不位移缩放，浮起只靠 --shadow-lift/pop/warm + 微暗；reveal 纯淡入）、--ease-breath 呼吸缓动统一、全站 3.5% 瓷面噪点（body::before）、正文 2.05 行高 + h2 细签 0.12em 字距、.rule 单道弦纹、节间距 7rem、九页 Noto Serif/Sans SC webfont（Songti 在 Apple 仍优先；大陆访问失败优雅回退）。**策展裁定**：①交付内部矛盾（spacing 注释说抬 4px vs 教义不变形）以教义为准；②其字体栈序与注释相悖，按声明意图保持 Songti 优先；③教义边界——"器物不变形，玩具会动"：游戏内部触觉形变（矿机按钮缩放、dot-pop、抖动、按住填充）保留。
+
 ## 三重熔接（2026-06-11）：站长声纹 × 雍正瓷器 × 复古未来主义
 - **站长声纹**：蒸馏为 `~/.claude/skills/hukanbit-author-perspective/`（6/6 质检，100% 一手语料）。全站新文案须过该 skill 的反模式清单（不喊单、嘲讽对系统不对读者、幽默后上秤）。
 - **雍正瓷器（克制层）**：单色釉思路——新增 `--celadon`（豆青 #87a796 / 暗色 #7fa090）只用于 blockquote 弦线与链环；`.rule` 改为双道细线（弦纹）；页脚 `.inner::after` 是"底款"——双方框 ₿ 印，落在每页最末，如瓷器底部款识。原则：增一分则拙，全站可见的新装饰 ≤4 处。
