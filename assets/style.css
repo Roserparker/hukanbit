@@ -137,6 +137,7 @@ textarea:focus-visible {
 }
 
 .site-header .inner {
+  position: relative;
   max-width: var(--w-wide);
   margin: 0 auto;
   padding: 0.85rem 1.4rem;
@@ -2213,3 +2214,156 @@ body.hall-mode .experiment.open { display: block; }
   .bk-shelf { gap: 5px; }
   .bk-spine .t { font-size: 0.74rem; }
 }
+
+/* ============================================================
+   金库（treasury.html）：网页招股书——文档的庄重 + 本馆的单线
+   ============================================================ */
+.pr-main { max-width: var(--w-read); margin: 0 auto; padding: 4.5rem 1.4rem 0; }
+
+.pr-sub { text-align: center; color: var(--ink-soft); font-size: 1.0rem; line-height: 2.05; margin: 0 0 2.2rem; }
+
+.pr-sec {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.26em;
+  color: var(--accent-ink);
+  margin: 3.6rem 0 0.7rem;
+}
+
+.pr-h {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin: 0 0 1.1rem;
+}
+
+.pr-p { color: var(--ink-soft); font-size: 0.97rem; line-height: 2.1; text-align: justify; margin: 0 0 1.2em; }
+.pr-p strong { color: var(--ink); }
+
+/* 重要声明：招股书纪律——丑话顶置 */
+.pr-warn {
+  border: 1px solid color-mix(in srgb, var(--bad) 55%, transparent);
+  background: color-mix(in srgb, var(--bad) 7%, transparent);
+  border-radius: 10px;
+  padding: 1.2rem 1.4rem;
+  margin: 0 0 1rem;
+}
+
+.pr-warn .t { font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.2em; color: var(--bad); font-weight: 700; margin: 0 0 0.5rem; }
+.pr-warn p { font-family: var(--sans); font-size: 0.82rem; line-height: 2; color: var(--ink-soft); margin: 0; }
+
+/* 飞轮图 */
+.pr-wheel { display: flex; justify-content: center; margin: 1.6rem 0; }
+.pr-wheel svg { max-width: 360px; width: 92%; height: auto; }
+.pr-wheel .ring { fill: none; stroke: var(--line); stroke-width: 1.5; }
+.pr-wheel .arrowp { fill: none; stroke: var(--celadon); stroke-width: 1.3; marker-end: url(#pr-arr); }
+.pr-wheel .node { fill: var(--card); stroke: var(--ink-faint); stroke-width: 1.4; }
+.pr-wheel text { font-family: var(--sans); font-size: 11px; fill: var(--ink-soft); }
+.pr-wheel .core { font-family: var(--serif); font-size: 40px; fill: var(--accent); }
+.pr-wheel .n { animation: pr-pulse 12s var(--ease-breath) infinite; transform-origin: center; transform-box: fill-box; }
+.pr-wheel .n2 { animation-delay: 3s; } .pr-wheel .n3 { animation-delay: 6s; } .pr-wheel .n4 { animation-delay: 9s; }
+
+@keyframes pr-pulse {
+  0%, 20%, 100% { opacity: 0.55; }
+  8% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) { .pr-wheel .n { animation: none; opacity: 1; } }
+
+/* 对比卡 / 数据卡 / 清单 */
+.pr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin: 1.2rem 0; }
+@media (max-width: 600px) { .pr-grid { grid-template-columns: 1fr; } }
+
+.pr-card {
+  background: var(--card);
+  border: 1px solid var(--line-faint);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+}
+
+.pr-card .k { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.16em; color: var(--ink-faint); margin: 0 0 0.5rem; }
+.pr-card .v { font-family: var(--serif); font-size: 0.95rem; line-height: 2; color: var(--ink-soft); margin: 0; }
+.pr-card .v strong { color: var(--ink); }
+.pr-card .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.pr-list { margin: 0.6rem 0 0; padding-left: 1.2rem; color: var(--ink-soft); font-size: 0.92rem; line-height: 2.15; }
+.pr-list li { margin-bottom: 0.35rem; }
+.pr-list strong { color: var(--ink); }
+
+/* 路线图：单线时间轴 */
+.pr-road { position: relative; margin: 1.8rem 0 0.6rem; padding-left: 1.5rem; }
+.pr-road::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
+.pr-stop { position: relative; padding: 0 0 1.5rem; }
+.pr-stop::before { content: ""; position: absolute; left: -1.5rem; top: 0.45em; width: 9px; height: 9px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--ink-faint); }
+.pr-stop.now::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px rgba(240, 140, 62, 0.5); }
+.pr-stop .st { font-family: var(--serif); font-weight: 600; font-size: 1.0rem; letter-spacing: 0.04em; }
+.pr-stop.now .st::after { content: "　● 你在这里"; font-family: var(--sans); font-size: 0.68rem; color: var(--accent-ink); letter-spacing: 0.1em; }
+.pr-stop .sd { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); line-height: 1.9; }
+
+/* ============================================================
+   字体三态：宋（馆方正体）/ 楷（手写温度）/ 黑（现代极简）
+   零下载——楷与黑均走系统字体栈；偏好存于 localStorage。
+   ============================================================ */
+html[data-font="kai"] {
+  --serif: "Kaiti SC", "STKaiti", "KaiTi", "TW-Kai", "DFKai-SB", "Noto Serif SC", serif;
+}
+
+html[data-font="hei"] {
+  --serif: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+}
+
+.font-switch {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  line-height: 1;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color var(--dur) var(--ease-breath), border-color var(--dur) var(--ease-breath);
+}
+
+.font-switch:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+.font-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 1.4rem;
+  z-index: 45;
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.14);
+}
+
+.font-menu[hidden] { display: none; }
+
+.font-menu button {
+  font-size: 0.88rem;
+  text-align: left;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-breath), border-color var(--dur-fast) var(--ease-breath), background var(--dur-fast) var(--ease-breath);
+}
+
+.font-menu button:hover { color: var(--ink); background: var(--accent-wash); }
+.font-menu button.on { color: var(--accent-ink); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+
+.font-menu .f-song { font-family: "Songti SC", "Noto Serif SC", serif; }
+.font-menu .f-kai { font-family: "Kaiti SC", "STKaiti", "KaiTi", serif; }
+.font-menu .f-hei { font-family: -apple-system, "PingFang SC", "Noto Sans SC", sans-serif; }

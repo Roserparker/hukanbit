@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<title>金库 · 模型说明书 · 胡侃比特</title>
+<meta name="description" content="比特币储备公司在做什么：飞轮、BTC Yield、mNAV、与 ETF 的本质区别——以及一份把『归零=全损』写在最前面的诚实说明。教育性内容，非证券要约。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡侃比特">
+<meta property="og:title" content="胡侃比特 · 金库 · 模型说明书">
+<meta property="og:description" content="比特币储备公司在做什么：飞轮、BTC Yield、与 ETF 的本质区别——一份把丑话写在最前面的说明书。">
+<meta property="og:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<meta property="og:url" content="https://roserparker.github.io/hukanbit/treasury.html">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="胡侃比特 · 金库 · 模型说明书">
+<meta name="twitter:description" content="飞轮、BTC Yield、与 ETF 的本质区别——丑话写在最前面。">
+<meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/style.css?v=20260612e">
+<link rel="stylesheet" href="assets/games.css?v=20260612e">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="index.html">首页</a>
+      <a href="index.html#articles">文章</a>
+      <a href="lab.html">实验室</a>
+      <a href="gallery.html">长廊</a>
+      <a href="satoshi.html">文献</a>
+      <a href="study.html">学堂</a>
+      <a href="treasury.html" class="active">金库</a>
+    </nav>
+    <button class="font-switch" id="font-switch" type="button" aria-label="切换正文字体" aria-haspopup="true">字</button>
+    <div class="font-menu" id="font-menu" hidden>
+      <button type="button" class="f-song" data-f="song">宋 · 馆方正体</button>
+      <button type="button" class="f-kai" data-f="kai">楷 · 手写温度</button>
+      <button type="button" class="f-hei" data-f="hei">黑 · 现代极简</button>
+    </div>
+  </div>
+</header>
+
+<main class="pr-main">
+  <p class="section-label" style="margin-top:0">PROSPECTUS · 模型说明书</p>
+  <h1 style="text-align:center;font-size:clamp(1.9rem,5vw,2.6rem);letter-spacing:0.12em;margin:0 0 1rem;">金　库</h1>
+  <p class="pr-sub">把比特币装进一家纪律严明的股份公司，<br>让每一股，一年比一年更「重」。</p>
+
+  <div class="pr-warn reveal">
+    <p class="t">重要声明 · 请先读这一段</p>
+    <p>本页是<strong>教育性的模型说明与愿景陈述</strong>，不构成任何证券要约、要约邀请或投资建议；不向中国大陆居民进行任何形式的推介或营销。比特币归零将导致此类公司投资者 100% 损失——任何声称"不会血本无归"的储备公司，要么在撒谎，要么并未真正全仓比特币。请仅以"了解一种商业模型"的心态阅读本页。</p>
+  </div>
+
+  <p class="pr-sec">§1 · 这台机器做什么</p>
+  <h2 class="pr-h">飞轮</h2>
+  <p class="pr-p">比特币储备公司只做一件事：<strong>用资本市场的工具，持续增加"每一股背后含有的比特币数量"。</strong>它的原型是 Michael Saylor 的 Strategy（MSTR）——这台机器转了五年，把一家平庸的软件公司变成了全球最大的企业比特币持有者。它的循环只有四步：</p>
+
+  <div class="pr-wheel reveal" aria-label="飞轮示意：低成本募资 → 买入比特币 → 每股含币上升 → 信任与溢价上升，循环往复">
+    <svg viewBox="0 0 360 360">
+      <defs><marker id="pr-arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#87a796"/></marker></defs>
+      <circle class="ring" cx="180" cy="180" r="118"/>
+      <path class="arrowp" d="M 180,56 A 124,124 0 0 1 297,150"/>
+      <path class="arrowp" d="M 304,180 A 124,124 0 0 1 230,290"/>
+      <path class="arrowp" d="M 180,304 A 124,124 0 0 1 63,210"/>
+      <path class="arrowp" d="M 56,180 A 124,124 0 0 1 130,70"/>
+      <text class="core" x="180" y="194" text-anchor="middle">₿</text>
+      <g class="n n1"><circle class="node" cx="180" cy="62" r="34"/><text x="180" y="58" text-anchor="middle">低成本募资</text><text x="180" y="74" text-anchor="middle">0% 可转债</text></g>
+      <g class="n n2"><circle class="node" cx="298" cy="180" r="34"/><text x="298" y="176" text-anchor="middle">买入比特币</text><text x="298" y="192" text-anchor="middle">全部、立刻</text></g>
+      <g class="n n3"><circle class="node" cx="180" cy="298" r="34"/><text x="180" y="294" text-anchor="middle">每股含币 ↑</text><text x="180" y="310" text-anchor="middle">BTC Yield</text></g>
+      <g class="n n4"><circle class="node" cx="62" cy="180" r="34"/><text x="62" y="176" text-anchor="middle">信任与溢价 ↑</text><text x="62" y="192" text-anchor="middle">更易募资</text></g>
+    </svg>
+  </div>
+
+  <p class="pr-p">注意第一步的工具：<strong>零利率可转换债券</strong>。投资人借钱给公司，不收利息——作为交换，拿到一个为期数年的选择权：币涨了，把债转成股票分享涨幅；币跌了，到期拿回本金。投资人用利息，换了一张"保本的比特币看涨期权"；公司则拿到了几乎没有现金流压力的弹药。<strong>没有强制平仓条款，没有追加保证金</strong>——这就是它和"加杠杆炒币"在结构上的天壤之别。</p>
+
+  <h2 class="pr-h">它不是 ETF</h2>
+  <div class="pr-grid">
+    <div class="pr-card"><p class="k">BTC ETF</p><p class="v">1 元钱 → 1 元比特币 → 1 元市值。<strong>永远 1 : 1</strong>，一面诚实的镜子，仅此而已。</p></div>
+    <div class="pr-card"><p class="k">储备公司</p><p class="v">1 元钱 → 0% 可转债与溢价发行层层放大 → <strong>约 1.5–2 元的比特币暴露</strong>。它不是比特币的持有者，它是一台<strong>比特币杠杆复利机器</strong>。</p></div>
+  </div>
+
+  <p class="pr-sec">§2 · 飞轮的数学</p>
+  <h2 class="pr-h">BTC Yield：每股含币增速</h2>
+  <p class="pr-p">Saylor 给这台机器装的仪表盘不是利润，而是 <strong>BTC Yield</strong>：每股（完全稀释后）所含比特币数量的增长率。MSTR 2024 财年做到了 <span class="num"><strong>74.3%</strong></span>——意思是：你一年前的一股若含 1 聪，年底就含 1.743 聪。下面这台计算器是飞轮数学的全部秘密，亲手拧一拧：</p>
+
+  <div class="game-embed" data-game="btc-yield">
+    <p class="game-fallback">这个计算器需要 JavaScript 才能运行。</p>
+  </div>
+
+  <p class="pr-sec">§3 · 参照系</p>
+  <h2 class="pr-h">原型机：MSTR</h2>
+  <div class="pr-grid">
+    <div class="pr-card"><p class="k">持仓（2026 年初口径）</p><p class="v"><span class="num">709,715</span> ₿ · 均价 <span class="num">$75,979</span> · 比特币市值对总债务覆盖约 <span class="num">7×</span></p></div>
+    <div class="pr-card"><p class="k">弹药成本</p><p class="v">总债务约 <span class="num">$8.2B</span>，加权利率仅 <span class="num">0.42%</span>——年付息约 <span class="num">$34.6M</span>，被一个软件业务轻松覆盖</p></div>
+  </div>
+  <p class="pr-p">但参照系也包含<strong>反面教材</strong>：MSTR 后期发行的优先股（STRK/STRF/STRD）带来了每年约 <span class="num">$689M</span> 的固定股息义务——这是熊市里真正咬人的东西。一家年轻的储备公司若学这一层，等于婴儿举杠铃。<span style="color:var(--ink-faint)">（另：港股早有先例——美图等上市公司多年前即把比特币纳入储备。数据为公开披露口径，本馆整理，非实时。）</span></p>
+
+  <p class="pr-sec">§4 · 我们的纪律</p>
+  <h2 class="pr-h">一家还没出生就先立规矩的公司</h2>
+  <p class="pr-p">本馆馆主正在筹建一家面向<strong>海外华语世界</strong>的比特币储备公司——服务那些资金已合法在境外、想要比特币暴露、却被语言/渠道/托管挡在门外的人。市场上没有任何机构认真服务这个人群：对 BlackRock 太小，对西方私行有语言与信任之墙。在它出生之前，先把规矩公开立在这里：</p>
+  <ul class="pr-list">
+    <li><strong>不把"币价上涨"当商业模式。</strong>涨价是 bonus，不是 base case——现金流设计必须扛得住比特币横盘五年。</li>
+    <li><strong>早期只用零利率可转债（Layer B），绝不碰固定股息与抵押杠杆。</strong>每年固定现金义务是年轻公司的毒药——见上文 $689M 反面教材。</li>
+    <li><strong>三条红线：</strong>不承诺任何收益；只接受已合法在境外的资金（绝不协助任何形式的违规跨境）；不在中国大陆进行任何营销。</li>
+    <li><strong>每位投资人当面签署七条知情同意</strong>：100% 损失风险 / 五年流动性锁定 / 80%+ 历史回撤 / 经营风险 / 监管风险 / 创始人单点风险 / 自评清单（金额不影响生活、不依赖此投资养老就医）。口头说"有风险"不算数，白纸黑字当面读完才算。</li>
+    <li><strong>利益绑定的原话：</strong>"你放进来的每一美元都买成真实比特币，你按比例拥有；我收固定管理费，只有你赚钱我才有业绩提成。我们坐在同一条船的同一侧。"</li>
+  </ul>
+
+  <p class="pr-sec">§5 · 路线图</p>
+  <h2 class="pr-h">环环相扣</h2>
+  <div class="pr-road reveal">
+    <div class="pr-stop now"><p class="st">教育</p><p class="sd">就是你正在逛的这座美术馆：让更多华语读者真正理解比特币——不是为了说服，是为了让懂的人自己走过来。</p></div>
+    <div class="pr-stop"><p class="st">业绩</p><p class="sd">以家族资金建仓，逐月公开纪律与记录——先用自己的钱证明这套打法，再谈别人的钱。</p></div>
+    <div class="pr-stop"><p class="st">私募</p><p class="sd">面向少数熟人引荐的合格投资者，以零利率可转债起步——结构透明，文件齐全，当面签署。</p></div>
+    <div class="pr-stop"><p class="st">远期</p><p class="sd">规模与合规到位后，探索更正式的架构与公开市场——那一天，这页"说明书"会换成真正的招股书。</p></div>
+  </div>
+
+  <p class="pr-sec">§6 · 联络</p>
+  <p class="pr-p">现阶段仅接受<strong>熟人引荐</strong>的合格投资者私下沟通；正式联络通道筹备中。本页（与本站所有页面一样）不收集任何信息——读完即走，无痕。</p>
+
+  <p style="text-align:center;margin:2.8rem 0 0">
+    <a class="btn warm" href="articles/01.html">还没读过五篇？从第一篇开始 →</a>
+  </p>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>胡侃比特 © <span id="year"></span> · 知识分享，自由转载，注明出处即可。</p>
+    <p class="disclaimer">本页为教育性模型说明，不构成证券要约、要约邀请或投资建议，不向中国大陆居民推介。加密资产可能归零，请独立思考，并只动用你能承受全部损失的资金。</p>
+  </div>
+</footer>
+
+<script src="assets/main.js?v=20260612e"></script>
+<script src="assets/flow.js?v=20260612e" defer></script>
+<script src="assets/games.js?v=20260612e" defer></script>
+</body>
+</html>

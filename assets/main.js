@@ -39,6 +39,36 @@
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
+  /* ---------- 字体三态切换（宋/楷/黑）---------- */
+  var fsBtn = document.getElementById("font-switch");
+  var fsMenu = document.getElementById("font-menu");
+  if (fsBtn && fsMenu) {
+    var fsGet = function () { try { return localStorage.getItem("hkb-font") || "song"; } catch (e) { return "song"; } };
+    var fsMark = function () {
+      var cur = fsGet();
+      fsMenu.querySelectorAll("button").forEach(function (b) {
+        b.classList.toggle("on", b.getAttribute("data-f") === cur);
+      });
+    };
+    fsBtn.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      fsMenu.hidden = !fsMenu.hidden;
+      if (!fsMenu.hidden) fsMark();
+    });
+    fsMenu.addEventListener("click", function (ev) {
+      var b = ev.target.closest("button[data-f]");
+      if (!b) return;
+      var v = b.getAttribute("data-f");
+      if (v === "song") document.documentElement.removeAttribute("data-font");
+      else document.documentElement.setAttribute("data-font", v);
+      try { v === "song" ? localStorage.removeItem("hkb-font") : localStorage.setItem("hkb-font", v); } catch (e) { /* 忽略 */ }
+      fsMark();
+      fsMenu.hidden = true;
+      ev.stopPropagation();
+    });
+    document.addEventListener("click", function () { fsMenu.hidden = true; });
+  }
+
   /* ---------- 点击涟漪 ----------
      每次按下，在指尖处荡开一圈细线（声呐式反馈）。
      尊重 prefers-reduced-motion；高频连点（如挖矿游戏）时限流。 */
@@ -96,6 +126,8 @@
   if (/satoshi\.html$/.test(location.pathname)) store.set("hkb-satoshi", "1");
   // 学堂
   if (/study\.html$/.test(location.pathname)) store.set("hkb-study", "1");
+  // 金库
+  if (/treasury\.html$/.test(location.pathname)) store.set("hkb-treasury", "1");
 
   // 首页：点亮已读标签、阅读进度与"三步上手"的完成态
   var toc = document.querySelector(".toc");

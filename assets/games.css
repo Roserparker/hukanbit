@@ -737,7 +737,19 @@
 }
 
 /* ---------- 实时价格挂件 ---------- */
-.ticker-slot { margin-bottom: 1.3rem; }
+.ticker-slot {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 35;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .ticker-slot { right: 8px; bottom: 8px; }
+  .gm-ticker { font-size: 0.64rem; padding: 0.38rem 0.6rem; gap: 0.25rem 0.5rem; }
+  .gm-tk-chg { display: none; }
+}
 
 .gm-ticker {
   display: inline-flex;
@@ -745,15 +757,21 @@
   align-items: baseline;
   gap: 0.3rem 0.75rem;
   font-family: var(--mono);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
   color: var(--ink-soft);
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 0.5rem 0.9rem;
+  background: color-mix(in srgb, var(--card) 84%, transparent);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  border: 1px solid var(--line-faint);
+  border-radius: 999px;
+  padding: 0.42rem 0.95rem;
   line-height: 1.7;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: border-color var(--dur) var(--ease-breath), color var(--dur) var(--ease-breath);
 }
+
+.gm-ticker:hover { border-color: var(--accent); color: var(--ink); }
 
 .gm-ticker .gm-tk-btc { color: var(--accent-ink); font-weight: 700; }
 .gm-ticker .gm-tk-up { color: var(--good); }
@@ -1092,28 +1110,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.06em;
-  height: 1.06em;
-  margin-right: 0.22em;
+  width: 1.12em;
+  height: 1.12em;
+  margin-right: 0.24em;
   border-radius: 50%;
-  background: linear-gradient(145deg, #f6a93d 0%, #e8702a 55%, #b3491c 100%);
-  color: #faf7f1;
+  border: 1px solid color-mix(in srgb, var(--accent) 62%, transparent);
+  background: transparent;
+  color: var(--accent-ink);
   font-family: var(--serif);
-  font-size: 0.82em;
-  font-weight: 700;
+  font-size: 0.92em;
+  font-weight: 600;
   line-height: 1;
-  vertical-align: -0.12em;
+  vertical-align: -0.16em;
   flex: none;
-  box-shadow:
-    inset 0 1px 1.5px rgba(255, 235, 200, 0.55),
-    inset 0 -1.5px 2px rgba(90, 30, 5, 0.4),
-    0 1px 6px rgba(194, 65, 12, 0.3);
 }
 
 .gm-coin::before {
   content: "₿";
   display: block;
-  transform: rotate(12deg);
+  font-size: 0.74em;
 }
 
 /* ============================================================
@@ -1260,4 +1275,43 @@
   border-top: 1px dashed #3a2f20;
   padding-top: 0.85rem;
   margin: 0;
+}
+
+/* ============================================================
+   BTC Yield 计算器（金库）
+   ============================================================ */
+.gm-yield-wrap {
+  display: flex;
+  gap: 2.4rem;
+  justify-content: center;
+  align-items: flex-end;
+  margin: 1rem 0 0.4rem;
+}
+
+.gm-yield-col { text-align: center; }
+
+.gm-yield-bar {
+  position: relative;
+  width: 54px;
+  height: 150px;
+  margin: 0 auto;
+  border-bottom: 1.5px solid var(--ink-faint);
+}
+
+.gm-yield-bar .fill {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 0;
+  background: var(--ink-faint);
+  border-radius: 3px 3px 0 0;
+  transition: height 0.5s var(--ease-breath), background 0.5s var(--ease-breath);
+}
+
+.gm-yield-lab {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  margin: 0.5rem 0 0;
 }

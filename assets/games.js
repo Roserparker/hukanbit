@@ -1132,7 +1132,7 @@
     var sym = coin();
     var price = el("span", "gm-tk-dim", "实时价格加载中…");
     var sats = el("span", "gm-tk-dim", "");
-    var chg = el("span", "gm-tk-dim", "");
+    var chg = el("span", "gm-tk-dim gm-tk-chg", "");
     box.appendChild(sym); box.appendChild(price); box.appendChild(sats); box.appendChild(chg);
     root.appendChild(box);
 
@@ -1141,7 +1141,7 @@
         if (!res) {
           price.textContent = "实时价格暂不可用";
           price.className = "gm-tk-dim";
-          sats.textContent = ""; chg.textContent = "";
+          sats.textContent = ""; chg.textContent = ""; chg.className = "gm-tk-dim gm-tk-chg";
           return;
         }
         price.textContent = "$" + fmt(res.usd);
@@ -1151,7 +1151,7 @@
         if (typeof res.chg === "number") {
           var up = res.chg >= 0;
           chg.textContent = "24h " + (up ? "+" : "−") + Math.abs(res.chg).toFixed(1) + "%";
-          chg.className = up ? "gm-tk-up" : "gm-tk-down";
+          chg.className = (up ? "gm-tk-up" : "gm-tk-down") + " gm-tk-chg";
         }
       });
     }
@@ -1864,7 +1864,78 @@
     return function () { clearInterval(iv); };
   }
 
-  /* ================= 12. registry + 启动 ================= */
+  /* ================= 12. BTC Yield 计算器（金库 · 飞轮的数学） =================
+     惊人的事实：增发一轮带来的每股含币变化，与币价无关——
+     yield = (1 + d·m) / (1 + d) − 1，只由溢价 m 与稀释 d 决定。 */
+
+  function createBtcYield(root) {
+    root.innerHTML = "";
+    root.appendChild(el("p", "gm-kicker", "飞轮的数学 · 亲手拧一拧"));
+    root.appendChild(el("p", "gm-title", "一轮增发，每股变重多少？"));
+    root.appendChild(el("p", "gm-desc", "假设公司增发新股募资、并把募来的钱全部买成比特币。拖动两个旋钮，看老股东的每一股发生什么。"));
+
+    var m = 1.8, d = 0.10;
+
+    var row1 = el("div", "gm-row");
+    row1.appendChild(el("label", null, "市场给的溢价 mNAV"));
+    var sm = el("input", "gm-range");
+    sm.type = "range"; sm.min = "0.8"; sm.max = "3"; sm.step = "0.05"; sm.value = String(m);
+    sm.setAttribute("aria-label", "mNAV 溢价倍数");
+    var vm = el("span", "gm-val", "1.80×");
+    row1.appendChild(sm); row1.appendChild(vm);
+    root.appendChild(row1);
+
+    var row2 = el("div", "gm-row");
+    row2.appendChild(el("label", null, "本轮增发稀释"));
+    var sd = el("input", "gm-range");
+    sd.type = "range"; sd.min = "0"; sd.max = "30"; sd.step = "1"; sd.value = "10";
+    sd.setAttribute("aria-label", "增发稀释比例");
+    var vd = el("span", "gm-val", "10%");
+    row2.appendChild(sd); row2.appendChild(vd);
+    root.appendChild(row2);
+
+    var big = el("p", "gm-big", "");
+    root.appendChild(big);
+
+    var wrap = el("div", "gm-yield-wrap");
+    var b1w = el("div", "gm-yield-bar"); var b1 = el("div", "fill"); b1w.appendChild(b1);
+    var b2w = el("div", "gm-yield-bar"); var b2 = el("div", "fill"); b2w.appendChild(b2);
+    var c1 = el("div", "gm-yield-col"); c1.appendChild(b1w); c1.appendChild(el("p", "gm-yield-lab", "增发前 · 每股含币"));
+    var c2 = el("div", "gm-yield-col"); c2.appendChild(b2w); c2.appendChild(el("p", "gm-yield-lab", "增发后 · 每股含币"));
+    wrap.appendChild(c1); wrap.appendChild(c2);
+    root.appendChild(wrap);
+
+    var note = el("p", "gm-note", "");
+    root.appendChild(note);
+    root.appendChild(el("p", "gm-note gm-tip", "注意这道算式里没有币价——飞轮的燃料是「溢价」，不是「涨价」。这正是 MSTR 把 BTC Yield 当 KPI 的原因：它衡量的是资本运作本身的功力，而非行情的运气。"));
+
+    function upd() {
+      m = parseFloat(sm.value); d = parseInt(sd.value, 10) / 100;
+      vm.textContent = m.toFixed(2) + "×";
+      vd.textContent = Math.round(d * 100) + "%";
+      var y = d === 0 ? 0 : (1 + d * m) / (1 + d) - 1;
+      big.textContent = "BTC Yield：" + (y >= 0 ? "+" : "") + (y * 100).toFixed(2) + "%";
+      big.style.color = y > 0.0001 ? "var(--good)" : (y < -0.0001 ? "var(--bad)" : "var(--ink)");
+      var base = 52, after = base * (1 + y);
+      b1.style.height = base + "%";
+      b2.style.height = Math.max(4, Math.min(96, after)) + "%";
+      b2.style.background = y >= 0 ? "var(--good)" : "var(--bad)";
+      if (d === 0) {
+        note.textContent = "不增发，每股含币原地不动。拧动上面的旋钮试试。";
+      } else if (m > 1.001) {
+        note.textContent = "溢价 " + m.toFixed(2) + "× 之下，募来的钱买到的币多于新股的摊薄——老股东的每一股都变重了。只要市场愿意付溢价，每一次增发都是对老股东的馈赠。这就是飞轮的全部秘密。";
+      } else if (m < 0.999) {
+        note.textContent = "⚠ 警示：mNAV 低于 1 时增发，买回的币追不上股本摊薄——每股含币不升反降，飞轮反转成绞肉机。纪律严明的储备公司在折价时绝不增发。";
+      } else {
+        note.textContent = "mNAV = 1：增发不增不减，等于白忙——这就是 ETF 的世界，永远 1 : 1。";
+      }
+    }
+    sm.addEventListener("input", upd);
+    sd.addEventListener("input", upd);
+    upd();
+  }
+
+  /* ================= 13. registry + 启动 ================= */
 
   var registry = {
     "time-machine": createTimeMachine,
@@ -1876,7 +1947,8 @@
     "chain": createChain,
     "double-spend": createDoubleSpend,
     "byzantine": createByzantine,
-    "debt-clock": createDebtClock
+    "debt-clock": createDebtClock,
+    "btc-yield": createBtcYield
   };
 
   function boot() {
@@ -1899,9 +1971,22 @@
     }
   }
 
+  /* 价格小钟全站常驻：页面没放挂载点时，自动在右下角生一个 */
+  function ensureTicker() {
+    if (document.querySelector('[data-game="btc-ticker"]')) return;
+    var slot = document.createElement("div");
+    slot.className = "ticker-slot";
+    slot.setAttribute("data-game", "btc-ticker");
+    slot.setAttribute("data-gm-init", "1");
+    document.body.appendChild(slot);
+    createTicker(slot);
+  }
+
+  function bootAll() { boot(); ensureTicker(); }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
+    document.addEventListener("DOMContentLoaded", bootAll);
   } else {
-    boot(); // defer 脚本通常在 DOMContentLoaded 前执行，此分支兜底
+    bootAll(); // defer 脚本通常在 DOMContentLoaded 前执行，此分支兜底
   }
 })();
