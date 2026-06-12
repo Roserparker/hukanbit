@@ -200,7 +200,9 @@ textarea:focus-visible {
   animation: orbit-drift 110s linear infinite;
 }
 
-/* 轨道中心：一枚极淡的 ₿，像釉下若隐若现的款识 */
+/* 轨道中心：一块发热的能量锭。
+   黑体辐射色温——顶部炽金、中段熔橙、底部深红余烬；
+   以 6.5s 的节奏缓慢"呼吸散热"。每一枚币都是凝固的焦耳。 */
 .hero::after {
   content: "₿";
   position: absolute;
@@ -212,17 +214,37 @@ textarea:focus-visible {
   font-size: clamp(10rem, 26vw, 15rem);
   font-weight: 400;
   line-height: 1;
-  color: var(--accent);
-  opacity: 0.05;
+  background: linear-gradient(180deg, #f6c453 0%, #e8702a 46%, #8a2c0d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 26px rgba(232, 112, 42, 0.4)) drop-shadow(0 0 90px rgba(194, 65, 12, 0.28));
+  opacity: 0.2;
   z-index: -1;
   pointer-events: none;
+  animation: thermal-breathe 6.5s ease-in-out infinite;
+}
+
+@keyframes thermal-breathe {
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.26; }
 }
 
 @keyframes orbit-drift { to { transform: rotate(360deg); } }
 
 @media (prefers-color-scheme: dark) {
   .hero::before { opacity: 0.16; }
-  .hero::after { opacity: 0.07; }
+  .hero::after {
+    background: linear-gradient(180deg, #ffd98a 0%, #f08c3e 46%, #b3491c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(240, 140, 62, 0.55)) drop-shadow(0 0 110px rgba(240, 140, 62, 0.35));
+    animation-name: thermal-breathe-dark;
+  }
+  @keyframes thermal-breathe-dark {
+    0%, 100% { opacity: 0.24; }
+    50% { opacity: 0.38; }
+  }
 }
 
 .hero .kicker {
@@ -594,7 +616,7 @@ textarea:focus-visible {
   padding: 4.5rem 1.4rem 0;
 }
 
-/* 章首水印：页眉右上一枚极淡的 ₿，如纸上的暗纹 */
+/* 章首水印：页眉右上一枚微微发热的 ₿（阅读页保持安静，不呼吸） */
 .article::before {
   content: "₿";
   position: absolute;
@@ -603,14 +625,18 @@ textarea:focus-visible {
   font-family: var(--serif);
   font-size: 8.5rem;
   line-height: 1;
-  color: var(--accent);
-  opacity: 0.04;
+  background: linear-gradient(180deg, #f6c453, #e8702a 50%, #8a2c0d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px rgba(232, 112, 42, 0.25));
+  opacity: 0.09;
   z-index: -1;
   pointer-events: none;
 }
 
 @media (prefers-color-scheme: dark) {
-  .article::before { opacity: 0.06; }
+  .article::before { opacity: 0.14; filter: drop-shadow(0 0 26px rgba(240, 140, 62, 0.4)); }
 }
 
 .article .kicker {
@@ -1163,6 +1189,7 @@ textarea { resize: vertical; min-height: 4.2rem; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .draw { animation: none; stroke-dashoffset: 0; }
   .hero::before { animation: none; }
+  .hero::after { animation: none; }
   .click-ping { display: none; }
   html { scroll-behavior: auto; }
 }
