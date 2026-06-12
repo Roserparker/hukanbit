@@ -193,21 +193,29 @@ textarea:focus-visible {
 }
 
 /* 底款：瓷器底部的款识——双方框里一枚 ₿，落在整页最末 */
+/* 底款 v2：青铜鎏金印——上光下影，₿ 如錾刻入铜 */
 .site-footer .inner::after {
   content: "₿";
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   margin: 2.4rem auto 0;
   font-family: var(--serif);
-  font-size: 1.35rem;
-  color: var(--ink-faint);
-  border: 1px solid var(--line);
-  outline: 1px solid var(--line);
-  outline-offset: 3px;
-  border-radius: 3px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3c2407;
+  text-shadow: 0 1px 0 rgba(255, 238, 198, 0.55);
+  background: linear-gradient(165deg, #e3b568 0%, #c08736 52%, #7c4a1d 100%);
+  border: 1px solid rgba(58, 30, 6, 0.6);
+  outline: 1px solid color-mix(in srgb, var(--ink-faint) 50%, transparent);
+  outline-offset: 4px;
+  border-radius: 4px;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 242, 205, 0.75),
+    inset 0 -2px 3px rgba(46, 22, 0, 0.5),
+    0 2px 7px rgba(70, 35, 5, 0.25);
 }
 
 .site-footer .disclaimer {
@@ -1875,8 +1883,8 @@ span.gen-m.lit { color: #e8b35f; text-shadow: 0 0 9px rgba(255, 176, 86, 0.4); }
    ============================================================ */
 .mk {
   fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
+  stroke: url(#mkgold);
+  stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -1913,14 +1921,14 @@ span.gen-m.lit { color: #e8b35f; text-shadow: 0 0 9px rgba(255, 176, 86, 0.4); }
 .hall-card svg {
   width: 42px;
   height: 42px;
-  color: var(--ink-soft);
-  transition: color 0.3s, filter 0.3s;
   margin-bottom: 0.35rem;
+  /* 铸造感：上光下影，金线如錾入瓷面 */
+  filter: drop-shadow(0 1px 0 rgba(255, 235, 190, 0.4)) drop-shadow(0 -1px 0 rgba(60, 24, 0, 0.4));
+  transition: filter var(--dur) var(--ease-breath);
 }
 
 .hall-card:hover svg {
-  color: var(--accent);
-  filter: drop-shadow(0 0 7px rgba(194, 65, 12, 0.35));
+  filter: drop-shadow(0 1px 0 rgba(255, 235, 190, 0.5)) drop-shadow(0 -1px 0 rgba(60, 24, 0, 0.45)) drop-shadow(0 0 9px rgba(214, 142, 52, 0.5));
 }
 
 .hall-card .hall-no {
@@ -1948,8 +1956,8 @@ span.gen-m.lit { color: #e8b35f; text-shadow: 0 0 9px rgba(255, 176, 86, 0.4); }
   line-height: 1.7;
 }
 
-/* 已造访：徽标换豆青釉 */
-.hall-card.seen svg { color: var(--celadon); }
+/* 已造访：铸金不改色——足迹记在框与签上 */
+.hall-card.seen { border-color: color-mix(in srgb, var(--celadon) 50%, transparent); }
 .hall-card.seen .hall-no::after { content: " · ✓ 已造访"; color: var(--celadon); letter-spacing: 0.05em; }
 
 /* 单间模式：导览墙打开某件展品时，其余全部隐去 */
