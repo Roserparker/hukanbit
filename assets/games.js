@@ -1802,7 +1802,69 @@
     root.appendChild(el("p", "gm-note faint", "极简化演示。严格表述见 Lamport 等《拜占庭将军问题》（1982）与比特币白皮书第 4 节。"));
   }
 
-  /* ================= 11. registry + 启动 ================= */
+  /* ================= 11. 另一本账：美国国债实时钟 =================
+     基线常数保证离线也走表（按近期增速外推）；
+     美国财政部 Debt to the Penny API 可达时自动校准为官方口径。 */
+
+  var DEBT_FALL_TS = Date.UTC(2026, 5, 1);    /* 2026-06-01 */
+  var DEBT_FALL_AMT = 39.0e12;                /* 第四篇口径：39–40 万亿取保守端 */
+  var DEBT_FALL_RATE = 80000;                 /* ≈ $2.5 万亿/年 */
+
+  function createDebtClock(root) {
+    root.classList.remove("gm-box");
+    root.innerHTML = "";
+    var slab = el("div", "gm-debt");
+    root.appendChild(slab);
+    slab.appendChild(el("p", "gm-debt-k", "美国联邦政府债务总额 · 实时"));
+    var big = el("p", "gm-debt-n", "$ —");
+    var sub = el("p", "gm-debt-sub");
+    var rise = el("span", "rise", "");
+    sub.appendChild(rise);
+    var subTail = document.createTextNode("");
+    sub.appendChild(subTail);
+    var src = el("p", "gm-debt-src", "校准中——正在询问美国财政部……");
+    var mirror = el("p", "gm-debt-mirror");
+    mirror.appendChild(document.createTextNode("对面那本账的上限："));
+    mirror.appendChild(coin());
+    mirror.appendChild(document.createTextNode("21,000,000——写死的，谁也加不了一页。"));
+    slab.appendChild(big);
+    slab.appendChild(sub);
+    slab.appendChild(src);
+    slab.appendChild(mirror);
+
+    var base = DEBT_FALL_AMT, baseTs = DEBT_FALL_TS, rate = DEBT_FALL_RATE;
+
+    function render() {
+      var v = base + rate * Math.max(0, (Date.now() - baseTs) / 1000);
+      big.textContent = "$" + fmt(Math.floor(v));
+      rise.textContent = "每一秒 +$" + fmt(Math.round(rate));
+      subTail.nodeValue = " ｜ 摊到每个美国人头上 ≈ $" + fmt(Math.round(v / 341000000)) + " ｜ 国债利息已超过军费";
+    }
+    render();
+    var iv = setInterval(render, reducedMotion ? 1000 : 150);
+
+    if (typeof fetch === "function") {
+      fetch("https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date&page%5Bsize%5D=8&fields=record_date,tot_pub_debt_out_amt")
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (j) {
+          var d = j && j.data;
+          if (!d || d.length < 2) throw 0;
+          var a = parseFloat(d[0].tot_pub_debt_out_amt);
+          var b = parseFloat(d[d.length - 1].tot_pub_debt_out_amt);
+          var ta = Date.parse(d[0].record_date), tb = Date.parse(d[d.length - 1].record_date);
+          if (!(a > 1e13 && ta > tb)) throw 0;
+          if (a > b) rate = (a - b) / ((ta - tb) / 1000);
+          base = a; baseTs = ta;
+          src.textContent = "已按官方数据校准 · 美国财政部 Debt to the Penny · 截至 " + d[0].record_date + "（此后为按近期增速外推）";
+        })
+        .catch(function () {
+          src.textContent = "基线：2026-06 约 $39 万亿（财政部口径）· 此刻数字为按年增约 $2.5 万亿的外推——离线它也在涨，这正是问题本身。";
+        });
+    }
+    return function () { clearInterval(iv); };
+  }
+
+  /* ================= 12. registry + 启动 ================= */
 
   var registry = {
     "time-machine": createTimeMachine,
@@ -1813,7 +1875,8 @@
     "first-tx": createFirstTx,
     "chain": createChain,
     "double-spend": createDoubleSpend,
-    "byzantine": createByzantine
+    "byzantine": createByzantine,
+    "debt-clock": createDebtClock
   };
 
   function boot() {

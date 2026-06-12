@@ -2117,3 +2117,99 @@ body.hall-mode .experiment.open { display: block; }
   .way-post::after { left: 8px; transform: none; }
   .way-sign.l { text-align: left; border-radius: 3px 10px 10px 3px; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); padding-left: 1rem; padding-right: 1.8rem; }
 }
+
+/* ============================================================
+   学堂（study.html）：藏书房书架 + 放映厅排片牌
+   ============================================================ */
+.sd-main { max-width: var(--w-read); margin: 0 auto; padding: 4.5rem 1.4rem 0; }
+
+.sd-intro { color: var(--ink-soft); font-size: 0.98rem; line-height: 2.05; margin: 0 0 1rem; }
+
+/* —— 书架：木板托着各色釉面书脊 —— */
+.bk-shelf {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 0.6rem 0;
+  border-bottom: 10px solid color-mix(in srgb, var(--ink-faint) 55%, var(--paper-2));
+  border-radius: 0 0 3px 3px;
+  margin: 2.2rem 0 2.6rem;
+}
+
+.bk-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  writing-mode: vertical-rl;
+  text-decoration: none;
+  color: #f2ead8;
+  border-radius: 3px 3px 0 0;
+  padding: 0.9rem 0;
+  box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.25), inset 2px 0 3px rgba(255, 255, 255, 0.08);
+  transition: filter var(--dur) var(--ease-breath), box-shadow var(--dur) var(--ease-breath);
+}
+
+.bk-spine:hover {
+  filter: brightness(1.12);
+  box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.25), 0 0 18px rgba(240, 140, 62, 0.3);
+}
+
+.bk-spine .t { font-family: var(--serif); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; }
+.bk-spine .a { font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.18em; opacity: 0.75; }
+
+/* —— 书牌 —— */
+.bk-plate {
+  background: var(--card);
+  border: 1px solid var(--line-faint);
+  border-radius: 10px;
+  padding: 1.3rem 1.5rem;
+  margin: 0 0 1.1rem;
+  scroll-margin-top: 5.5rem;
+}
+
+.bk-plate .bk-title { font-family: var(--serif); font-size: 1.08rem; font-weight: 700; letter-spacing: 0.04em; margin: 0 0 0.2rem; }
+.bk-plate .bk-orig { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faint); margin: 0 0 0.7rem; }
+.bk-plate .bk-note { font-family: var(--serif); font-size: 0.92rem; color: var(--ink-soft); line-height: 2; margin: 0 0 0.8rem; text-align: justify; }
+.bk-plate .bk-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* —— 放映厅 —— */
+.cin-marquee {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--accent-ink);
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.55rem 0;
+  margin: 2rem 0 1.4rem;
+  background: var(--accent-wash);
+}
+
+.cin-card {
+  display: block;
+  text-decoration: none;
+  background: #15110c;
+  border: 1px solid #3a2f20;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 1rem;
+  transition: border-color var(--dur) var(--ease-breath), box-shadow var(--dur) var(--ease-breath);
+}
+
+.cin-card:hover { border-color: var(--accent); box-shadow: 0 0 22px rgba(240, 140, 62, 0.18); }
+
+.cin-card .cin-no { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.22em; color: #8a7a5e; }
+.cin-card .cin-title { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; color: #e8c79c; letter-spacing: 0.03em; margin: 0.25rem 0 0.1rem; text-shadow: 0 0 10px rgba(255, 176, 86, 0.25); }
+.cin-card .cin-zh { font-family: var(--sans); font-size: 0.72rem; color: #8a7a5e; margin: 0 0 0.55rem; }
+.cin-card .cin-note { font-family: var(--serif); font-size: 0.88rem; color: #c2a071; line-height: 1.95; margin: 0 0 0.6rem; }
+.cin-card .cin-meta { font-family: var(--mono); font-size: 0.62rem; color: #6b5d45; }
+
+.sd-tip { font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint); line-height: 1.9; margin: 1.2rem 0 0; }
+
+@media (max-width: 600px) {
+  .bk-shelf { gap: 5px; }
+  .bk-spine .t { font-size: 0.74rem; }
+}

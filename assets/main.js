@@ -94,6 +94,8 @@
   if (/gallery\.html$/.test(location.pathname)) store.set("hkb-gallery", "1");
   // 布道厅
   if (/satoshi\.html$/.test(location.pathname)) store.set("hkb-satoshi", "1");
+  // 学堂
+  if (/study\.html$/.test(location.pathname)) store.set("hkb-study", "1");
 
   // 首页：点亮已读标签、阅读进度与"三步上手"的完成态
   var toc = document.querySelector(".toc");
