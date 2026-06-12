@@ -120,7 +120,7 @@ textarea:focus-visible {
   top: 0; left: 0;
   height: 2px;
   width: 0;
-  background: var(--accent);
+  background: linear-gradient(90deg, #e3b864, var(--accent));
   z-index: 50;
   transition: width 0.1s linear;
 }
@@ -193,29 +193,22 @@ textarea:focus-visible {
 }
 
 /* 底款：瓷器底部的款识——双方框里一枚 ₿，落在整页最末 */
-/* 底款 v2：青铜鎏金印——上光下影，₿ 如錾刻入铜 */
+/* 底款：素瓷阴刻——空心无色，双道细框，瓷器落款的本分 */
 .site-footer .inner::after {
   content: "₿";
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   margin: 2.4rem auto 0;
   font-family: var(--serif);
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #3c2407;
-  text-shadow: 0 1px 0 rgba(255, 238, 198, 0.55);
-  background: linear-gradient(165deg, #e3b568 0%, #c08736 52%, #7c4a1d 100%);
-  border: 1px solid rgba(58, 30, 6, 0.6);
-  outline: 1px solid color-mix(in srgb, var(--ink-faint) 50%, transparent);
-  outline-offset: 4px;
-  border-radius: 4px;
-  box-shadow:
-    inset 0 1px 1px rgba(255, 242, 205, 0.75),
-    inset 0 -2px 3px rgba(46, 22, 0, 0.5),
-    0 2px 7px rgba(70, 35, 5, 0.25);
+  font-size: 1.35rem;
+  color: var(--ink-faint);
+  border: 1px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: 3px;
+  border-radius: 3px;
 }
 
 .site-footer .disclaimer {
@@ -263,15 +256,26 @@ textarea:focus-visible {
   font-size: clamp(10rem, 26vw, 15rem);
   font-weight: 400;
   line-height: 1;
-  background: linear-gradient(180deg, #f6c453 0%, #e8702a 46%, #8a2c0d 100%);
+  background:
+    linear-gradient(115deg, transparent 42%, rgba(255, 246, 216, 0.5) 50%, transparent 58%),
+    linear-gradient(180deg, #f6dc9a 0%, #ddae54 46%, #7c4a1d 100%);
+  background-size: 260% 100%, 100% 100%;
+  background-position: 220% 0, 0 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 26px rgba(232, 112, 42, 0.4)) drop-shadow(0 0 90px rgba(194, 65, 12, 0.28));
-  opacity: 0.2;
+  filter: drop-shadow(0 0 24px rgba(221, 174, 84, 0.4)) drop-shadow(0 0 90px rgba(180, 120, 30, 0.25));
+  opacity: 0.22;
   z-index: -1;
   pointer-events: none;
-  animation: thermal-breathe 6.5s ease-in-out infinite;
+  animation: thermal-breathe 6.5s ease-in-out infinite, gold-glint 9s linear infinite;
+}
+
+/* 光泽：每九秒一道展柜灯掠过金锭 */
+@keyframes gold-glint {
+  0% { background-position: 220% 0, 0 0; }
+  14% { background-position: -140% 0, 0 0; }
+  100% { background-position: -140% 0, 0 0; }
 }
 
 @keyframes thermal-breathe {
@@ -284,11 +288,15 @@ textarea:focus-visible {
 @media (prefers-color-scheme: dark) {
   .hero::before { opacity: 0.16; }
   .hero::after {
-    background: linear-gradient(180deg, #ffd98a 0%, #f08c3e 46%, #b3491c 100%);
+    background:
+      linear-gradient(115deg, transparent 42%, rgba(255, 248, 222, 0.65) 50%, transparent 58%),
+      linear-gradient(180deg, #ffe9b0 0%, #ecbd62 46%, #9c601f 100%);
+    background-size: 260% 100%, 100% 100%;
+    background-position: 220% 0, 0 0;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 30px rgba(240, 140, 62, 0.55)) drop-shadow(0 0 110px rgba(240, 140, 62, 0.35));
-    animation-name: thermal-breathe-dark;
+    filter: drop-shadow(0 0 30px rgba(236, 189, 98, 0.6)) drop-shadow(0 0 110px rgba(236, 189, 98, 0.32));
+    animation-name: thermal-breathe-dark, gold-glint;
   }
   @keyframes thermal-breathe-dark {
     0%, 100% { opacity: 0.24; }
@@ -676,11 +684,11 @@ textarea:focus-visible {
   font-family: var(--serif);
   font-size: 8.5rem;
   line-height: 1;
-  background: linear-gradient(180deg, #f6c453, #e8702a 50%, #8a2c0d);
+  background: linear-gradient(180deg, #f0d690, #d6a64c 50%, #7c4a1d);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 22px rgba(232, 112, 42, 0.25));
+  filter: drop-shadow(0 0 22px rgba(214, 166, 76, 0.28));
   opacity: 0.09;
   z-index: -1;
   pointer-events: none;
@@ -742,8 +750,8 @@ textarea:focus-visible {
   display: block;
   width: 1.6rem;
   height: 1px;
-  background: var(--accent);
-  opacity: 0.8;
+  background: linear-gradient(90deg, #e3b864, #9c6b28);
+  opacity: 0.9;
   margin-bottom: 1.3rem;
 }
 
