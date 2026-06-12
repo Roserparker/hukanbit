@@ -1,10 +1,15 @@
 /* ============================================================
    胡侃比特 · 流场尘埃（最底层背景动画）
-   上善若水，大象无形——
-   一层暗金尘埃在柏林噪声的流场里缓缓漂浮，
-   靠近者以微光相连（去中心化节点的生长），
-   指尖掠过时如水面被轻轻拨开，离开后徐徐聚拢。
-   纯 Vanilla JS + Canvas，无依赖；约 36–110 粒，随窗口自适应。
+
+   四条哲学，四套算法：
+   · 大象无形 —— z-index:-1，透明度 0.05–0.15，抽象点线，绝不扰文
+   · 上善若水 —— 手写 2D 柏林噪声流场，慢速漂移，无界环回，绝不反弹
+   · 道生万物 —— Boids 三力（聚拢/同游/疏离）+ 距离结缘金线：
+                节点自发成簇、同游、离散——去中心化网络的涌现
+   · 道法自然 —— 指尖力场 = 径向轻斥 + 切向绕行（水遇石而绕行），
+                力场位置带缓动，如水波有惯性
+
+   纯 Vanilla JS + Canvas，无依赖；粒子 36–110 随窗口自适应。
    ============================================================ */
 (function () {
   "use strict";
@@ -16,7 +21,7 @@
 
   var TAU = Math.PI * 2;
 
-  /* ---------- 画布：垫在一切之下 ---------- */
+  /* ---------- 画布：垫在一切之下（大象无形） ---------- */
   var canvas = document.createElement("canvas");
   canvas.setAttribute("aria-hidden", "true");
   var cs = canvas.style;
@@ -78,22 +83,24 @@
     ); /* ∈ 约 [-1, 1] */
   }
 
+  /* ---------- 心法参数（一处调，全局变） ---------- */
+  var FLOW_SCALE = 0.0011;  /* 流场疏密 */
+  var FLOW_PUSH  = 0.013;   /* 水流之力（极轻） */
+  var CALM       = 0.94;    /* 阻尼：一切归于平静 */
+  var MAX_V      = 0.45;    /* 慢，再慢一点 */
+  var LINK_DIST  = 96;      /* 结缘的距离 */
+  var COHERE     = 0.00012; /* 道生万物 · 聚拢：向邻居微微靠近 */
+  var ALIGN      = 0.010;   /* 道生万物 · 同游：与邻居速度趋同 */
+  var SEP_DIST   = 22;      /* 道生万物 · 疏离：太近则相敬 */
+  var SEP_F      = 0.05;
+  var RIP_R      = 130;     /* 指尖力场半径 */
+  var RIP_PUSH   = 0.45;    /* 道法自然 · 径向轻斥 */
+  var RIP_SWIRL  = 0.30;    /* 道法自然 · 切向绕行 */
+  var RIP_EASE   = 0.12;    /* 力场追随指尖的缓动 */
+
   /* ---------- 尺度与粒子 ---------- */
   var W = 0, H = 0, DPR = 1;
-  var essence = [];          /* 尘埃本体 */
-  var LINK_DIST = 96;        /* 结缘的距离 */
-
-  function resize() {
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width = W * DPR;
-    canvas.height = H * DPR;
-    brush.setTransform(DPR, 0, 0, DPR, 0, 0);
-    var count = Math.max(36, Math.min(110, Math.round((W * H) / 22000)));
-    while (essence.length < count) essence.push(birth());
-    essence.length = count;
-  }
+  var essence = [];
 
   function birth() {
     return {
@@ -107,46 +114,103 @@
     };
   }
 
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    brush.setTransform(DPR, 0, 0, DPR, 0, 0);
+    var count = Math.max(36, Math.min(110, Math.round((W * H) / 22000)));
+    while (essence.length < count) essence.push(birth());
+    essence.length = count;
+  }
+
   window.addEventListener("resize", resize);
   resize();
 
-  /* ---------- 指尖的涟漪：温柔的排斥力场 ---------- */
-  var ripple = { x: -9999, y: -9999, r: 130 };
+  /* ---------- 指尖的涟漪（带缓动的力场） ---------- */
+  var ripple = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
   window.addEventListener("pointermove", function (e) {
-    ripple.x = e.clientX; ripple.y = e.clientY;
+    ripple.tx = e.clientX; ripple.ty = e.clientY;
+    if (ripple.x < -999) { ripple.x = ripple.tx; ripple.y = ripple.ty; }
   }, { passive: true });
-  window.addEventListener("pointerleave", function () {
-    ripple.x = -9999; ripple.y = -9999;
-  });
-  document.addEventListener("mouseleave", function () {
-    ripple.x = -9999; ripple.y = -9999;
-  });
+  function rippleAway() {
+    ripple.x = ripple.tx = -9999;
+    ripple.y = ripple.ty = -9999;
+  }
+  window.addEventListener("pointerleave", rippleAway);
+  document.addEventListener("mouseleave", rippleAway);
 
-  /* ---------- 呼吸的时间 ---------- */
-  var chi = Math.random() * 100;   /* 缓缓流逝的"气" */
-  var FLOW_SCALE = 0.0011;         /* 流场的疏密 */
-  var FLOW_PUSH = 0.013;           /* 水流之力（极轻） */
-  var CALM = 0.94;                 /* 阻尼：一切归于平静 */
-  var MAX_V = 0.45;                /* 慢，再慢一点 */
+  /* ---------- 力之一：水流与涟漪 ---------- */
+  var chi = Math.random() * 100; /* 缓缓流逝的"气" */
 
-  function step(p) {
-    /* 水流：柏林噪声给出此处的流向 */
+  function applyField(p) {
+    /* 上善若水：柏林噪声给出此处的流向 */
     var a = noise2(p.x * FLOW_SCALE + p.drift, p.y * FLOW_SCALE - chi) * TAU * 1.8;
     p.vx += Math.cos(a) * FLOW_PUSH;
     p.vy += Math.sin(a) * FLOW_PUSH;
 
-    /* 涟漪：指尖靠近，如拨水面 */
+    /* 道法自然：径向轻斥 + 切向绕行 */
     var dx = p.x - ripple.x, dy = p.y - ripple.y;
-    var d2 = dx * dx + dy * dy, r = ripple.r;
-    if (d2 < r * r && d2 > 0.01) {
+    var d2 = dx * dx + dy * dy;
+    if (d2 < RIP_R * RIP_R && d2 > 0.01) {
       var d = Math.sqrt(d2);
-      var f = (1 - d / r);
-      f = f * f * 0.55;            /* 力随距离平方衰减，温柔 */
-      p.vx += (dx / d) * f;
-      p.vy += (dy / d) * f;
+      var t = 1 - d / RIP_R;
+      var fr = t * t * RIP_PUSH;   /* 排斥：拨开水面 */
+      var ft = t * t * RIP_SWIRL;  /* 绕行：水遇石而行其侧 */
+      var nx = dx / d, ny = dy / d;
+      p.vx += nx * fr - ny * ft;
+      p.vy += ny * fr + nx * ft;
     }
+  }
 
-    /* 归静 */
+  /* ---------- 力之二 + 结缘：一次配对，既画线又共生 ---------- */
+  function weave() {
+    var max2 = LINK_DIST * LINK_DIST;
+    var sep2 = SEP_DIST * SEP_DIST;
+    var i, j, a, b, dx, dy, d2, d, t;
+    for (i = 0; i < essence.length; i++) {
+      a = essence[i];
+      for (j = i + 1; j < essence.length; j++) {
+        b = essence[j];
+        dx = b.x - a.x; dy = b.y - a.y;
+        d2 = dx * dx + dy * dy;
+        if (d2 >= max2) continue;
+        d = Math.sqrt(d2) || 0.001;
+        t = 1 - d / LINK_DIST;
+
+        /* 结缘金线（道生万物的可见形） */
+        brush.strokeStyle = "rgba(" + palette.link + "," +
+          (t * palette.linkA * Math.min(a.depth, b.depth)).toFixed(3) + ")";
+        brush.lineWidth = 0.6;
+        brush.beginPath();
+        brush.moveTo(a.x, a.y);
+        brush.lineTo(b.x, b.y);
+        brush.stroke();
+
+        /* 聚拢：相连者微微靠近 */
+        a.vx += dx * COHERE; a.vy += dy * COHERE;
+        b.vx -= dx * COHERE; b.vy -= dy * COHERE;
+
+        /* 同游：相连者速度趋同 */
+        var avx = (b.vx - a.vx) * ALIGN, avy = (b.vy - a.vy) * ALIGN;
+        a.vx += avx; a.vy += avy;
+        b.vx -= avx; b.vy -= avy;
+
+        /* 疏离：太近则相敬如宾，不挤作一团 */
+        if (d2 < sep2) {
+          var s = (1 - d / SEP_DIST) * SEP_F;
+          var sx = (dx / d) * s, sy = (dy / d) * s;
+          a.vx -= sx; a.vy -= sy;
+          b.vx += sx; b.vy += sy;
+        }
+      }
+    }
+  }
+
+  /* ---------- 归静与前行 ---------- */
+  function settle(p) {
     p.vx *= CALM; p.vy *= CALM;
     var v2 = p.vx * p.vx + p.vy * p.vy;
     if (v2 > MAX_V * MAX_V) {
@@ -161,44 +225,32 @@
     if (p.y < -m) p.y = H + m; else if (p.y > H + m) p.y = -m;
   }
 
-  function render() {
-    brush.clearRect(0, 0, W, H);
-
-    /* 结缘：靠近的节点之间，一缕几不可见的金线 */
-    var i, j, a, b, dx, dy, d2, max2 = LINK_DIST * LINK_DIST;
-    for (i = 0; i < essence.length; i++) {
-      a = essence[i];
-      for (j = i + 1; j < essence.length; j++) {
-        b = essence[j];
-        dx = a.x - b.x; dy = a.y - b.y;
-        d2 = dx * dx + dy * dy;
-        if (d2 < max2) {
-          var t = 1 - Math.sqrt(d2) / LINK_DIST;
-          brush.strokeStyle = "rgba(" + palette.link + "," + (t * palette.linkA * Math.min(a.depth, b.depth)).toFixed(3) + ")";
-          brush.lineWidth = 0.6;
-          brush.beginPath();
-          brush.moveTo(a.x, a.y);
-          brush.lineTo(b.x, b.y);
-          brush.stroke();
-        }
-      }
-    }
-
-    /* 尘埃 */
-    for (i = 0; i < essence.length; i++) {
-      a = essence[i];
-      brush.fillStyle = "rgba(" + palette.dust + "," + (palette.dustA * a.depth).toFixed(3) + ")";
-      brush.beginPath();
-      brush.arc(a.x, a.y, a.size * a.depth, 0, TAU);
-      brush.fill();
-    }
-  }
-
+  /* ---------- 呼吸 ---------- */
   var rafId = 0;
   function breathe() {
     chi += 0.0016;
-    for (var i = 0; i < essence.length; i++) step(essence[i]);
-    render();
+
+    /* 力场缓动追随指尖（水波有惯性） */
+    if (ripple.tx > -999) {
+      ripple.x += (ripple.tx - ripple.x) * RIP_EASE;
+      ripple.y += (ripple.ty - ripple.y) * RIP_EASE;
+    }
+
+    var i;
+    for (i = 0; i < essence.length; i++) applyField(essence[i]);
+
+    brush.clearRect(0, 0, W, H);
+    weave();
+
+    for (i = 0; i < essence.length; i++) {
+      var p = essence[i];
+      settle(p);
+      brush.fillStyle = "rgba(" + palette.dust + "," + (palette.dustA * p.depth).toFixed(3) + ")";
+      brush.beginPath();
+      brush.arc(p.x, p.y, p.size * p.depth, 0, TAU);
+      brush.fill();
+    }
+
     rafId = requestAnimationFrame(breathe);
   }
 

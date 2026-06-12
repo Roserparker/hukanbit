@@ -12,6 +12,7 @@
 - **热力学 ₿**（2026-06-12，应用户"能量货币"构想）：hero 的 ₿ = 发热的能量锭。黑体辐射色温渐变（炽金 #f6c453 → 熔橙 #e8702a → 深红余烬 #8a2c0d，暗色更亮一档），双层 drop-shadow 辐射光晕，6.5s thermal-breathe 呼吸（opacity 16→26%，暗色 24→38%）。叙事锚点：PoW=能量铸币，₿ 是凝固的焦耳，呼吸即散热。文章页水印同色温但静止（阅读区安静）；reduced-motion 停呼吸。性能：只动 opacity，filter 静态。
 - **活的区块链**（首页 hero，data-game="chain"）：4 个已封存区块 + 1 个打包中虚线块 + mempool 浮点。每 2.3s 装入一笔转账，装满 4 笔封存（暖橙闪光）、链条前进、确认数随之增长。悬停/点按看区块内转账（转账文案带站长味：爷爷给孙子的压岁钱等）。这是 mempool 停车场游戏的"环境版镜像"——不需要操作，看着就懂挖矿。
 - **亮橙暖色**（2026-06-12 应用户要求）：主色从烬琥珀 #b45309 提亮为暖橙 #c2410c（暗色 #f08c3e），hero 加 radial 炉火光晕（accent-wash），主 CTA 用 .btn.warm（橙底+暖阴影），favicon 同步。理由："让人因为美术想留下来"——暖度↑但仍是釉色逻辑，不是荧光橙。
+- **流场尘埃**（全站最底层，assets/flow.js）：道德经 × 区块链。暗金尘埃（明窑 rgb(139,98,32)/暗窑 rgb(196,148,58)）在手写 2D 柏林噪声流场里漂浮；<96px 结金线（去中心化节点意象）；指尖 130px 排斥场如拨水面。物理参数：FLOW_PUSH 0.013 / 阻尼 0.94 / 限速 0.45px·帧 / 边缘环回不反弹。粒子 36–110 随面积自适应，DPR 上限 2，document.hidden 休眠，reduced-motion 整层不渲染。canvas position:fixed z-index:-1（依赖 body 背景向根传播的特性垫底）。
 - **点击涟漪**（全站）：pointerdown 处荡开一圈 1px 细线声呐环（accent 色，0.55s，cubic-bezier 同卡片缓动）。属于"反馈"不占装饰名额；限流 ≤12 个并发（挖矿连点场景）、reduced-motion 全关、右键中键不响。卡片 :active 轻微"落座"配合。实现：main.js spawnPing + style.css .click-ping。
 
 ## Armstrong/Coinbase 蒸馏的应用（2026-06-11）
