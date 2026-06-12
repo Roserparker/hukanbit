@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>互动实验室 · 胡侃比特</title>
+<meta name="description" content="在浏览器里亲手体验：通胀的复利、银行的货币乘数、SHA-256 哈希、工作量证明挖矿，和比特币的 2100 万供给曲线。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23b45309'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/games.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="index.html">首页</a>
+      <a href="index.html#articles">文章</a>
+      <a href="lab.html" class="active">实验室</a>
+      <a href="index.html#about">关于</a>
+    </nav>
+  </div>
+</header>
+
+<main class="lab-main">
+  <p class="kicker" style="font-family:var(--sans);font-size:0.76rem;letter-spacing:0.3em;color:var(--accent-ink);margin:0 0 1.1rem;">PLAYGROUND</p>
+  <h1 style="font-size:clamp(1.9rem,5vw,2.5rem);letter-spacing:0.08em;margin:0 0 1.2rem;">互动实验室</h1>
+  <p class="intro">概念读十遍，不如亲手玩一遍。下面所有实验都在你的浏览器里真实运行——没有服务器，没有数据上传，挖矿用的是真实的 SHA-256 算法。</p>
+
+  <nav class="lab-nav">
+    <a class="chip" href="#inflation">⏳ 通胀时光机</a>
+    <a class="chip" href="#time-machine">🍞 购买力时光机</a>
+    <a class="chip" href="#multiplier">🏦 货币乘数机</a>
+    <a class="chip" href="#hash">🔐 哈希实验台</a>
+    <a class="chip" href="#mining">⛏️ 挖矿模拟器</a>
+    <a class="chip" href="#pow-miner">👆 孤勇者矿工</a>
+    <a class="chip" href="#supply">📉 2100 万与减半</a>
+    <a class="chip" href="#mempool">🚗 Mempool 停车场</a>
+    <a class="chip" href="#first-tx">💸 第一笔转账</a>
+    <a class="chip" href="#quiz">✅ 小测验</a>
+  </nav>
+
+  <!-- ① 通胀时光机 -->
+  <section class="experiment reveal" id="inflation">
+    <p class="exp-kicker">实验 ① · 对应 <a href="articles/01.html" style="color:inherit">第一篇 · 何为金钱</a></p>
+    <h2>⏳ 通胀时光机</h2>
+    <p class="exp-desc">央行说“温和的 2% 通胀”守护了你的财富。把你的存款放进时光机，亲眼看看若干年后它还剩多少购买力。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>年通胀率</label>
+        <input type="range" id="inf-rate" min="0" max="15" step="0.5" value="2">
+        <span class="val" id="inf-rate-val">2%</span>
+      </div>
+      <div class="control-row">
+        <label>经过年数</label>
+        <input type="range" id="inf-years" min="1" max="50" step="1" value="30">
+        <span class="val" id="inf-years-val">30 年</span>
+      </div>
+      <div class="big-stat" id="inf-result">¥55 万</div>
+      <p class="stat-note" id="inf-note"></p>
+      <svg class="mini-chart" id="inf-chart" viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" aria-label="购买力衰减曲线"></svg>
+    </div>
+  </section>
+
+  <!-- ② 购买力时光机 -->
+  <section class="experiment reveal" id="time-machine">
+    <p class="exp-kicker">实验 ② · 对应 <a href="articles/01.html" style="color:inherit">第一篇 · 何为金钱</a></p>
+    <h2>🍞 购买力时光机</h2>
+    <p class="exp-desc">上面那台算的是假设的复利，这一台回放真实的历史：从 1971 年美元与黄金脱钩开始，拖动年份，看 100 美元还能买几条面包。旁边是另一套系统的回答——一个永远锁死的数字。</p>
+    <div class="game-embed" data-game="time-machine">
+      <p class="game-fallback">这个互动实验需要 JavaScript 才能运行。</p>
+    </div>
+  </section>
+
+  <!-- ③ 货币乘数机 -->
+  <section class="experiment reveal" id="multiplier">
+    <p class="exp-kicker">实验 ③ · 对应 <a href="articles/02.html" style="color:inherit">第二篇 · 债务驱动的世界</a></p>
+    <h2>🏦 货币乘数机</h2>
+    <p class="exp-desc">你存进银行 100 元，银行留下一点准备金，把剩下的贷出去；贷出去的钱又被存回银行，再贷出去……看看这 100 元最终能“变”出多少钱。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>准备金率</label>
+        <input type="range" id="mul-rate" min="1" max="20" step="1" value="10">
+        <span class="val" id="mul-rate-val">10%</span>
+      </div>
+      <div class="control-row">
+        <button class="btn" id="mul-run" type="button">存入 ¥100，开始放贷</button>
+        <button class="btn ghost" id="mul-reset" type="button">重置</button>
+      </div>
+      <div class="stat-grid">
+        <div class="cell"><span class="label">真实的现金</span><span class="value">¥100</span></div>
+        <div class="cell"><span class="label">市面上的“钱”</span><span class="value" id="mul-total">¥0</span></div>
+        <div class="cell"><span class="label">理论上限</span><span class="value" id="mul-max">¥1,000</span></div>
+      </div>
+      <div class="ledger" id="mul-ledger"></div>
+      <p class="stat-note" id="mul-note" style="margin-top:0.9rem"></p>
+    </div>
+  </section>
+
+  <!-- ④ 哈希实验台 -->
+  <section class="experiment reveal" id="hash">
+    <p class="exp-kicker">实验 ④ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
+    <h2>🔐 哈希实验台</h2>
+    <p class="exp-desc">SHA-256 是比特币的指纹机：任何内容进去，出来一串固定长度的“指纹”。试试只改一个字——指纹会面目全非。这就是“雪崩效应”，也是账本不可篡改的根基。</p>
+    <div class="panel">
+      <textarea id="hash-input" rows="3">中本聪在 2009 年 1 月 3 日挖出了创世区块</textarea>
+      <div class="hash-out" id="hash-output">计算中……</div>
+      <p class="stat-note" id="hash-note" style="margin-top:0.8rem">输入任意内容，指纹实时更新。</p>
+    </div>
+  </section>
+
+  <!-- ⑤ 挖矿模拟器 -->
+  <section class="experiment reveal" id="mining">
+    <p class="exp-kicker">实验 ⑤ · 对应 <a href="articles/03.html" style="color:inherit">第三篇</a> 与 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
+    <h2>⛏️ 挖矿模拟器</h2>
+    <p class="exp-desc">挖矿就是不停地“试”：把区块内容加上一个随机数（nonce）做哈希，直到指纹以足够多的 0 开头。难度每加一位，平均要多试 16 倍——你的电脑马上就会体会到什么叫“工作量证明”。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>区块内容</label>
+      </div>
+      <input type="text" id="mine-data" value="小明 → 小红：0.5 BTC ｜ 小刚 → 小美：1.2 BTC">
+      <div class="control-row" style="margin-top:1rem">
+        <label>难度（开头 0 的个数）</label>
+        <span class="seg" id="mine-diff">
+          <button type="button" data-d="2">2</button>
+          <button type="button" data-d="3" class="on">3</button>
+          <button type="button" data-d="4">4</button>
+        </span>
+        <button class="btn" id="mine-go" type="button">开始挖矿</button>
+      </div>
+      <div class="stat-grid">
+        <div class="cell"><span class="label">已尝试次数</span><span class="value" id="mine-tries">0</span></div>
+        <div class="cell"><span class="label">速度</span><span class="value" id="mine-speed">—</span></div>
+        <div class="cell"><span class="label">用时</span><span class="value" id="mine-time">—</span></div>
+      </div>
+      <div class="mining-log" id="mine-log">点击「开始挖矿」，矿机开始抽彩票……</div>
+      <div id="mine-result"></div>
+    </div>
+  </section>
+
+  <!-- ⑥ 孤勇者矿工 -->
+  <section class="experiment reveal" id="pow-miner">
+    <p class="exp-kicker">实验 ⑥ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
+    <h2>👆 孤勇者矿工</h2>
+    <p class="exp-desc">上面的模拟器是机器自己跑，这一次你亲手当矿机：每一下点击都是真实的 SHA-256 运算。看着乱码飞滚，直到那个以 0 开头的幸运儿出现——用手指头理解什么叫“消耗能源，换取账本的真理”。</p>
+    <div class="game-embed" data-game="pow-miner">
+      <p class="game-fallback">这个互动实验需要 JavaScript 才能运行。</p>
+    </div>
+  </section>
+
+  <!-- ⑦ 供给曲线 -->
+  <section class="experiment reveal" id="supply">
+    <p class="exp-kicker">实验 ⑦ · 对应 <a href="articles/03.html" style="color:inherit">第三篇</a> 与 <a href="articles/04.html" style="color:inherit">第四篇</a></p>
+    <h2>📉 2100 万与减半</h2>
+    <p class="exp-desc">比特币的发行规则写死在代码里：每约四年区块奖励减半，总量永远不会超过 2100 万枚。拖动时间轴，看看每个年代发生了什么。</p>
+    <div class="panel">
+      <div class="control-row">
+        <label>年份</label>
+        <input type="range" id="sup-year" min="2009" max="2140" step="1" value="2026">
+        <span class="val" id="sup-year-val">2026</span>
+      </div>
+      <div class="stat-grid">
+        <div class="cell"><span class="label">区块奖励</span><span class="value" id="sup-reward">3.125 BTC</span></div>
+        <div class="cell"><span class="label">已发行</span><span class="value" id="sup-issued">—</span></div>
+        <div class="cell"><span class="label">占 2100 万</span><span class="value" id="sup-pct">—</span></div>
+      </div>
+      <svg class="mini-chart" id="sup-chart" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" aria-label="比特币供给曲线"></svg>
+      <p class="stat-note">对比一下：法币的这条曲线没有上限，而且斜率由央行随时决定。</p>
+    </div>
+  </section>
+
+  <!-- ⑧ Mempool 停车场 -->
+  <section class="experiment reveal" id="mempool">
+    <p class="exp-kicker">实验 ⑧ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
+    <h2>🚗 Mempool 停车场</h2>
+    <p class="exp-desc">区块就像一座宽度固定的桥，每笔交易是一辆出了价的小车。你来当一回矿工：在有限的空间里选谁先过桥——装完一个区块，你就明白了手续费市场的全部博弈，以及为什么没人用主网买咖啡。</p>
+    <div class="game-embed" data-game="mempool">
+      <p class="game-fallback">这个互动实验需要 JavaScript 才能运行。</p>
+    </div>
+  </section>
+
+  <!-- ⑨ 第一笔转账 -->
+  <section class="experiment reveal" id="first-tx">
+    <p class="exp-kicker">实验 ⑨ · 对应 <a href="articles/05.html" style="color:inherit">第五篇 · 诺亚方舟</a></p>
+    <h2>💸 你的第一笔转账</h2>
+    <p class="exp-desc">普通人最大的心理门槛不是“懂不懂”，而是“怕按错”。这是一个沙盒钱包：粘贴地址、用聪定价、给手续费出价、按住发送、看着交易进块——走完五步你会发现，转一笔比特币并不比扫码付款更难。全程模拟，零真实资金。</p>
+    <div class="game-embed" data-game="first-tx">
+      <p class="game-fallback">这个互动实验需要 JavaScript 才能运行。</p>
+    </div>
+  </section>
+
+  <!-- ⑩ 小测验 -->
+  <section class="experiment reveal" id="quiz">
+    <p class="exp-kicker">实验 ⑩ · 综合全部五篇</p>
+    <h2>✅ 五分钟小测验</h2>
+    <p class="exp-desc">七道题，检验你对金钱与比特币的理解。答错也没关系——每题都附详细解析，比答对更有收获。</p>
+    <div class="panel" id="quiz-panel"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div class="ticker-slot" data-game="btc-ticker"></div>
+    <p>胡侃比特 © <span id="year"></span> · 知识分享，自由转载，注明出处即可。</p>
+    <p class="disclaimer">本站所有内容仅为个人观点与知识科普，不构成任何投资建议。加密资产价格波动巨大，请独立思考、自主决策，并只动用你能承受损失的资金。</p>
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+<script src="assets/lab.js"></script>
+<script src="assets/games.js" defer></script>
+</body>
+</html>
