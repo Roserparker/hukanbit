@@ -239,7 +239,7 @@ textarea:focus-visible {
   opacity: 0.12;
   z-index: -1;
   pointer-events: none;
-  animation: orbit-drift 110s linear infinite;
+  animation: ring-wake 2.6s var(--ease-breath) 1, orbit-drift 110s linear infinite;
 }
 
 /* 轨道中心：一块发热的能量锭。
@@ -268,7 +268,31 @@ textarea:focus-visible {
   opacity: 0.22;
   z-index: -1;
   pointer-events: none;
-  animation: thermal-breathe 6.5s ease-in-out infinite, gold-glint 9s linear infinite;
+  animation:
+    power-on 3s var(--ease-breath) 1,
+    thermal-breathe 6.5s ease-in-out 3s infinite,
+    gold-glint 9s linear 3.4s infinite;
+}
+
+/* 通电：能量缓缓注入——一次轻颤，然后绽亮落定 */
+@keyframes power-on {
+  0% { opacity: 0.02; }
+  45% { opacity: 0.09; }
+  58% { opacity: 0.05; }   /* 灯丝轻颤一下 */
+  72% { opacity: 0.20; }   /* 绽亮 */
+  100% { opacity: 0.16; }  /* 落定，交给呼吸 */
+}
+
+@keyframes power-on-dark {
+  0% { opacity: 0.03; }
+  45% { opacity: 0.13; }
+  58% { opacity: 0.07; }
+  72% { opacity: 0.30; }
+  100% { opacity: 0.24; }
+}
+
+@keyframes ring-wake {
+  from { opacity: 0; }
 }
 
 /* 光泽：每九秒一道展柜灯掠过金锭 */
@@ -296,7 +320,7 @@ textarea:focus-visible {
     -webkit-background-clip: text;
     background-clip: text;
     filter: drop-shadow(0 0 30px rgba(236, 189, 98, 0.6)) drop-shadow(0 0 110px rgba(236, 189, 98, 0.32));
-    animation-name: thermal-breathe-dark, gold-glint;
+    animation-name: power-on-dark, thermal-breathe-dark, gold-glint;
   }
   @keyframes thermal-breathe-dark {
     0%, 100% { opacity: 0.24; }
