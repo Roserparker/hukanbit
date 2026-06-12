@@ -124,7 +124,7 @@
 }
 
 .gm-btn:hover { background: var(--accent-ink); }
-.gm-btn:active { transform: translateY(1px); }
+.gm-btn:active { opacity: 0.8; }
 .gm-btn:disabled { opacity: 0.45; cursor: default; }
 .gm-btn:disabled:hover { background: var(--ink); }
 
@@ -512,7 +512,6 @@
 
 .gm-card.gm-selected {
   border-color: var(--accent);
-  transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(60, 40, 10, 0.12);
   background: var(--accent-wash);
 }
@@ -734,7 +733,7 @@
   width: 0;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--el-metal), var(--el-water));
-  transition: width 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: width 0.6s var(--ease-breath);
 }
 
 /* ---------- 实时价格挂件 ---------- */
@@ -990,7 +989,7 @@
 }
 
 .gm-chain-block:hover,
-.gm-chain-block:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
+.gm-chain-block:focus-visible { border-color: var(--accent); box-shadow: 0 0 12px rgba(194, 65, 12, 0.22); }
 
 /* 打包中的区块：暖橙呼吸，像窑火 */
 .gm-chain-block.mining {
@@ -1021,7 +1020,7 @@
 .gm-tx-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); opacity: 0.85; }
 .gm-tx-dot.alt { background: var(--celadon); }
 
-.gm-tx-dot.pop { animation: dot-pop 0.45s cubic-bezier(0.22, 0.61, 0.36, 1); }
+.gm-tx-dot.pop { animation: dot-pop 0.45s var(--ease-breath); }
 
 @keyframes dot-pop {
   from { transform: scale(0); }
