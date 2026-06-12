@@ -1883,6 +1883,7 @@ span.gen-m.lit { color: #e8b35f; text-shadow: 0 0 9px rgba(255, 176, 86, 0.4); }
    ============================================================ */
 .mk {
   fill: none;
+  stroke: #c9913f;          /* 兜底纯金：任何环境都不空白 */
   stroke: url(#mkgold);
   stroke-width: 1.9;
   stroke-linecap: round;
