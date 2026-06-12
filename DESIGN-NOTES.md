@@ -32,6 +32,9 @@
 ## 布道厅（satoshi.html，2026-06-12）
 琥珀磷光终端（1979 amber phosphor CRT = "高级橙色赛博朋克"的史实原型）。body.satoshi-page 强制暗琥珀色板（bg #0c0907 / 磷光 #e8c79c / 亮 #ffb056）；CRT 层=极淡扫描线+暗角（body::after，opacity 克制）。15 条中本聪原话按时间排列：`[日期] · 出处` 日志行 + EN（mono 辉光）+ 中译（衬线）+ 站长按（celadon 左线）；主题滤波器 7 类。仪式三件套：创世条目展示真实 coinbase hex（已用 python 解码验证）+ IntersectionObserver 打字机；告别信 PGP 框；结尾永亮空提示符 `$ ▌`+"他再也没有回来。光标还亮着。"。日期出处均核自 satoshi.nakamotoinstitute.org。
 
+## 信任的两道难题（2026-06-12）
+教学链条补完：哈希台之后、挖矿之前插入「双花问题」（三幕剧结构，幕间按钮推进）与「拜占庭将军」（九将军环形沙盘，叛徒数 seg、火漆印开关对照实验，城破=gm-flash 同源动效）。叙事原则：**先看病，再开药**——见识过"谎言免费"的世界，PoW 的能耗才显得理所当然。51% 攻击在叛徒=4 时自然带出。供给实验附"为什么 2100 万"双保险注释（几何级数 + 节点拒绝）。
+
 ## 组件契约
 - 互动组件经 `[data-game]` 挂载：time-machine / pow-miner / mempool / bazi-calendar / btc-ticker / first-tx
 - games.css 类名一律 `gm-` 前缀；颜色只用 style.css 的 CSS 变量（自动暗色模式）
