@@ -964,3 +964,123 @@
   .gm-hold.holding .gm-hold-fill { transition: none; }
   .gm-txflow li { animation: none; }
 }
+
+/* ============================================================
+   活的区块链（首页 hero）：打包→封存→前进，挖矿的具像化
+   ============================================================ */
+.gm-chain-root { position: relative; margin: 2.6rem auto 0; max-width: 480px; }
+
+.gm-chain { display: flex; align-items: center; justify-content: center; }
+
+.gm-chain-block {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border: 1.5px solid var(--ink-faint);
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  padding: 7px;
+  align-content: center;
+  justify-items: center;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.gm-chain-block:hover,
+.gm-chain-block:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
+
+/* 打包中的区块：暖橙呼吸，像窑火 */
+.gm-chain-block.mining {
+  border-style: dashed;
+  border-color: var(--accent);
+  animation: chain-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes chain-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(194, 65, 12, 0); }
+  50% { box-shadow: 0 0 16px 0 rgba(194, 65, 12, 0.28); }
+}
+
+.gm-chain-block.just-sealed { animation: chain-seal 0.8s ease; }
+
+@keyframes chain-seal {
+  0% { border-color: var(--accent); box-shadow: 0 0 18px rgba(194, 65, 12, 0.45); }
+  100% { box-shadow: 0 0 0 rgba(194, 65, 12, 0); }
+}
+
+.gm-chain-link { flex: none; width: 20px; height: 1.5px; background: var(--celadon); }
+
+.gm-chain-link.dashed {
+  background: repeating-linear-gradient(90deg, var(--celadon) 0 4px, transparent 4px 8px);
+  opacity: 0.7;
+}
+
+.gm-tx-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); opacity: 0.85; }
+.gm-tx-dot.alt { background: var(--celadon); }
+
+.gm-tx-dot.pop { animation: dot-pop 0.45s cubic-bezier(0.22, 0.61, 0.36, 1); }
+
+@keyframes dot-pop {
+  from { transform: scale(0); }
+  60% { transform: scale(1.5); }
+  to { transform: scale(1); }
+}
+
+/* 内存池：一撮轻轻漂浮的待办转账 */
+.gm-mempool {
+  flex: none;
+  margin-left: 10px;
+  width: 36px;
+  min-height: 46px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-content: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.gm-mempool .gm-tx-dot { opacity: 0.5; animation: mp-float 3s ease-in-out infinite alternate; }
+.gm-mempool .gm-tx-dot:nth-child(2n) { animation-delay: 0.7s; }
+.gm-mempool .gm-tx-dot:nth-child(3n) { animation-delay: 1.3s; }
+
+@keyframes mp-float {
+  from { transform: translateY(-2px); }
+  to { transform: translateY(2px); }
+}
+
+.gm-chain-tip {
+  position: absolute;
+  z-index: 6;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  line-height: 1.8;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(60, 40, 10, 0.12);
+  width: max-content;
+  max-width: 250px;
+  animation: gm-reveal-in 0.25s ease;
+}
+
+.gm-chain-tip p { margin: 0; color: var(--ink-soft); }
+.gm-chain-tip-head { color: var(--ink); font-weight: 700; }
+.gm-chain-tip-foot { color: var(--ink-faint); font-size: 0.66rem; margin-top: 0.2rem; }
+
+@media (max-width: 420px) {
+  .gm-chain-block { width: 38px; height: 38px; padding: 5px; }
+  .gm-chain-link { width: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-chain-block.mining, .gm-mempool .gm-tx-dot, .gm-tx-dot.pop, .gm-chain-block.just-sealed { animation: none; }
+}

@@ -1417,7 +1417,154 @@
     render();
   }
 
-  /* ================= 8. registry + 启动 ================= */
+  /* ================= 8. 活的区块链（首页 hero 动态链） =================
+     四个已封存区块 + 一个打包中的虚线区块 + 一撮 mempool 待办转账。
+     每隔约 2 秒装入一笔转账，装满即封存、链条前进——挖矿的具像化。
+     悬停/点按任何元素可看内部信息。 */
+
+  var CHAIN_TXS = [
+    { e: "☕", t: "小明 → 街角咖啡店", a: "0.0001 ₿" },
+    { e: "💼", t: "老板 → 全体工资", a: "0.31 ₿" },
+    { e: "🐋", t: "鲸鱼 → 冷钱包归集", a: "120 ₿" },
+    { e: "🌉", t: "马尼拉 → 老家汇款", a: "0.02 ₿" },
+    { e: "🏪", t: "网店 → 供货商结算", a: "0.8 ₿" },
+    { e: "🎁", t: "爷爷 → 孙子的压岁钱", a: "0.05 ₿" },
+    { e: "📦", t: "交易所 → 用户提币", a: "2.4 ₿" },
+    { e: "🛠", t: "DAO → 开发者报酬", a: "0.6 ₿" }
+  ];
+
+  function chainPickTx() {
+    var t = CHAIN_TXS[Math.floor(Math.random() * CHAIN_TXS.length)];
+    return { e: t.e, t: t.t, a: t.a, fee: (1 + Math.floor(Math.random() * 24)) + " sat/vB" };
+  }
+
+  function createChain(root) {
+    root.classList.remove("gm-box");
+    root.innerHTML = "";
+    root.classList.add("gm-chain-root");
+
+    var height = 905400 + Math.floor(Math.random() * 300);
+    var sealed = [];
+    for (var i = 0; i < 4; i++) {
+      var txs = [];
+      var n = 2 + Math.floor(Math.random() * 3);
+      for (var j = 0; j < n; j++) txs.push(chainPickTx());
+      sealed.push({ height: height - 3 + i, txs: txs });
+    }
+    var mining = { height: height + 1, txs: [chainPickTx()] };
+    var mempoolN = 5;
+
+    var row = el("div", "gm-chain");
+    root.appendChild(row);
+    var tip = el("div", "gm-chain-tip");
+    tip.hidden = true;
+    root.appendChild(tip);
+    var pinned = null; /* 点按固定的目标（触屏） */
+
+    function dotEl(k) { return el("span", "gm-tx-dot " + (k % 2 ? "alt" : "")); }
+
+    function blockEl(b, miningFlag) {
+      var d = btn("gm-chain-block" + (miningFlag ? " mining" : ""), "");
+      for (var k = 0; k < b.txs.length; k++) d.appendChild(dotEl(k));
+      d.setAttribute("aria-label", miningFlag ? "正在打包的区块" : "区块 #" + b.height);
+      d.__info = { kind: miningFlag ? "mining" : "sealed", b: b };
+      return d;
+    }
+
+    function tipHtml(info) {
+      tip.innerHTML = "";
+      if (info.kind === "mempool") {
+        tip.appendChild(el("p", "gm-chain-tip-head", "内存池 Mempool"));
+        tip.appendChild(el("p", null, mempoolN + " 笔转账正在排队，各自出着手续费的价。"));
+        return;
+      }
+      var b = info.b;
+      if (info.kind === "mining") {
+        tip.appendChild(el("p", "gm-chain-tip-head", "区块 #" + fmt(b.height) + " · 打包中 " + b.txs.length + "/4"));
+      } else {
+        var confs = mining.height - b.height;
+        tip.appendChild(el("p", "gm-chain-tip-head", "区块 #" + fmt(b.height) + " · ✓ 已封存 · 确认 " + confs));
+      }
+      for (var k = 0; k < b.txs.length; k++) {
+        var t = b.txs[k];
+        tip.appendChild(el("p", null, t.e + " " + t.t + " · " + t.a + " · 费率 " + t.fee));
+      }
+      tip.appendChild(el("p", "gm-chain-tip-foot",
+        info.kind === "mining" ? "矿机正在寻找合格哈希……" : "后面每多一个区块，篡改它的成本就翻一倍。"));
+    }
+
+    function showTip(target) {
+      tipHtml(target.__info);
+      tip.hidden = false;
+      var rb = root.getBoundingClientRect();
+      var tb = target.getBoundingClientRect();
+      var x = tb.left - rb.left + tb.width / 2;
+      tip.style.left = Math.max(8, Math.min(x - tip.offsetWidth / 2, rb.width - tip.offsetWidth - 8)) + "px";
+      tip.style.top = (tb.top - rb.top - tip.offsetHeight - 10) + "px";
+    }
+
+    function hideTip() { if (!pinned) tip.hidden = true; }
+
+    function render() {
+      row.innerHTML = "";
+      for (var k = 0; k < sealed.length; k++) {
+        row.appendChild(blockEl(sealed[k], false));
+        row.appendChild(el("span", "gm-chain-link"));
+      }
+      var mb = blockEl(mining, true);
+      row.appendChild(mb);
+      row.appendChild(el("span", "gm-chain-link dashed"));
+      var mp = btn("gm-mempool", "");
+      for (var m = 0; m < mempoolN; m++) mp.appendChild(dotEl(m));
+      mp.setAttribute("aria-label", "内存池：等待打包的转账");
+      mp.__info = { kind: "mempool" };
+      row.appendChild(mp);
+      return mb;
+    }
+
+    var miningEl = render();
+
+    row.addEventListener("mouseover", function (ev) {
+      var t = ev.target.closest("[aria-label]");
+      if (t && t.__info) { pinned = null; showTip(t); }
+    });
+    row.addEventListener("mouseout", hideTip);
+    row.addEventListener("click", function (ev) {
+      var t = ev.target.closest("[aria-label]");
+      if (!t || !t.__info) return;
+      if (pinned === t) { pinned = null; tip.hidden = true; }
+      else { pinned = t; showTip(t); }
+      ev.stopPropagation();
+    });
+    document.addEventListener("click", function () { pinned = null; tip.hidden = true; });
+
+    function tick() {
+      if (mining.txs.length < 4) {
+        mining.txs.push(chainPickTx());
+        if (mempoolN > 1) mempoolN--;
+        miningEl = render();
+        if (!reducedMotion) {
+          var dots = miningEl.querySelectorAll(".gm-tx-dot");
+          if (dots.length) dots[dots.length - 1].classList.add("pop");
+        }
+      } else {
+        /* 封存：链条前进一格 */
+        sealed.push(mining);
+        sealed.shift();
+        mining = { height: mining.height + 1, txs: [] };
+        mempoolN = 4 + Math.floor(Math.random() * 3);
+        miningEl = render();
+        var just = row.querySelectorAll(".gm-chain-block")[3];
+        if (just) just.classList.add("just-sealed");
+      }
+      if (pinned) { pinned = null; tip.hidden = true; }
+    }
+
+    var timer = setInterval(tick, reducedMotion ? 4200 : 2300);
+    return function () { clearInterval(timer); };
+  }
+
+  /* ================= 9. registry + 启动 ================= */
 
   var registry = {
     "time-machine": createTimeMachine,
@@ -1425,7 +1572,8 @@
     "mempool": createMempool,
     "bazi-calendar": createAlmanac,
     "btc-ticker": createTicker,
-    "first-tx": createFirstTx
+    "first-tx": createFirstTx,
+    "chain": createChain
   };
 
   function boot() {

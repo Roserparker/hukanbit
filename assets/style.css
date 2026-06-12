@@ -11,9 +11,9 @@
   --ink-soft: #595247;
   --ink-faint: #8d8475;
   --line: #e5ddcf;
-  --accent: #b45309;
-  --accent-ink: #8a3e06;
-  --accent-wash: rgba(180, 83, 9, 0.07);
+  --accent: #c2410c;
+  --accent-ink: #9a3412;
+  --accent-wash: rgba(194, 65, 12, 0.08);
   --celadon: #87a796;   /* 豆青/粉青：雍正单色釉的安静绿 */
   --good: #3f6f4f;
   --bad: #9c4036;
@@ -33,9 +33,9 @@
     --ink-soft: #b3aa9a;
     --ink-faint: #7d7466;
     --line: #353026;
-    --accent: #d97f2e;
-    --accent-ink: #e8964a;
-    --accent-wash: rgba(217, 127, 46, 0.1);
+    --accent: #f08c3e;
+    --accent-ink: #f7a45c;
+    --accent-wash: rgba(240, 140, 62, 0.12);
     --celadon: #7fa090;
     --good: #7fae8f;
     --bad: #cd7a6f;
@@ -181,6 +181,8 @@ textarea:focus-visible {
   margin: 0 auto;
   padding: 5.5rem 1.4rem 3rem;
   text-align: center;
+  /* 暖光晕：像炉火，让人想留下来 */
+  background: radial-gradient(ellipse 72% 56% at 50% 36%, var(--accent-wash), transparent 72%);
 }
 
 /* 复古未来主义轨道徽记：三道椭圆轨道缓慢自转，像原子时代的太空徽章 */
@@ -553,6 +555,9 @@ textarea:focus-visible {
 
 .btn:hover { background: var(--accent-ink); transform: translateY(-1px); }
 .btn:active { transform: translateY(0) scale(0.985); }
+
+.btn.warm { background: var(--accent); box-shadow: 0 6px 18px rgba(194, 65, 12, 0.22); }
+.btn.warm:hover { background: var(--accent-ink); }
 
 .btn.ghost {
   background: transparent;
