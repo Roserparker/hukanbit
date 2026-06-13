@@ -39,23 +39,40 @@
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
-  /* ---------- 字體三態切換（宋/楷/黑）---------- */
+  /* ---------- 字體與字號切換（宋/楷/仿/黑 × 小/標準/大/特大）---------- */
   var fsBtn = document.getElementById("font-switch");
   var fsMenu = document.getElementById("font-menu");
   if (fsBtn && fsMenu) {
     var fsGet = function () { try { return localStorage.getItem("hkb-font") || "song"; } catch (e) { return "song"; } };
     var fsMark = function () {
       var cur = fsGet();
-      fsMenu.querySelectorAll("button").forEach(function (b) {
+      fsMenu.querySelectorAll("button[data-f]").forEach(function (b) {
         b.classList.toggle("on", b.getAttribute("data-f") === cur);
+      });
+    };
+    var szGet = function () { try { return localStorage.getItem("hkb-size") || "m"; } catch (e) { return "m"; } };
+    var szMark = function () {
+      var cur = szGet();
+      fsMenu.querySelectorAll("button[data-s]").forEach(function (b) {
+        b.classList.toggle("on", b.getAttribute("data-s") === cur);
       });
     };
     fsBtn.addEventListener("click", function (ev) {
       ev.stopPropagation();
       fsMenu.hidden = !fsMenu.hidden;
-      if (!fsMenu.hidden) fsMark();
+      if (!fsMenu.hidden) { fsMark(); szMark(); }
     });
     fsMenu.addEventListener("click", function (ev) {
+      var sb = ev.target.closest("button[data-s]");
+      if (sb) {
+        var sv = sb.getAttribute("data-s");
+        if (sv === "m") document.documentElement.removeAttribute("data-size");
+        else document.documentElement.setAttribute("data-size", sv);
+        try { sv === "m" ? localStorage.removeItem("hkb-size") : localStorage.setItem("hkb-size", sv); } catch (e) { /* 忽略 */ }
+        szMark();
+        ev.stopPropagation(); /* 菜單不收，方便連續比較字號 */
+        return;
+      }
       var b = ev.target.closest("button[data-f]");
       if (!b) return;
       var v = b.getAttribute("data-f");
