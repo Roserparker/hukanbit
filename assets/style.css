@@ -69,14 +69,14 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; font-size: 17px; }
 
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 18px;
   line-height: 2.05;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -150,7 +150,7 @@ textarea:focus-visible {
 .brand {
   font-family: var(--serif);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.45rem;
   letter-spacing: 0.18em;
   text-decoration: none;
 }
@@ -161,7 +161,7 @@ textarea:focus-visible {
   display: flex;
   gap: 1.4rem;
   font-family: var(--sans);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   letter-spacing: 0.08em;
 }
 
@@ -182,7 +182,7 @@ textarea:focus-visible {
   margin-top: 6rem;
   padding: 2.5rem 1.4rem 3.5rem;
   font-family: var(--sans);
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   color: var(--ink-faint);
   line-height: 1.9;
 }
@@ -1280,7 +1280,8 @@ textarea { resize: vertical; min-height: 4.2rem; }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 600px) {
-  body { font-size: 16px; }
+  body { font-size: 17px; }
+  .brand { font-size: 1.3rem; }
   .hero { padding-top: 3.5rem; }
   .steps3 { grid-template-columns: 1fr; }
   .toc a { flex-direction: column; gap: 0.4rem; padding: 1.2rem 1.3rem; }
@@ -2747,7 +2748,7 @@ html[lang="en"] {
   align-items: baseline;
   gap: 0.55em;
   font-family: var(--sans);
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   letter-spacing: 0.05em;
 }
 
