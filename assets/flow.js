@@ -136,7 +136,27 @@
     });
   }
 
-  var lastLink = 0, lastMote = 0;
+  /* ---------- 流星（暗金比特流星 · 稀客） ----------
+     不显眼，不喧哗，偶尔一颗斜划而过；头是一枚小小的暗金币。 */
+  var meteors = [];
+  function spawnMeteor() {
+    var fromLeft = Math.random() < 0.5;
+    var base = 0.72 + Math.random() * 0.2;            /* 与水平约 41°–53° */
+    var ang = fromLeft ? base : (Math.PI - base);
+    meteors.push({
+      x: fromLeft ? Math.random() * W * 0.4 : W * 0.6 + Math.random() * W * 0.4,
+      y: -30 - Math.random() * 60,
+      vx: Math.cos(ang),
+      vy: Math.sin(ang),
+      t0: performance.now(),
+      life: 1500 + Math.random() * 700,
+      len: 64 + Math.random() * 46,
+      speed: 0.24 + Math.random() * 0.12,
+      coin: Math.random() < 0.55
+    });
+  }
+
+  var lastLink = 0, lastMote = 0, lastMeteor = 0, meteorGap = 9000 + Math.random() * 6000;
   var chi = Math.random() * 100;
 
   /* ---------- 绘制 ---------- */
@@ -164,6 +184,7 @@
     /* 节奏：平时偶尔结链；灯下勤一些 */
     if (now - lastLink > (lit ? 700 : 1500)) { lastLink = now; tryLink(lit); }
     if (now - lastMote > 2100) { lastMote = now; tryMote(); }
+    if (now - lastMeteor > meteorGap) { lastMeteor = now; meteorGap = 7000 + Math.random() * 12000; if (meteors.length < 2) spawnMeteor(); }
 
     brush.clearRect(0, 0, W, H);
 
@@ -245,6 +266,39 @@
       brush.fillStyle = "rgba(" + pal.mote + "," + (ma * pal.mA).toFixed(3) + ")";
       brush.fillText(M.ch, M.x, M.y);
     }
+
+    /* 流星：偶尔一颗暗金比特流星斜划而过——稀客，慢慢发现 */
+    for (var qi = meteors.length - 1; qi >= 0; qi--) {
+      var Q = meteors[qi];
+      var qt = (now - Q.t0) / Q.life;
+      if (qt >= 1) { meteors.splice(qi, 1); continue; }
+      var trav = Q.speed * (now - Q.t0);
+      var hx = Q.x + Q.vx * trav, hy = Q.y + Q.vy * trav;
+      var ex = hx - Q.vx * Q.len, ey = hy - Q.vy * Q.len;
+      var env = Math.sin(Math.min(1, qt) * Math.PI);   /* 0→1→0 进出场 */
+      var gm = brush.createLinearGradient(ex, ey, hx, hy);
+      gm.addColorStop(0, "rgba(" + pal.lant + ",0)");
+      gm.addColorStop(1, "rgba(" + pal.lant + "," + (env * 0.5).toFixed(3) + ")");
+      brush.strokeStyle = gm;
+      brush.lineWidth = 1.4;
+      brush.lineCap = "round";
+      brush.beginPath();
+      brush.moveTo(ex, ey);
+      brush.lineTo(hx, hy);
+      brush.stroke();
+      brush.fillStyle = "rgba(" + pal.lant + "," + (env * 0.85).toFixed(3) + ")";
+      brush.beginPath();
+      brush.arc(hx, hy, Q.coin ? 2.4 : 1.7, 0, TAU);
+      brush.fill();
+      if (Q.coin) {                                    /* 铸币环：暗示这是一枚比特，不是寻常陨星 */
+        brush.strokeStyle = "rgba(" + pal.lant + "," + (env * 0.4).toFixed(3) + ")";
+        brush.lineWidth = 0.8;
+        brush.beginPath();
+        brush.arc(hx, hy, 4.4, 0, TAU);
+        brush.stroke();
+      }
+    }
+    brush.lineCap = "butt";
 
     rafId = requestAnimationFrame(breathe);
   }
