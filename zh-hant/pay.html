@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- generated from ../pay.html by tools/build_i18n.py · 改源文件后重跑，勿直接编辑 -->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<title>支付窗 · 胡侃比特</title>
+<meta name="description" content="一間演習房：用演習幣把「用比特幣付款」的完整動作練會——開票、掃碼、路由、秒級結清。不收真錢，非任何要約。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡侃比特">
+<meta property="og:title" content="胡侃比特 · 支付窗（演習房）">
+<meta property="og:description" content="先把動作練會，再談真錢。閃電支付全流程演習 + 各地合規購幣指路牌。">
+<meta property="og:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<meta property="og:url" content="https://roserparker.github.io/hukanbit/zh-hant/pay.html">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="胡侃比特 · 支付窗（演習房）">
+<meta name="twitter:description" content="先把動作練會，再談真錢。閃電支付全流程演習 + 各地合規購幣指路牌。">
+<meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<link rel="alternate" hreflang="zh-Hans" href="https://roserparker.github.io/hukanbit/pay.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://roserparker.github.io/hukanbit/zh-hant/pay.html">
+<link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/pay.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/style.css?v=20260612t">
+<link rel="stylesheet" href="../assets/games.css?v=20260612t">
+</head>
+<body class="article-page">
+<div class="progress" id="progress"></div>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="index.html">首頁</a>
+      <a href="index.html#articles">文章</a>
+      <a href="lab.html">實驗室</a>
+      <a href="gallery.html">長廊</a>
+      <a href="satoshi.html">文獻</a>
+      <a href="study.html">學堂</a>
+      <a href="treasury.html">金庫</a>
+      <a href="index.html#about">關於</a>
+    </nav>
+    <div class="lang-switch" aria-label="語言 / Language"><a href="../pay.html" lang="zh-Hans" data-lang="zh-hans">简</a><strong>繁</strong><a href="../en/index.html" lang="en" data-lang="en">EN</a></div>
+    <button class="font-switch" id="font-switch" type="button" aria-label="切換正文字體" aria-haspopup="true">字</button>
+    <div class="font-menu" id="font-menu" hidden>
+      <button type="button" class="f-song" data-f="song">宋 · 館方正體</button>
+      <button type="button" class="f-kai" data-f="kai">楷 · 手寫溫度</button>
+      <button type="button" class="f-hei" data-f="hei">黑 · 現代極簡</button>
+    </div>
+  </div>
+</header>
+
+<main class="article">
+  <p class="kicker">第七翼 · 支付窗（演習房）</p>
+  <h1>支付窗</h1>
+  <p class="epigraph">“先把動作練會，再談真錢。”</p>
+  <div class="tags meta-tags"><span class="tag accent">演習</span><span class="tag">閃電網絡</span><span class="tag">約 5 分鐘</span><span class="tag">不收真錢</span></div>
+  <hr class="rule">
+
+  <div class="prose">
+    <blockquote class="reveal">
+      <p>這是「擴建藍圖」裏支付窗的第一間房——一間<strong>演習房</strong>。這裏沒有真錢經過：演習幣不可支付、館票只存在於你的瀏覽器裏。它教的是一套很多人從沒機會練的動作——用比特幣，把一筆錢在一秒內付出去。真窗開張的那天，櫃檯後面會先站着律師和牌照；在那之前，我們先把手感練出來。</p>
+      <cite>—— 館主 · 立於演習房門口</cite>
+    </blockquote>
+
+    <section class="reveal">
+      <h2>演習櫃檯 · 買一張館票</h2>
+      <p>閃電網絡（Lightning Network）是比特幣的「小額秒結層」：鏈上負責大額與終局，閃電負責日常的咖啡與館票。下面這套流程，與真實世界一模一樣——只是幣是演習幣。</p>
+      <div class="game-embed" data-game="lightning-demo">
+        <p class="game-fallback">這個演習需要 JavaScript 才能運行。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>你剛纔練的三個動作</h2>
+      <p><strong>① 開票</strong>——閃電支付永遠是「收款方先開票」：金額、備註、有效期打包成一張發票（invoice）。這天然防錯：你不可能轉錯地址，因爲地址就長在票裏。</p>
+      <p><strong>② 路由</strong>——你的錢包沿着網絡裏幾條「支付通道」把錢遞過去，像驛站接力。沒有任何一箇中間人能扣下它：要麼整筆送達，要麼整筆原路退回，密碼學保證沒有中間態。</p>
+      <p><strong>③ 結清</strong>——一兩秒，手續費通常不到一聰。對比一下：跨境電匯三到五個工作日、手續費幾十美元；這正是「金錢的語言」章節裏說的——好的價值語言，應該讓說話本身免費。</p>
+    </section>
+
+    <aside class="takeaways reveal">
+      <h3>真實世界怎麼買 · 合規指路牌</h3>
+      <ul>
+        <li><strong>美國</strong>：Coinbase、Strike、River、Cash App（均爲受監管的持牌機構）</li>
+        <li><strong>香港</strong>：證監會發牌的持牌虛擬資產交易平臺（如 HashKey、OSL）</li>
+        <li><strong>臺灣</strong>：完成洗錢防制合規聲明的本地平臺（如 MaiCoin、BitoPro）</li>
+        <li><strong>新加坡 / 加拿大 / 澳洲 / 歐盟</strong>：各地金融監管機構發牌的服務商（新加坡 MAS、歐盟 MiCA 框架下的合規平臺，如 Kraken 等）</li>
+        <li><strong>中國大陸</strong>：目前沒有合規渠道。本館不提供任何繞行指引——在規則改變之前，這一欄只能誠實地空着。</li>
+      </ul>
+    </aside>
+
+    <aside class="takeaways reveal">
+      <h3>三句防身咒（背下來）</h3>
+      <ul>
+        <li>主動私聊你、帶你「買幣賺錢」的，全是騙子——無一例外。</li>
+        <li>不存在「官方客服」找你覈實資產。掛斷，拉黑。</li>
+        <li>助記詞是棺材本：平臺不要、客服不要、館主更不要。誰要都不給。</li>
+      </ul>
+    </aside>
+
+    <section class="reveal">
+      <h2>這扇窗的擴建圖</h2>
+      <p>支付窗會按「蓋好一間，開放一間」的節奏長大：<strong>演習房</strong>（現在你站的地方）→ <strong>打賞與紀念品</strong>（真閃電、小金額：請館主喝壺茶，或帶走一張真館票）→ <strong>持牌櫃檯</strong>（那一天，櫃檯後面是持牌機構，本館只負責把路指對）。每一步只走法律允許的路——這是行業推演，不是承諾；是藍圖，不是要約。</p>
+      <p>想看這扇窗背後的更大故事？隔壁就是 <a href="treasury.html">金庫</a>。</p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div class="ticker-slot" data-game="btc-ticker"></div>
+    <p>胡侃比特 © <span id="year"></span> · 知識分享，自由轉載，註明出處即可。</p>
+    <p class="disclaimer">本頁爲支付流程演習與知識科普，不收取任何真實款項，不構成投資建議或任何形式的要約。加密資產價格波動巨大，請獨立思考、自主決策。</p>
+  </div>
+</footer>
+
+<script src="assets/main.js?v=20260612t"></script>
+<script src="assets/flow.js?v=20260612t" defer></script>
+<script src="assets/games.js?v=20260612t" defer></script>
+</body>
+</html>

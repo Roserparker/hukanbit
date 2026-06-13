@@ -1408,3 +1408,123 @@
 }
 
 @media (prefers-reduced-motion: reduce) { .gm-zap { display: none; } }
+
+/* ============================================================
+   釉光层延伸：游戏器皿同享宝光（与 style.css 判词一致）
+   ============================================================ */
+.gm-box {
+  background-image: linear-gradient(168deg, rgba(255, 253, 247, 0.4), rgba(255, 253, 247, 0) 32%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .gm-box {
+    background-image: linear-gradient(168deg, rgba(240, 200, 140, 0.05), rgba(240, 200, 140, 0) 36%);
+    border-top-color: #413a2b;
+  }
+}
+
+/* ============================================================
+   支付窗 · 闪电演习柜台（lightning-demo）
+   ============================================================ */
+.gm-pay { font-family: var(--sans); }
+
+.gm-pay-tickets { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 0.4rem 0 1rem; }
+
+.gm-pay-t {
+  flex: 1 1 150px;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  background-image: linear-gradient(168deg, rgba(255, 253, 247, 0.45), rgba(255, 253, 247, 0) 34%);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: box-shadow 0.35s var(--ease-breath), border-color 0.35s var(--ease-breath), opacity 0.35s var(--ease-breath);
+}
+
+.gm-pay-t:hover { box-shadow: var(--shadow-lift); }
+.gm-pay-t.sel { border-color: var(--celadon); box-shadow: var(--shadow-warm); }
+.gm-pay-t .n { display: block; font-family: var(--serif); font-weight: 700; font-size: 0.98rem; margin-bottom: 0.25rem; }
+.gm-pay-t .p { display: block; font-size: 0.82rem; color: var(--accent-ink); letter-spacing: 0.04em; }
+.gm-pay-t .m { display: block; font-size: 0.76rem; color: var(--ink-faint); margin-top: 0.3rem; line-height: 1.7; }
+
+.gm-pay-stage { border-top: 1px dashed var(--line); padding-top: 1rem; }
+
+.gm-pay-inv {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  padding: 1rem 1.1rem;
+  margin: 0 0 0.9rem;
+}
+
+.gm-pay-inv .h { font-size: 0.74rem; letter-spacing: 0.12em; color: var(--ink-faint); margin: 0 0 0.5rem; }
+.gm-pay-inv .amt { font-family: var(--serif); font-weight: 700; font-size: 1.3rem; margin: 0 0 0.2rem; }
+.gm-pay-inv .memo { font-size: 0.82rem; color: var(--ink-soft); margin: 0 0 0.6rem; }
+.gm-pay-inv .raw {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  word-break: break-all;
+  background: var(--paper-2);
+  border-radius: 6px;
+  padding: 0.5rem 0.6rem;
+  line-height: 1.8;
+}
+
+.gm-pay-route { display: flex; align-items: center; gap: 0.45rem; margin: 0.9rem 0; font-size: 0.78rem; color: var(--ink-faint); flex-wrap: wrap; }
+.gm-pay-hop { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--line); background: transparent; transition: background 0.4s var(--ease-breath), border-color 0.4s var(--ease-breath); }
+.gm-pay-hop.lit { background: var(--celadon); border-color: var(--celadon); }
+.gm-pay-link { flex: 1 1 18px; height: 1px; background: var(--line); min-width: 14px; }
+
+.gm-pay-done { color: var(--accent-ink); font-weight: 600; font-size: 0.9rem; }
+
+.gm-ticket {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.2rem 1.3rem;
+  margin: 0.9rem 0 0.4rem;
+  background: var(--card);
+  background-image: linear-gradient(168deg, rgba(255, 253, 247, 0.5), rgba(255, 253, 247, 0) 36%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gm-ticket::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid color-mix(in srgb, #c9913f 45%, transparent);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.gm-ticket .tk-k { font-size: 0.7rem; letter-spacing: 0.18em; color: var(--ink-faint); margin: 0 0 0.4rem; }
+.gm-ticket .tk-n { font-family: var(--serif); font-weight: 700; font-size: 1.25rem; margin: 0 0 0.3rem; }
+.gm-ticket .tk-m { font-family: var(--serif); font-size: 0.85rem; color: var(--ink-soft); margin: 0 0 0.8rem; }
+.gm-ticket .tk-s { font-family: var(--mono, ui-monospace, monospace); font-size: 0.76rem; color: var(--accent-ink); letter-spacing: 0.08em; }
+.gm-ticket .tk-d { font-size: 0.72rem; color: var(--ink-faint); margin-top: 0.5rem; }
+.gm-ticket .tk-w {
+  position: absolute;
+  right: 0.9rem;
+  top: 0.9rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  color: var(--ink-faint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem 0.15rem 0.55rem;
+  transform: rotate(6deg);
+  opacity: 0.8;
+}
+
+.gm-pay-note { font-size: 0.78rem; color: var(--ink-faint); line-height: 1.9; margin: 0.7rem 0 0; }
+
+@media (prefers-color-scheme: dark) {
+  .gm-pay-t, .gm-pay-inv, .gm-ticket {
+    background-image: linear-gradient(168deg, rgba(240, 200, 140, 0.055), rgba(240, 200, 140, 0) 38%);
+    border-top-color: #413a2b;
+  }
+}

@@ -2761,3 +2761,22 @@ html[lang="en"] {
 .lang-switch a:hover { color: var(--accent); }
 
 .lang-switch strong { color: var(--ink); font-weight: 600; }
+
+/* ============================================================
+   釉光层 · 素中宝光（雍正官窑视角 · 2026-06-13）
+   判词：要宝光，不要贼光——温润内透；光会动，器不动。
+   ①受光面：浅底卡片极淡斜向釉面（暖白，168°，34% 即收）
+   ②灯草口：深底（暗模式）器物上沿一线暖白——满器深色，唯口沿透亮
+   ③泥鳅背：只动 border-top-color 与 background-image，不碰阴影与圆角
+   ============================================================ */
+:is(.lab-card, .toc a, .experiment, .panel, .takeaways, .pr-card, .cin-card, .blk-card) {
+  background-image: linear-gradient(168deg, rgba(255, 253, 247, 0.45), rgba(255, 253, 247, 0) 34%);
+  border-top-color: #f3ecdd;
+}
+
+@media (prefers-color-scheme: dark) {
+  :is(.lab-card, .toc a, .experiment, .panel, .takeaways, .pr-card, .cin-card, .blk-card) {
+    background-image: linear-gradient(168deg, rgba(240, 200, 140, 0.055), rgba(240, 200, 140, 0) 38%);
+    border-top-color: #413a2b; /* 灯草口：比 --line 暗窑亮半度的一线 */
+  }
+}

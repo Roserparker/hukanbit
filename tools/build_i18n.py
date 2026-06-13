@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = "https://roserparker.github.io/hukanbit/"
 PAGES = [
     "index.html", "lab.html", "study.html", "gallery.html",
-    "satoshi.html", "treasury.html",
+    "satoshi.html", "treasury.html", "pay.html",
     "articles/01.html", "articles/02.html", "articles/03.html",
     "articles/04.html", "articles/05.html",
 ]

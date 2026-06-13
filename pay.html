@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f)}catch(e){}</script>
+<title>支付窗 · 胡侃比特</title>
+<meta name="description" content="一间演习房：用演习币把「用比特币付款」的完整动作练会——开票、扫码、路由、秒级结清。不收真钱，非任何要约。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="胡侃比特">
+<meta property="og:title" content="胡侃比特 · 支付窗（演习房）">
+<meta property="og:description" content="先把动作练会，再谈真钱。闪电支付全流程演习 + 各地合规购币指路牌。">
+<meta property="og:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<meta property="og:url" content="https://roserparker.github.io/hukanbit/pay.html">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="胡侃比特 · 支付窗（演习房）">
+<meta name="twitter:description" content="先把动作练会，再谈真钱。闪电支付全流程演习 + 各地合规购币指路牌。">
+<meta name="twitter:image" content="https://roserparker.github.io/hukanbit/assets/og-cover.png">
+<link rel="alternate" hreflang="zh-Hans" href="https://roserparker.github.io/hukanbit/pay.html">
+<link rel="alternate" hreflang="zh-Hant" href="https://roserparker.github.io/hukanbit/zh-hant/pay.html">
+<link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/pay.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/style.css?v=20260612t">
+<link rel="stylesheet" href="assets/games.css?v=20260612t">
+</head>
+<body class="article-page">
+<div class="progress" id="progress"></div>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <nav class="site-nav">
+      <a href="index.html">首页</a>
+      <a href="index.html#articles">文章</a>
+      <a href="lab.html">实验室</a>
+      <a href="gallery.html">长廊</a>
+      <a href="satoshi.html">文献</a>
+      <a href="study.html">学堂</a>
+      <a href="treasury.html">金库</a>
+      <a href="index.html#about">关于</a>
+    </nav>
+    <div class="lang-switch" aria-label="语言 / Language"><strong>简</strong><a href="zh-hant/pay.html" lang="zh-Hant" data-lang="zh-hant">繁</a><a href="en/index.html" lang="en" data-lang="en">EN</a></div>
+    <button class="font-switch" id="font-switch" type="button" aria-label="切换正文字体" aria-haspopup="true">字</button>
+    <div class="font-menu" id="font-menu" hidden>
+      <button type="button" class="f-song" data-f="song">宋 · 馆方正体</button>
+      <button type="button" class="f-kai" data-f="kai">楷 · 手写温度</button>
+      <button type="button" class="f-fang" data-f="fang">仿 · 公文风骨</button>
+      <button type="button" class="f-hei" data-f="hei">黑 · 现代极简</button>
+    </div>
+  </div>
+</header>
+
+<main class="article">
+  <p class="kicker">第七翼 · 支付窗（演习房）</p>
+  <h1>支付窗</h1>
+  <p class="epigraph">“先把动作练会，再谈真钱。”</p>
+  <div class="tags meta-tags"><span class="tag accent">演习</span><span class="tag">闪电网络</span><span class="tag">约 5 分钟</span><span class="tag">不收真钱</span></div>
+  <hr class="rule">
+
+  <div class="prose">
+    <blockquote class="reveal">
+      <p>这是「扩建蓝图」里支付窗的第一间房——一间<strong>演习房</strong>。这里没有真钱经过：演习币不可支付、馆票只存在于你的浏览器里。它教的是一套很多人从没机会练的动作——用比特币，把一笔钱在一秒内付出去。真窗开张的那天，柜台后面会先站着律师和牌照；在那之前，我们先把手感练出来。</p>
+      <cite>—— 馆主 · 立于演习房门口</cite>
+    </blockquote>
+
+    <section class="reveal">
+      <h2>演习柜台 · 买一张馆票</h2>
+      <p>闪电网络（Lightning Network）是比特币的「小额秒结层」：链上负责大额与终局，闪电负责日常的咖啡与馆票。下面这套流程，与真实世界一模一样——只是币是演习币。</p>
+      <div class="game-embed" data-game="lightning-demo">
+        <p class="game-fallback">这个演习需要 JavaScript 才能运行。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>你刚才练的三个动作</h2>
+      <p><strong>① 开票</strong>——闪电支付永远是「收款方先开票」：金额、备注、有效期打包成一张发票（invoice）。这天然防错：你不可能转错地址，因为地址就长在票里。</p>
+      <p><strong>② 路由</strong>——你的钱包沿着网络里几条「支付通道」把钱递过去，像驿站接力。没有任何一个中间人能扣下它：要么整笔送达，要么整笔原路退回，密码学保证没有中间态。</p>
+      <p><strong>③ 结清</strong>——一两秒，手续费通常不到一聪。对比一下：跨境电汇三到五个工作日、手续费几十美元；这正是「金钱的语言」章节里说的——好的价值语言，应该让说话本身免费。</p>
+    </section>
+
+    <aside class="takeaways reveal">
+      <h3>真实世界怎么买 · 合规指路牌</h3>
+      <ul>
+        <li><strong>美国</strong>：Coinbase、Strike、River、Cash App（均为受监管的持牌机构）</li>
+        <li><strong>香港</strong>：证监会发牌的持牌虚拟资产交易平台（如 HashKey、OSL）</li>
+        <li><strong>台湾</strong>：完成洗钱防制合规声明的本地平台（如 MaiCoin、BitoPro）</li>
+        <li><strong>新加坡 / 加拿大 / 澳洲 / 欧盟</strong>：各地金融监管机构发牌的服务商（新加坡 MAS、欧盟 MiCA 框架下的合规平台，如 Kraken 等）</li>
+        <li><strong>中国大陆</strong>：目前没有合规渠道。本馆不提供任何绕行指引——在规则改变之前，这一栏只能诚实地空着。</li>
+      </ul>
+    </aside>
+
+    <aside class="takeaways reveal">
+      <h3>三句防身咒（背下来）</h3>
+      <ul>
+        <li>主动私聊你、带你「买币赚钱」的，全是骗子——无一例外。</li>
+        <li>不存在「官方客服」找你核实资产。挂断，拉黑。</li>
+        <li>助记词是棺材本：平台不要、客服不要、馆主更不要。谁要都不给。</li>
+      </ul>
+    </aside>
+
+    <section class="reveal">
+      <h2>这扇窗的扩建图</h2>
+      <p>支付窗会按「盖好一间，开放一间」的节奏长大：<strong>演习房</strong>（现在你站的地方）→ <strong>打赏与纪念品</strong>（真闪电、小金额：请馆主喝壶茶，或带走一张真馆票）→ <strong>持牌柜台</strong>（那一天，柜台后面是持牌机构，本馆只负责把路指对）。每一步只走法律允许的路——这是行业推演，不是承诺；是蓝图，不是要约。</p>
+      <p>想看这扇窗背后的更大故事？隔壁就是 <a href="treasury.html">金库</a>。</p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div class="ticker-slot" data-game="btc-ticker"></div>
+    <p>胡侃比特 © <span id="year"></span> · 知识分享，自由转载，注明出处即可。</p>
+    <p class="disclaimer">本页为支付流程演习与知识科普，不收取任何真实款项，不构成投资建议或任何形式的要约。加密资产价格波动巨大，请独立思考、自主决策。</p>
+  </div>
+</footer>
+
+<script src="assets/main.js?v=20260612t"></script>
+<script src="assets/flow.js?v=20260612t" defer></script>
+<script src="assets/games.js?v=20260612t" defer></script>
+</body>
+</html>

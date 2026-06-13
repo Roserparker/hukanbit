@@ -13,7 +13,7 @@ var file = process.argv[2] || "assets/games.js";
 var code = fs.readFileSync(file, "utf-8");
 
 var GAMES = ["time-machine", "pow-miner", "mempool", "bazi-calendar", "btc-ticker",
-             "first-tx", "chain", "double-spend", "byzantine", "debt-clock", "btc-yield"];
+             "first-tx", "chain", "double-spend", "byzantine", "debt-clock", "btc-yield", "lightning-demo"];
 var INTRO = ["time-machine", "pow-miner", "mempool", "double-spend", "byzantine"];
 
 function noop() {}

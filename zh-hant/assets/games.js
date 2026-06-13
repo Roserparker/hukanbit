@@ -2092,6 +2092,127 @@
 
   /* ================= 13. registry + 啓動 ================= */
 
+
+  /* ================= 12.5 支付窗 · 閃電演習櫃檯 ================= */
+  /* 純演習：不產生任何真實發票，不可支付，不收真錢。
+     教的是動作與體感：商家開票 → 錢包掃碼 → 路由 → 秒級結清。 */
+  function createLightningDemo(root) {
+    var TICKETS = [
+      { id: "chord", name: "弦紋館票", price: 21, motto: "一根弦紋，三分留白" },
+      { id: "genesis", name: "創世報紙票根", price: 121, motto: "The Times, 03/Jan/2009" },
+      { id: "lantern", name: "提燈夜場票", price: 2100, motto: "燈下區塊自甦醒" }
+    ];
+    var timers = [];
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+
+    root.classList.add("gm-pay");
+    var pick = node("div", "gm-pay-tickets");
+    var stage = node("div", "gm-pay-stage");
+    var hint = node("p", "gm-pay-note");
+    hint.textContent = "選一張館票，體驗一遍閃電支付的完整動作。演習櫃檯不收真錢——這裏練的是手感，不是花銷。";
+    root.appendChild(pick);
+    root.appendChild(hint);
+    root.appendChild(stage);
+
+    function node(tag, cls, text) {
+      var el = document.createElement(tag);
+      if (cls) el.className = cls;
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+
+    function fakeInvoice(t) {
+      var chars = "qpzry9x8gf2tvdw0s3jn54khce6mua7l";
+      var body = "";
+      for (var i = 0; i < 88; i++) body += chars[(Math.random() * chars.length) | 0];
+      return "lnbc" + t.price + "n1p" + body + "（演習樣張 · 不可支付）";
+    }
+
+    function serial() {
+      var d = new Date();
+      var ymd = String(d.getFullYear()).slice(2) + ("0" + (d.getMonth() + 1)).slice(-2) + ("0" + d.getDate()).slice(-2);
+      return "HKB-" + ymd + "-" + String((Math.random() * 9000 + 1000) | 0);
+    }
+
+    function clearStage() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      stage.innerHTML = "";
+    }
+
+    function showInvoice(t) {
+      clearStage();
+      var inv = node("div", "gm-pay-inv");
+      inv.appendChild(node("p", "h", "閃電發票（演習） · LIGHTNING INVOICE"));
+      inv.appendChild(node("p", "amt", t.price.toLocaleString() + " 聰"));
+      inv.appendChild(node("p", "memo", "備註：胡侃比特 · " + t.name + " ｜ 真實流程裏，這一步是商家先開票"));
+      inv.appendChild(node("p", "raw", fakeInvoice(t)));
+      var btn = node("button", "gm-act", "模擬掃碼支付 ⚡");
+      btn.type = "button";
+      btn.addEventListener("click", function () { payFlow(t, btn); });
+      var note = node("p", "gm-pay-note", "發票（invoice）是一張「收款二維碼 + 金額 + 備註」的打包。你的錢包掃它，而不是它掃你。");
+      stage.appendChild(inv);
+      stage.appendChild(btn);
+      stage.appendChild(note);
+    }
+
+    function payFlow(t, btn) {
+      btn.disabled = true;
+      var route = node("div", "gm-pay-route");
+      route.appendChild(node("span", "", "你的錢包"));
+      var hops = [];
+      for (var i = 0; i < 3; i++) {
+        route.appendChild(node("span", "gm-pay-link"));
+        var h = node("span", "gm-pay-hop");
+        hops.push(h);
+        route.appendChild(h);
+      }
+      route.appendChild(node("span", "gm-pay-link"));
+      route.appendChild(node("span", "", "本館節點"));
+      stage.appendChild(route);
+      hops.forEach(function (h, i) { later(function () { h.classList.add("lit"); }, 280 + i * 320); });
+      later(function () {
+        var done = node("p", "gm-pay-done", "✓ 已結清 · 用時 1.2 秒 · 路由費不到 1 聰");
+        stage.appendChild(done);
+        later(function () { showTicket(t); }, 600);
+      }, 1340);
+    }
+
+    function showTicket(t) {
+      var sn = serial();
+      var tk = node("div", "gm-ticket");
+      tk.appendChild(node("p", "tk-k", "胡侃比特 · 館票 · ADMIT ONE"));
+      tk.appendChild(node("p", "tk-n", t.name));
+      tk.appendChild(node("p", "tk-m", "“" + t.motto + "”"));
+      tk.appendChild(node("p", "tk-s", sn + " · " + t.price.toLocaleString() + " sats"));
+      tk.appendChild(node("p", "tk-d", new Date().toLocaleDateString("zh-CN") + " · 憑此票可在記憶裏隨時入館"));
+      tk.appendChild(node("span", "tk-w", "演 習"));
+      stage.appendChild(tk);
+      var note = node("p", "gm-pay-note",
+        "剛纔發生的事，在真實閃電網絡上一模一樣：開票、掃碼、幾跳路由、秒級結清、手續費幾乎爲零。" +
+        "唯一的區別是——真窗開張那天，櫃檯後面要先站着律師和牌照。");
+      stage.appendChild(note);
+      try { localStorage.setItem("hkb-pay-demo", sn); } catch (e) { /* 忽略 */ }
+    }
+
+    TICKETS.forEach(function (t) {
+      var b = node("button", "gm-pay-t");
+      b.type = "button";
+      b.appendChild(node("span", "n", t.name));
+      b.appendChild(node("span", "p", t.price.toLocaleString() + " 聰（演習幣）"));
+      b.appendChild(node("span", "m", t.motto));
+      b.addEventListener("click", function () {
+        var sib = pick.querySelectorAll(".gm-pay-t");
+        for (var i = 0; i < sib.length; i++) sib[i].classList.remove("sel");
+        b.classList.add("sel");
+        showInvoice(t);
+      });
+      pick.appendChild(b);
+    });
+
+    return function destroy() { timers.forEach(clearTimeout); };
+  }
+
   var registry = {
     "time-machine": createTimeMachine,
     "pow-miner": createPowMiner,
@@ -2103,7 +2224,8 @@
     "double-spend": createDoubleSpend,
     "byzantine": createByzantine,
     "debt-clock": createDebtClock,
-    "btc-yield": createBtcYield
+    "btc-yield": createBtcYield,
+    "lightning-demo": createLightningDemo
   };
 
   function boot() {
