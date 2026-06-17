@@ -24,8 +24,8 @@
 <link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/index.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/style.css?v=20260612v">
-<link rel="stylesheet" href="../assets/games.css?v=20260612v">
+<link rel="stylesheet" href="../assets/style.css?v=20260616a">
+<link rel="stylesheet" href="../assets/games.css?v=20260615b">
 </head>
 <body class="home-page">
 
@@ -57,12 +57,12 @@
   <section class="hero blk">
     <p class="kicker">一份關於金錢與比特幣的科普專欄</p>
     <h1>胡侃比特</h1>
-    <p class="sub">把複雜的金錢問題講簡單。這裏不喊單、不預測價格、不販賣焦慮——只是認真聊聊：錢是什麼，它出了什麼問題，以及比特幣爲什麼值得理解。</p>
+    <p class="hero-lead">在花錢和存錢之前，先理解錢。</p>
     <div class="hero-cta">
       <a class="btn warm" href="articles/01.html">從第一篇開始讀</a>
       <a class="btn ghost" href="lab.html">去實驗室親手玩</a>
     </div>
-    <p class="epigraph">“所有偉大的技術都從邊緣展開”</p>
+    <div class="hero-stance"><span>不喊單</span><span>不預測價格</span><span>不販賣焦慮</span></div>
     <div class="hero-chain-live" data-game="chain" aria-label="區塊鏈動態演示：左側爲已封存區塊，右側虛線塊正在打包來自內存池的轉賬"></div>
     <p class="chain-cap">每個方塊＝一個區塊 · 圓點＝裝進區塊的交易 · 最右虛線塊正在打包，裝滿四筆即封存前進</p>
   </section>
@@ -72,58 +72,82 @@
   <h2 class="section-title">系列文章</h2>
   <p class="read-progress" id="read-progress" hidden></p>
 
-  <ol class="toc">
-    <li class="reveal">
+  <ol class="art-grid">
+    <li class="reveal art-card">
       <a href="articles/01.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M32 18C25 14 17 14 11 17V46C17 43 25 43 32 47C39 43 47 43 53 46V17C47 14 39 14 32 18Z"/>
+          <path class="s" pathLength="100" d="M32 18V47"/>
+          <path class="s" pathLength="100" d="M38 28H47"/>
+          <path class="s" pathLength="100" d="M38 34H47"/>
+        </svg></span>
         <span class="num">壹</span>
-        <span>
-          <h3>何爲金錢</h3>
-          <p>錢是賬本上的一條記錄。從村莊的賬本講到美第奇家族、金本位與 1971 年的脫鉤，再算一算“溫和的 2% 通脹”三十年後會拿走你多少購買力。</p>
-          <span class="tags"><span class="tag accent">第一篇</span><span class="tag">金錢的本質</span><span class="tag">約 30 分鐘</span></span>
-        </span>
+        <h3>何爲金錢</h3>
+        <p class="art-line">錢，是賬本上的一行字。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/02.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M46 24C43 15 21 14 17 28C13 41 39 46 44 35C47 28 35 24 31 30C28 35 35 38 37 33"/>
+        </svg></span>
         <span class="num">貳</span>
-        <span>
-          <h3>債務驅動的世界</h3>
-          <p>你存在銀行裏的錢，在銀行的賬本上其實是一筆負債。拆解央行如何“印錢”、商業銀行的貨幣乘數，以及 2008 年金融危機裏誰買了單、誰拿了獎金。</p>
-          <span class="tags"><span class="tag accent">第二篇</span><span class="tag">法幣體系</span><span class="tag">約 30 分鐘</span></span>
-        </span>
+        <h3>債務驅動的世界</h3>
+        <p class="art-line">你的存款，是銀行賬本上的一筆負債。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/03.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M22 27L32 16L42 27L32 50Z"/>
+          <path class="s" pathLength="100" d="M22 27H42"/>
+          <path class="s" pathLength="100" d="M27 27L32 50L37 27"/>
+          <path class="s" pathLength="100" d="M32 16L27 27M32 16L37 27"/>
+        </svg></span>
         <span class="num">叄</span>
-        <span>
-          <h3>無形的堅硬</h3>
-          <p>拋開術語，比特幣其實很好懂：一個人人可驗證的共享賬本，一種必須消耗真實能量才能獲得的貨幣，和一個寫死在代碼裏的數字——2100 萬。</p>
-          <span class="tags"><span class="tag accent">第三篇</span><span class="tag">比特幣原理</span><span class="tag">約 25 分鐘</span></span>
-        </span>
+        <h3>無形的堅硬</h3>
+        <p class="art-line">人人可驗證的賬本，一個寫死的數字：2100 萬。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/04.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M14 25H50"/>
+          <path class="s" pathLength="100" d="M32 25V20"/>
+          <circle class="s" pathLength="100" cx="32" cy="17" r="2.6"/>
+          <path class="s" pathLength="100" d="M14 25L9 35A7 7 0 0 0 19 35Z"/>
+          <path class="s" pathLength="100" d="M50 25L45 35A7 7 0 0 0 55 35Z"/>
+          <path class="s" pathLength="100" d="M32 25V45M26 45H38"/>
+        </svg></span>
         <span class="num">肆</span>
-        <span>
-          <h3>內在價值</h3>
-          <p>黃金值錢，不是因爲它是金子，而是因爲“再來一克”需要 60 美元。聊聊價值的本質：任何資產的價值上限，取決於僞造它的成本。</p>
-          <span class="tags"><span class="tag accent">第四篇</span><span class="tag">價值哲學</span><span class="tag">約 15 分鐘</span></span>
-        </span>
+        <h3>內在價值</h3>
+        <p class="art-line">價值的上限，是僞造它的代價。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/05.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M13 33H51L45 46H19Z"/>
+          <path class="s" pathLength="100" d="M32 33V17L45 25L32 28"/>
+          <path class="s" pathLength="100" d="M9 51C15 48 19 54 25 51C31 48 35 54 41 51C47 48 51 54 55 51"/>
+        </svg></span>
         <span class="num">伍</span>
-        <span>
-          <h3>諾亞方舟</h3>
-          <p>比特幣特性的全景圖：點對點、自主權、抗審查、可分割、可傳承。以及一份坦率的個人推演——關於 AI、CBDC 與我們正在駛入的未來。</p>
-          <span class="tags"><span class="tag accent">第五篇</span><span class="tag">未來推演</span><span class="tag">約 40 分鐘</span></span>
-        </span>
+        <h3>諾亞方舟</h3>
+        <p class="art-line">一艘渡過通脹洪水的方舟。</p>
       </a>
     </li>
   </ol>
+
+  <details class="unfold center">
+    <summary>看看五篇各講什麼</summary>
+    <div class="unfold-body">
+      <p><strong>壹 · 何爲金錢</strong>　從村莊的賬本講到美第奇家族、金本位與 1971 年的脫鉤，再算一算“溫和的 2% 通脹”三十年後會拿走你多少購買力。</p>
+      <p><strong>貳 · 債務驅動的世界</strong>　你存在銀行裏的錢，在銀行的賬本上其實是一筆負債。拆解央行如何“印錢”、貨幣乘數，以及 2008 年誰買了單、誰拿了獎金。</p>
+      <p><strong>叄 · 無形的堅硬</strong>　拋開術語，比特幣其實很好懂：一個人人可驗證的共享賬本，一種必須消耗真實能量才能獲得的貨幣，和一個寫死在代碼裏的數字——2100 萬。</p>
+      <p><strong>肆 · 內在價值</strong>　黃金值錢，不是因爲它是金子，而是因爲“再來一克”需要 60 美元。任何資產的價值上限，取決於僞造它的成本。</p>
+      <p><strong>伍 · 諾亞方舟</strong>　比特幣特性的全景圖：點對點、自主權、抗審查、可分割、可傳承。以及一份坦率的個人推演——關於 AI、CBDC 與我們正在駛入的未來。</p>
+    </div>
+  </details>
 
   </section>
 
@@ -132,8 +156,24 @@
   <h2 class="section-title">互動實驗室</h2>
 
   <div class="lab-teaser reveal">
-    <p class="about" style="padding:0">概念讀十遍，不如親手玩一遍。十二個實驗已按兩廳課綱排好：<strong>法幣診室</strong>先看清問題，<strong>比特幣工坊</strong>由淺入深——從第一筆轉賬，一路玩到拜占庭將軍。全部在你的瀏覽器本地運行。</p>
+    <span class="art-ill forge"><svg class="ill" viewBox="0 0 120 120" aria-hidden="true" role="img" aria-label="比特幣 ₿ 印鑑：橢圓徽記中一枚內透寶光的數字黃金">
+      <!-- 橢圓印鑑（Diptyque cartouche × 雍正素靜） -->
+      <ellipse class="s cartouche" pathLength="100" cx="60" cy="60" rx="30" ry="35"/>
+      <!-- 寶光：內透、溫潤、慢（只動 opacity，不動 blur 半徑——寶光非賊光，且滾動零重繪） -->
+      <circle class="glow" cx="60" cy="60" r="14"/>
+      <!-- 居中的數字黃金 ₿（素底之上，一處貴） -->
+      <g class="forge-coin">
+        <path class="s" pathLength="100" d="M52 49 V71"/>
+        <path class="s" pathLength="100" d="M52 49 H62 C68 49 68 60 62 60 H52 M52 60 H64 C70 60 70 71 64 71 H52"/>
+        <path class="s" pathLength="100" d="M57 45.5 V49 M62.5 45.5 V49 M57 71 V74.5 M62.5 71 V74.5"/>
+      </g>
+    </svg></span>
+    <p class="hero-lead small">概念讀十遍，不如親手玩一遍。</p>
     <a class="btn warm" href="lab.html">進入實驗室</a>
+    <details class="unfold center">
+      <summary>裏面有什麼</summary>
+      <div class="unfold-body"><p>十二個實驗已按兩廳課綱排好：<strong>法幣診室</strong>先看清問題，<strong>比特幣工坊</strong>由淺入深——從第一筆轉賬，一路玩到拜占庭將軍。全部在你的瀏覽器本地運行。</p></div>
+    </details>
   </div>
 
   </section>
@@ -144,21 +184,22 @@
 
   <div class="gen-wrap reveal">
     <div class="gen-stele" id="gen-stele">
-      <p class="gen-meta">區塊 #0 · 2009-01-03 18:15:05 UTC · 全部 285 字節，原樣如下</p>
-      <p class="gen-hint">乍看，這只是機器的囈語。慢慢向下滾——有些字節，和別的不一樣。</p>
-      <div class="gen-dump" id="gen-dump" aria-label="創世區塊原始十六進制轉儲（偏移、字節、ASCII 三欄）"></div>
+      <p class="gen-lead">2009 年 1 月 3 日，中本聰寫下第一個區塊——<strong>創世區塊</strong>。它永遠是第 0 塊，<strong>無法修改、無法刪除</strong>，是整本賬的地基。下面是它<strong>完整的 285 個字節</strong>，一字不差——一個真實、看得見摸得着的比特幣區塊。</p>
+      <p class="gen-hint">不用看懂這些字符——盯着它慢慢往下滾：藏在裏面的<strong>那句英文</strong>，會自己一個字一個字亮起來。</p>
+      <div class="gen-dump" id="gen-dump" aria-label="創世區塊完整十六進制轉儲（偏移、字節、ASCII 三欄）"></div>
+
       <div class="gen-clip" id="gen-clip">
         <div class="gen-clip-paper" role="img" aria-label="泰晤士報 2009 年 1 月 3 日頭版復刻示意">
           <p class="gen-clip-mast">THE TIMES</p>
-          <div class="gen-clip-date"><span>Saturday January 3 2009</span><span>London · 70p</span></div>
+          <div class="gen-clip-date"><span>Saturday · January 3 2009</span><span>London</span></div>
           <p class="gen-clip-head">Chancellor on brink of second bailout for banks</p>
-          <p class="gen-clip-by">Francis Elliott, Deputy Political Editor · Gary Duncan, Economics Editor</p>
-          <div class="gen-clip-cols"><span class="gen-clip-col"></span><span class="gen-clip-col"></span><span class="gen-clip-col"></span></div>
-          <p class="gen-clip-cap">復刻示意，非原件影印——原版頭版請由下方鏈接覈對。</p>
+          <p class="gen-clip-cap">復刻示意，非原件影印——上面那 69 個發亮的字節，原樣刻的就是這行字</p>
         </div>
       </div>
-      <p class="gen-zh">「財政大臣站在第二輪銀行救助的邊緣。」——這行字被永久鑄進區塊 #0：既是時間戳，也是判詞。</p>
-      <p class="gen-note">發亮的 69 個字節，就是頭條本身；它前面那個 45，是十六進制的 69——句子的長度。把鼠標放到任意發亮字節上，右欄對應的字母會一同亮起。驗證真實性：<a href="https://thetimes03jan2009.com" target="_blank" rel="noopener">原版頭版影印</a> · <a href="https://en.bitcoin.it/wiki/Genesis_block" target="_blank" rel="noopener">Genesis block 原始數據</a> · <a href="satoshi.html">→ 佈道廳</a></p>
+
+      <p class="gen-zh">舊的賬本還在加印鈔票去救銀行；新的賬本，從這一頁另起。這行被永久鑄進第 0 塊的字，<strong>既是時間戳</strong>（證明此塊不早於那天），<strong>也是一句判詞</strong>。</p>
+
+      <p class="gen-note">想親手覈對？<a href="https://thetimes03jan2009.com" target="_blank" rel="noopener">原版頭版影印</a> · <a href="https://en.bitcoin.it/wiki/Genesis_block" target="_blank" rel="noopener">區塊原始數據</a> · <a href="satoshi.html">→ 佈道廳</a></p>
     </div>
   </div>
 
@@ -172,7 +213,11 @@
     <div class="game-embed" data-game="debt-clock">
       <p class="game-fallback">這個實時掛件需要 JavaScript 才能運行。</p>
     </div>
-    <p class="gen-note" style="margin-top:1rem">上面那本賬，第一頁寫完就封存了；這一本，每一秒都在往後寫。這本賬誰來還？<a href="articles/02.html">第二篇</a> 拆給你看；它爲何必然失控，<a href="articles/04.html">第四篇</a> 算給你看。</p>
+    <p class="gen-zh" style="margin-top:1.4rem">上面那本賬，第一頁寫完就封存了；這一本，每一秒都在往後寫。</p>
+    <details class="unfold center">
+      <summary>這本賬，誰來還</summary>
+      <div class="unfold-body"><p>這本賬誰來還？<a href="articles/02.html">第二篇</a> 拆給你看；它爲何必然失控，<a href="articles/04.html">第四篇</a> 算給你看。</p></div>
+    </details>
   </div>
 
   </section>
@@ -181,11 +226,17 @@
   <p class="section-label" id="about">ABOUT</p>
   <h2 class="section-title">關於本專欄</h2>
 
-  <div class="about reveal">
-    <p>「胡侃比特」的目標，是讓所有人都能簡單地理解比特幣的運作原理、價值，以及它對普通人的意義。我會用“胡侃”這種輕鬆的方式，把複雜問題簡單化——想到哪裏說哪裏，讓我們一起在比特的海洋中暢遊。</p>
-    <p>建議按順序閱讀：先弄清“錢”本身（第一、二篇），再看比特幣給出的答案（第三、四篇），最後是對未來的推演（第五篇）。每篇文章末尾都有對應的互動小實驗。</p>
-    <p>這裏沒有行情、沒有價格預測、沒有“最後上車機會”。如果讀完你只記住一件事，我希望是：<strong>在花錢和存錢之前，先理解錢。</strong></p>
-    <p>最後說一句藍圖上的事：你現在看到的只是地基。這座館還在擴建，下一批廳室已經畫好——<strong>資訊廳</strong>（每週一封比特幣週報）、<strong>茶館</strong>（讀者們坐下來討論）、<strong><a href="pay.html">支付窗</a></strong>（演習房已開放：先用演習幣把支付動作練會）。蓋好一間，開放一間。</p>
+  <div class="about reveal" style="text-align:center">
+    <p class="hero-lead small">讓每個人都能簡單地理解比特幣——它怎麼運作，爲什麼值得理解。</p>
+    <details class="unfold center">
+      <summary>展開關於本專欄</summary>
+      <div class="unfold-body">
+        <p>我會用“胡侃”這種輕鬆的方式，把複雜問題簡單化——想到哪裏說哪裏，讓我們一起在比特的海洋中暢遊。</p>
+        <p>建議按順序閱讀：先弄清“錢”本身（第一、二篇），再看比特幣給出的答案（第三、四篇），最後是對未來的推演（第五篇）。每篇文章末尾都有對應的互動小實驗。</p>
+        <p>這裏沒有行情、沒有價格預測、沒有“最後上車機會”。如果讀完你只記住一件事，我希望是：<strong>在花錢和存錢之前，先理解錢。</strong></p>
+        <p>最後說一句藍圖上的事：你現在看到的只是地基。這座館還在擴建，下一批廳室已經畫好——<strong>資訊廳</strong>（每週一封比特幣週報）、<strong>茶館</strong>（讀者們坐下來討論）、<strong><a href="pay.html">支付窗</a></strong>（演習房已開放：先用演習幣把支付動作練會）。蓋好一間，開放一間。</p>
+      </div>
+    </details>
   </div>
   </section>
 
@@ -199,8 +250,8 @@
   </div>
 </footer>
 
-<script src="assets/main.js?v=20260612v"></script>
-<script src="assets/flow.js?v=20260612v" defer></script>
-<script src="assets/games.js?v=20260612v" defer></script>
+<script src="assets/main.js?v=20260616a"></script>
+<script src="assets/flow.js?v=20260616a" defer></script>
+<script src="assets/games.js?v=20260615b" defer></script>
 </body>
 </html>

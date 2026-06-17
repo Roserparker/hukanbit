@@ -82,7 +82,7 @@
   }
 
   function resize() {
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    DPR = Math.min(window.devicePixelRatio || 1, 1.5);
     W = window.innerWidth; H = window.innerHeight;
     canvas.width = W * DPR; canvas.height = H * DPR;
     brush.setTransform(DPR, 0, 0, DPR, 0, 0);
@@ -159,6 +159,11 @@
   var lastLink = 0, lastMote = 0, lastMeteor = 0, meteorGap = 9000 + Math.random() * 6000;
   var chi = Math.random() * 100;
 
+  /* 滚动期间让出主线程：这是最底层背景，滚动时静止一瞬肉眼无感，
+     却能把每一帧都让给滚动合成——配合 ~30fps 限帧，根治「滚动还有点卡」。 */
+  var lastScroll = 0, lastDraw = 0;
+  window.addEventListener("scroll", function () { lastScroll = performance.now(); }, { passive: true });
+
   /* ---------- 绘制 ---------- */
   function roundRect(x, y, s, r) {
     brush.beginPath();
@@ -172,6 +177,10 @@
 
   var rafId = 0;
   function breathe(now) {
+    rafId = requestAnimationFrame(breathe);
+    if (now - lastScroll < 220) return;   /* 滚动进行中：跳过这一帧重绘 */
+    if (now - lastDraw < 30) return;      /* 限到约 30fps：缓慢的背景无需 60fps */
+    lastDraw = now;
     chi += 0.0011;
 
     /* 提灯缓行 */
@@ -299,8 +308,6 @@
       }
     }
     brush.lineCap = "butt";
-
-    rafId = requestAnimationFrame(breathe);
   }
 
   document.addEventListener("visibilitychange", function () {

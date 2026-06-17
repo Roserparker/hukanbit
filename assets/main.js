@@ -8,8 +8,8 @@
     var update = function () {
       var doc = document.documentElement;
       var max = doc.scrollHeight - window.innerHeight;
-      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-      bar.style.width = pct + "%";
+      var ratio = max > 0 ? window.scrollY / max : 0;
+      bar.style.transform = "scaleX(" + ratio + ")";
     };
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
@@ -184,10 +184,9 @@
     });
   }
 
-  /* ---------- 创世转储：285 字节的显影 ----------
-     区块 #0 以原始三栏转储陈列（偏移 | 字节 | ASCII，与 2009 年的
-     十六进制查看器同款）。初看全是机器呓语；随滚动，报头的 69 个
-     字节逐字升温走到光里，随后报纸复刻显影。 */
+  /* ---------- 创世转储：完整 285 字节，从噪声里浮出一句话 ----------
+     区块 #0 完整三栏陈列（偏移 | 字节 | ASCII）。机器的呓语先静成底纹，
+     随滚动，报头那 69 个字节逐字升温、走到光里，拼出一句人话；随后报纸复刻显影。 */
   var stele = document.getElementById("gen-stele");
   if (stele) {
     var dump = document.getElementById("gen-dump");
@@ -243,7 +242,7 @@
           as.setAttribute("data-m", mk);
           mB[mk] = bs; mA[mk] = as;
         }
-        if (gi === LEN_BYTE) { bs.title = "0x45 = 69：头条的字节长度"; as.title = bs.title; }
+        if (gi === LEN_BYTE) { bs.title = "0x45 = 69：这句话的字节长度"; as.title = bs.title; }
         bcol.appendChild(bs);
         acol.appendChild(as);
       }
@@ -252,7 +251,7 @@
       dump.appendChild(row);
     }
 
-    /* 悬停：字节 ↔ 字母 双向点亮 */
+    /* 悬停：把任意一个发亮字节和它对应的字母一起挑亮 */
     function hot(t, on) {
       var k = t.getAttribute && t.getAttribute("data-m");
       if (k == null) return;
@@ -262,8 +261,8 @@
     dump.addEventListener("mouseover", function (ev) { hot(ev.target, true); });
     dump.addEventListener("mouseout", function (ev) { hot(ev.target, false); });
 
-    /* 滚动显影 */
-    var lastLit = -1, clipShown = false, ticking = false;
+    /* 一次性显影：进入视野即触发，与滚动彻底解耦——那 69 个字节逐字升温走到光里 */
+    var lastLit = -1;
     function applyLit(n) {
       if (n === lastLit) return;
       for (var k = 0; k < MSG_LEN; k++) {
@@ -271,32 +270,33 @@
         mB[k].classList.toggle("lit", on);
         mA[k].classList.toggle("lit", on);
       }
-      stele.classList.toggle("focused", n > 8);
+      stele.classList.toggle("focused", n > 4);
       lastLit = n;
-    }
-    function measure() {
-      var r = stele.getBoundingClientRect();
-      var vh = window.innerHeight || 800;
-      var span = Math.max(120, Math.min(r.height * 0.72, vh * 1.05));
-      var p = (vh * 0.88 - r.top) / span;
-      p = Math.max(0, Math.min(1, p));
-      applyLit(Math.round(p * MSG_LEN));
-      if (p >= 1 && !clipShown) { clipShown = true; clip.classList.add("show"); }
-    }
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { ticking = false; measure(); });
     }
     var rmG = false;
     try { rmG = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* 忽略 */ }
-    if (rmG) {
+    function runReveal() {
+      if (rmG) { applyLit(MSG_LEN); clip.classList.add("show"); return; }
+      var t0 = 0;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / 2600);
+        applyLit(Math.round((1 - (1 - p) * (1 - p)) * MSG_LEN)); /* ease-out */
+        if (p < 1) requestAnimationFrame(step);
+        else { stele.classList.add("flash"); setTimeout(function () { clip.classList.add("show"); }, 500); }
+      }
+      requestAnimationFrame(step);
+    }
+    if ("IntersectionObserver" in window) {
+      var gio = new IntersectionObserver(function (entries) {
+        for (var gj = 0; gj < entries.length; gj++) {
+          if (entries[gj].isIntersecting) { gio.disconnect(); runReveal(); break; }
+        }
+      }, { rootMargin: "0px 0px -18% 0px", threshold: 0.12 });
+      gio.observe(stele);
+    } else {
       applyLit(MSG_LEN);
       clip.classList.add("show");
-    } else {
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll);
-      measure();
     }
   }
 })();
@@ -309,5 +309,33 @@
     links[i].addEventListener("click", function () {
       try { localStorage.setItem("hkb-lang", this.getAttribute("data-lang")); } catch (e) { /* 忽略 */ }
     });
+  }
+})();
+
+/* ---------- 悬浮重播徽标「画入」 ----------
+   cursor 每次进入文章卡 / 实验室招牌，金线重新生长一遍——勾住注意力。
+   做法：把徽标及其线条的 animation 先置 none、强制回流、再清空，
+   于是 CSS 里 .visible 的 ill-draw / ill-ignite 会从头重跑（none→name 即重启）。
+   ——比切类名更可靠：同名动画靠切类名是不会重启的（这正是上一版只「亮」不「画」的原因）。
+   尊重 prefers-reduced-motion；触屏无 hover，初次滚动进场动画照常。 */
+(function () {
+  "use strict";
+  var rm = false;
+  try { rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* 忽略 */ }
+  if (rm) return;
+  function replay(host) {
+    var ill = host.querySelector(".art-ill");
+    if (!ill) return;
+    var els = [ill], strokes = ill.querySelectorAll(".ill .s"), j;
+    for (j = 0; j < strokes.length; j++) els.push(strokes[j]);
+    for (j = 0; j < els.length; j++) els[j].style.animation = "none";
+    void ill.offsetWidth;          /* 强制回流，让 .visible 的动画从头重跑 */
+    for (j = 0; j < els.length; j++) els[j].style.animation = "";
+  }
+  var hosts = document.querySelectorAll(".art-card a, .lab-teaser");
+  for (var i = 0; i < hosts.length; i++) {
+    hosts[i].addEventListener("mouseenter", (function (h) {
+      return function () { replay(h); };
+    })(hosts[i]));
   }
 })();

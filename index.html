@@ -23,8 +23,8 @@
 <link rel="alternate" hreflang="x-default" href="https://roserparker.github.io/hukanbit/index.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="assets/style.css?v=20260612v">
-<link rel="stylesheet" href="assets/games.css?v=20260612v">
+<link rel="stylesheet" href="assets/style.css?v=20260616a">
+<link rel="stylesheet" href="assets/games.css?v=20260615b">
 </head>
 <body class="home-page">
 
@@ -57,12 +57,12 @@
   <section class="hero blk">
     <p class="kicker">一份关于金钱与比特币的科普专栏</p>
     <h1>胡侃比特</h1>
-    <p class="sub">把复杂的金钱问题讲简单。这里不喊单、不预测价格、不贩卖焦虑——只是认真聊聊：钱是什么，它出了什么问题，以及比特币为什么值得理解。</p>
+    <p class="hero-lead">在花钱和存钱之前，先理解钱。</p>
     <div class="hero-cta">
       <a class="btn warm" href="articles/01.html">从第一篇开始读</a>
       <a class="btn ghost" href="lab.html">去实验室亲手玩</a>
     </div>
-    <p class="epigraph">“所有伟大的技术都从边缘展开”</p>
+    <div class="hero-stance"><span>不喊单</span><span>不预测价格</span><span>不贩卖焦虑</span></div>
     <div class="hero-chain-live" data-game="chain" aria-label="区块链动态演示：左侧为已封存区块，右侧虚线块正在打包来自内存池的转账"></div>
     <p class="chain-cap">每个方块＝一个区块 · 圆点＝装进区块的交易 · 最右虚线块正在打包，装满四笔即封存前进</p>
   </section>
@@ -72,58 +72,82 @@
   <h2 class="section-title">系列文章</h2>
   <p class="read-progress" id="read-progress" hidden></p>
 
-  <ol class="toc">
-    <li class="reveal">
+  <ol class="art-grid">
+    <li class="reveal art-card">
       <a href="articles/01.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M32 18C25 14 17 14 11 17V46C17 43 25 43 32 47C39 43 47 43 53 46V17C47 14 39 14 32 18Z"/>
+          <path class="s" pathLength="100" d="M32 18V47"/>
+          <path class="s" pathLength="100" d="M38 28H47"/>
+          <path class="s" pathLength="100" d="M38 34H47"/>
+        </svg></span>
         <span class="num">壹</span>
-        <span>
-          <h3>何为金钱</h3>
-          <p>钱是账本上的一条记录。从村庄的账本讲到美第奇家族、金本位与 1971 年的脱钩，再算一算“温和的 2% 通胀”三十年后会拿走你多少购买力。</p>
-          <span class="tags"><span class="tag accent">第一篇</span><span class="tag">金钱的本质</span><span class="tag">约 30 分钟</span></span>
-        </span>
+        <h3>何为金钱</h3>
+        <p class="art-line">钱，是账本上的一行字。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/02.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M46 24C43 15 21 14 17 28C13 41 39 46 44 35C47 28 35 24 31 30C28 35 35 38 37 33"/>
+        </svg></span>
         <span class="num">贰</span>
-        <span>
-          <h3>债务驱动的世界</h3>
-          <p>你存在银行里的钱，在银行的账本上其实是一笔负债。拆解央行如何“印钱”、商业银行的货币乘数，以及 2008 年金融危机里谁买了单、谁拿了奖金。</p>
-          <span class="tags"><span class="tag accent">第二篇</span><span class="tag">法币体系</span><span class="tag">约 30 分钟</span></span>
-        </span>
+        <h3>债务驱动的世界</h3>
+        <p class="art-line">你的存款，是银行账本上的一笔负债。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/03.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M22 27L32 16L42 27L32 50Z"/>
+          <path class="s" pathLength="100" d="M22 27H42"/>
+          <path class="s" pathLength="100" d="M27 27L32 50L37 27"/>
+          <path class="s" pathLength="100" d="M32 16L27 27M32 16L37 27"/>
+        </svg></span>
         <span class="num">叁</span>
-        <span>
-          <h3>无形的坚硬</h3>
-          <p>抛开术语，比特币其实很好懂：一个人人可验证的共享账本，一种必须消耗真实能量才能获得的货币，和一个写死在代码里的数字——2100 万。</p>
-          <span class="tags"><span class="tag accent">第三篇</span><span class="tag">比特币原理</span><span class="tag">约 25 分钟</span></span>
-        </span>
+        <h3>无形的坚硬</h3>
+        <p class="art-line">人人可验证的账本，一个写死的数字：2100 万。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/04.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M14 25H50"/>
+          <path class="s" pathLength="100" d="M32 25V20"/>
+          <circle class="s" pathLength="100" cx="32" cy="17" r="2.6"/>
+          <path class="s" pathLength="100" d="M14 25L9 35A7 7 0 0 0 19 35Z"/>
+          <path class="s" pathLength="100" d="M50 25L45 35A7 7 0 0 0 55 35Z"/>
+          <path class="s" pathLength="100" d="M32 25V45M26 45H38"/>
+        </svg></span>
         <span class="num">肆</span>
-        <span>
-          <h3>内在价值</h3>
-          <p>黄金值钱，不是因为它是金子，而是因为“再来一克”需要 60 美元。聊聊价值的本质：任何资产的价值上限，取决于伪造它的成本。</p>
-          <span class="tags"><span class="tag accent">第四篇</span><span class="tag">价值哲学</span><span class="tag">约 15 分钟</span></span>
-        </span>
+        <h3>内在价值</h3>
+        <p class="art-line">价值的上限，是伪造它的代价。</p>
       </a>
     </li>
-    <li class="reveal">
+    <li class="reveal art-card">
       <a href="articles/05.html">
+        <span class="art-ill"><svg class="ill" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="s" pathLength="100" d="M13 33H51L45 46H19Z"/>
+          <path class="s" pathLength="100" d="M32 33V17L45 25L32 28"/>
+          <path class="s" pathLength="100" d="M9 51C15 48 19 54 25 51C31 48 35 54 41 51C47 48 51 54 55 51"/>
+        </svg></span>
         <span class="num">伍</span>
-        <span>
-          <h3>诺亚方舟</h3>
-          <p>比特币特性的全景图：点对点、自主权、抗审查、可分割、可传承。以及一份坦率的个人推演——关于 AI、CBDC 与我们正在驶入的未来。</p>
-          <span class="tags"><span class="tag accent">第五篇</span><span class="tag">未来推演</span><span class="tag">约 40 分钟</span></span>
-        </span>
+        <h3>诺亚方舟</h3>
+        <p class="art-line">一艘渡过通胀洪水的方舟。</p>
       </a>
     </li>
   </ol>
+
+  <details class="unfold center">
+    <summary>看看五篇各讲什么</summary>
+    <div class="unfold-body">
+      <p><strong>壹 · 何为金钱</strong>　从村庄的账本讲到美第奇家族、金本位与 1971 年的脱钩，再算一算“温和的 2% 通胀”三十年后会拿走你多少购买力。</p>
+      <p><strong>贰 · 债务驱动的世界</strong>　你存在银行里的钱，在银行的账本上其实是一笔负债。拆解央行如何“印钱”、货币乘数，以及 2008 年谁买了单、谁拿了奖金。</p>
+      <p><strong>叁 · 无形的坚硬</strong>　抛开术语，比特币其实很好懂：一个人人可验证的共享账本，一种必须消耗真实能量才能获得的货币，和一个写死在代码里的数字——2100 万。</p>
+      <p><strong>肆 · 内在价值</strong>　黄金值钱，不是因为它是金子，而是因为“再来一克”需要 60 美元。任何资产的价值上限，取决于伪造它的成本。</p>
+      <p><strong>伍 · 诺亚方舟</strong>　比特币特性的全景图：点对点、自主权、抗审查、可分割、可传承。以及一份坦率的个人推演——关于 AI、CBDC 与我们正在驶入的未来。</p>
+    </div>
+  </details>
 
   </section>
 
@@ -132,8 +156,24 @@
   <h2 class="section-title">互动实验室</h2>
 
   <div class="lab-teaser reveal">
-    <p class="about" style="padding:0">概念读十遍，不如亲手玩一遍。十二个实验已按两厅课纲排好：<strong>法币诊室</strong>先看清问题，<strong>比特币工坊</strong>由浅入深——从第一笔转账，一路玩到拜占庭将军。全部在你的浏览器本地运行。</p>
+    <span class="art-ill forge"><svg class="ill" viewBox="0 0 120 120" aria-hidden="true" role="img" aria-label="比特币 ₿ 印鉴：椭圆徽记中一枚内透宝光的数字黄金">
+      <!-- 椭圆印鉴（Diptyque cartouche × 雍正素静） -->
+      <ellipse class="s cartouche" pathLength="100" cx="60" cy="60" rx="30" ry="35"/>
+      <!-- 宝光：内透、温润、慢（只动 opacity，不动 blur 半径——宝光非贼光，且滚动零重绘） -->
+      <circle class="glow" cx="60" cy="60" r="14"/>
+      <!-- 居中的数字黄金 ₿（素底之上，一处贵） -->
+      <g class="forge-coin">
+        <path class="s" pathLength="100" d="M52 49 V71"/>
+        <path class="s" pathLength="100" d="M52 49 H62 C68 49 68 60 62 60 H52 M52 60 H64 C70 60 70 71 64 71 H52"/>
+        <path class="s" pathLength="100" d="M57 45.5 V49 M62.5 45.5 V49 M57 71 V74.5 M62.5 71 V74.5"/>
+      </g>
+    </svg></span>
+    <p class="hero-lead small">概念读十遍，不如亲手玩一遍。</p>
     <a class="btn warm" href="lab.html">进入实验室</a>
+    <details class="unfold center">
+      <summary>里面有什么</summary>
+      <div class="unfold-body"><p>十二个实验已按两厅课纲排好：<strong>法币诊室</strong>先看清问题，<strong>比特币工坊</strong>由浅入深——从第一笔转账，一路玩到拜占庭将军。全部在你的浏览器本地运行。</p></div>
+    </details>
   </div>
 
   </section>
@@ -144,21 +184,22 @@
 
   <div class="gen-wrap reveal">
     <div class="gen-stele" id="gen-stele">
-      <p class="gen-meta">区块 #0 · 2009-01-03 18:15:05 UTC · 全部 285 字节，原样如下</p>
-      <p class="gen-hint">乍看，这只是机器的呓语。慢慢向下滚——有些字节，和别的不一样。</p>
-      <div class="gen-dump" id="gen-dump" aria-label="创世区块原始十六进制转储（偏移、字节、ASCII 三栏）"></div>
+      <p class="gen-lead">2009 年 1 月 3 日，中本聪写下第一个区块——<strong>创世区块</strong>。它永远是第 0 块，<strong>无法修改、无法删除</strong>，是整本账的地基。下面是它<strong>完整的 285 个字节</strong>，一字不差——一个真实、看得见摸得着的比特币区块。</p>
+      <p class="gen-hint">不用看懂这些字符——盯着它慢慢往下滚：藏在里面的<strong>那句英文</strong>，会自己一个字一个字亮起来。</p>
+      <div class="gen-dump" id="gen-dump" aria-label="创世区块完整十六进制转储（偏移、字节、ASCII 三栏）"></div>
+
       <div class="gen-clip" id="gen-clip">
         <div class="gen-clip-paper" role="img" aria-label="泰晤士报 2009 年 1 月 3 日头版复刻示意">
           <p class="gen-clip-mast">THE TIMES</p>
-          <div class="gen-clip-date"><span>Saturday January 3 2009</span><span>London · 70p</span></div>
+          <div class="gen-clip-date"><span>Saturday · January 3 2009</span><span>London</span></div>
           <p class="gen-clip-head">Chancellor on brink of second bailout for banks</p>
-          <p class="gen-clip-by">Francis Elliott, Deputy Political Editor · Gary Duncan, Economics Editor</p>
-          <div class="gen-clip-cols"><span class="gen-clip-col"></span><span class="gen-clip-col"></span><span class="gen-clip-col"></span></div>
-          <p class="gen-clip-cap">复刻示意，非原件影印——原版头版请由下方链接核对。</p>
+          <p class="gen-clip-cap">复刻示意，非原件影印——上面那 69 个发亮的字节，原样刻的就是这行字</p>
         </div>
       </div>
-      <p class="gen-zh">「财政大臣站在第二轮银行救助的边缘。」——这行字被永久铸进区块 #0：既是时间戳，也是判词。</p>
-      <p class="gen-note">发亮的 69 个字节，就是头条本身；它前面那个 45，是十六进制的 69——句子的长度。把鼠标放到任意发亮字节上，右栏对应的字母会一同亮起。验证真实性：<a href="https://thetimes03jan2009.com" target="_blank" rel="noopener">原版头版影印</a> · <a href="https://en.bitcoin.it/wiki/Genesis_block" target="_blank" rel="noopener">Genesis block 原始数据</a> · <a href="satoshi.html">→ 布道厅</a></p>
+
+      <p class="gen-zh">旧的账本还在加印钞票去救银行；新的账本，从这一页另起。这行被永久铸进第 0 块的字，<strong>既是时间戳</strong>（证明此块不早于那天），<strong>也是一句判词</strong>。</p>
+
+      <p class="gen-note">想亲手核对？<a href="https://thetimes03jan2009.com" target="_blank" rel="noopener">原版头版影印</a> · <a href="https://en.bitcoin.it/wiki/Genesis_block" target="_blank" rel="noopener">区块原始数据</a> · <a href="satoshi.html">→ 布道厅</a></p>
     </div>
   </div>
 
@@ -172,7 +213,11 @@
     <div class="game-embed" data-game="debt-clock">
       <p class="game-fallback">这个实时挂件需要 JavaScript 才能运行。</p>
     </div>
-    <p class="gen-note" style="margin-top:1rem">上面那本账，第一页写完就封存了；这一本，每一秒都在往后写。这本账谁来还？<a href="articles/02.html">第二篇</a> 拆给你看；它为何必然失控，<a href="articles/04.html">第四篇</a> 算给你看。</p>
+    <p class="gen-zh" style="margin-top:1.4rem">上面那本账，第一页写完就封存了；这一本，每一秒都在往后写。</p>
+    <details class="unfold center">
+      <summary>这本账，谁来还</summary>
+      <div class="unfold-body"><p>这本账谁来还？<a href="articles/02.html">第二篇</a> 拆给你看；它为何必然失控，<a href="articles/04.html">第四篇</a> 算给你看。</p></div>
+    </details>
   </div>
 
   </section>
@@ -181,11 +226,17 @@
   <p class="section-label" id="about">ABOUT</p>
   <h2 class="section-title">关于本专栏</h2>
 
-  <div class="about reveal">
-    <p>「胡侃比特」的目标，是让所有人都能简单地理解比特币的运作原理、价值，以及它对普通人的意义。我会用“胡侃”这种轻松的方式，把复杂问题简单化——想到哪里说哪里，让我们一起在比特的海洋中畅游。</p>
-    <p>建议按顺序阅读：先弄清“钱”本身（第一、二篇），再看比特币给出的答案（第三、四篇），最后是对未来的推演（第五篇）。每篇文章末尾都有对应的互动小实验。</p>
-    <p>这里没有行情、没有价格预测、没有“最后上车机会”。如果读完你只记住一件事，我希望是：<strong>在花钱和存钱之前，先理解钱。</strong></p>
-    <p>最后说一句蓝图上的事：你现在看到的只是地基。这座馆还在扩建，下一批厅室已经画好——<strong>资讯厅</strong>（每周一封比特币周报）、<strong>茶馆</strong>（读者们坐下来讨论）、<strong><a href="pay.html">支付窗</a></strong>（演习房已开放：先用演习币把支付动作练会）。盖好一间，开放一间。</p>
+  <div class="about reveal" style="text-align:center">
+    <p class="hero-lead small">让每个人都能简单地理解比特币——它怎么运作，为什么值得理解。</p>
+    <details class="unfold center">
+      <summary>展开关于本专栏</summary>
+      <div class="unfold-body">
+        <p>我会用“胡侃”这种轻松的方式，把复杂问题简单化——想到哪里说哪里，让我们一起在比特的海洋中畅游。</p>
+        <p>建议按顺序阅读：先弄清“钱”本身（第一、二篇），再看比特币给出的答案（第三、四篇），最后是对未来的推演（第五篇）。每篇文章末尾都有对应的互动小实验。</p>
+        <p>这里没有行情、没有价格预测、没有“最后上车机会”。如果读完你只记住一件事，我希望是：<strong>在花钱和存钱之前，先理解钱。</strong></p>
+        <p>最后说一句蓝图上的事：你现在看到的只是地基。这座馆还在扩建，下一批厅室已经画好——<strong>资讯厅</strong>（每周一封比特币周报）、<strong>茶馆</strong>（读者们坐下来讨论）、<strong><a href="pay.html">支付窗</a></strong>（演习房已开放：先用演习币把支付动作练会）。盖好一间，开放一间。</p>
+      </div>
+    </details>
   </div>
   </section>
 
@@ -199,8 +250,8 @@
   </div>
 </footer>
 
-<script src="assets/main.js?v=20260612v"></script>
-<script src="assets/flow.js?v=20260612v" defer></script>
-<script src="assets/games.js?v=20260612v" defer></script>
+<script src="assets/main.js?v=20260616a"></script>
+<script src="assets/flow.js?v=20260616a" defer></script>
+<script src="assets/games.js?v=20260615b" defer></script>
 </body>
 </html>

@@ -82,7 +82,7 @@
   }
 
   function resize() {
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    DPR = Math.min(window.devicePixelRatio || 1, 1.5);
     W = window.innerWidth; H = window.innerHeight;
     canvas.width = W * DPR; canvas.height = H * DPR;
     brush.setTransform(DPR, 0, 0, DPR, 0, 0);
@@ -159,6 +159,11 @@
   var lastLink = 0, lastMote = 0, lastMeteor = 0, meteorGap = 9000 + Math.random() * 6000;
   var chi = Math.random() * 100;
 
+  /* 滾動期間讓出主線程：這是最底層背景，滾動時靜止一瞬肉眼無感，
+     卻能把每一幀都讓給滾動合成——配合 ~30fps 限幀，根治「滾動還有點卡」。 */
+  var lastScroll = 0, lastDraw = 0;
+  window.addEventListener("scroll", function () { lastScroll = performance.now(); }, { passive: true });
+
   /* ---------- 繪製 ---------- */
   function roundRect(x, y, s, r) {
     brush.beginPath();
@@ -172,6 +177,10 @@
 
   var rafId = 0;
   function breathe(now) {
+    rafId = requestAnimationFrame(breathe);
+    if (now - lastScroll < 220) return;   /* 滾動進行中：跳過這一幀重繪 */
+    if (now - lastDraw < 30) return;      /* 限到約 30fps：緩慢的背景無需 60fps */
+    lastDraw = now;
     chi += 0.0011;
 
     /* 提燈緩行 */
@@ -299,8 +308,6 @@
       }
     }
     brush.lineCap = "butt";
-
-    rafId = requestAnimationFrame(breathe);
   }
 
   document.addEventListener("visibilitychange", function () {
