@@ -19,7 +19,7 @@ PAGES = [
     "articles/01.html", "articles/02.html", "articles/03.html",
     "articles/04.html", "articles/05.html",
 ]
-JS = ["main.js", "games.js", "lab.js", "flow.js"]
+JS = ["main.js", "games.js", "lab.js", "flow.js", "analytics.js"]
 
 cc = OpenCC("s2t")
 corpus = []
