@@ -3111,3 +3111,122 @@ html[lang="en"] .lab-card .desc { line-height: 1.65; }
   100% { color: var(--accent-ink); filter: drop-shadow(0 0 2px rgba(214, 166, 76, 0.28)); }
 }
 @keyframes bao-guang { 0%, 100% { opacity: 0.16; } 50% { opacity: 0.34; } }
+
+/* ============================================================
+   2026-07 大改版新增 · 阅读组件层
+   （鎏金金句 / 文章内单线简笔画 / 术语注释 / 判定表记号）
+   纪律：只增不改——上方旧类一律不动
+   ============================================================ */
+
+/* ── 鎏金变量：亮暗两谱 ── */
+:root { --gold-hi: #e3b864; --gold-lo: #9c6b28; --gold-glint: #f6e3b0; }
+@media (prefers-color-scheme: dark) {
+  :root { --gold-hi: #f0cd82; --gold-lo: #c08a45; --gold-glint: #fae8bd; }
+}
+
+/* ── 鎏金金句：与 .pull 叠用（class="pull pull-gold"）；
+   不支持 background-clip:text 时自然退回 .pull 的暖橙 ── */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .pull-gold {
+    background-image: linear-gradient(100deg,
+      var(--gold-lo) 0%, var(--gold-hi) 32%, var(--gold-glint) 50%,
+      var(--gold-hi) 68%, var(--gold-lo) 100%);
+    background-size: 220% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal.visible .pull-gold { animation: gold-sheen 2.4s var(--ease-breath) 0.2s forwards; }
+  }
+}
+@keyframes gold-sheen { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+
+/* ── 文章内单线简笔画（figure.sk-fig.reveal > .art-ill > svg.ill）──
+   复用首页 ill-draw / ill-ignite；多面板用 .s.p2/.p3 错峰 ── */
+.sk-fig { margin: 2.6rem auto; max-width: 520px; text-align: center; }
+.sk-fig.wide { max-width: 680px; }
+.sk-fig .art-ill { margin: 0 auto; }
+.sk-fig figcaption {
+  margin-top: 0.9rem;
+  font-family: var(--sans); font-size: 0.82rem;
+  color: var(--ink-faint); line-height: 1.7;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sk-fig .ill .s { stroke-dashoffset: 100; }
+  .sk-fig.visible .ill .s { animation: ill-draw 1.4s var(--ease-breath) forwards; }
+  .sk-fig.visible .art-ill { animation: ill-ignite 2s var(--ease-breath); }
+  .sk-fig.visible .ill .s.p2 { animation-delay: 0.35s; }
+  .sk-fig.visible .ill .s.p3 { animation-delay: 0.7s; }
+  .sk-fig.visible .ill .s.p4 { animation-delay: 1.05s; }
+}
+
+/* ── 术语注释：正文里可点开的小卡片 ──
+   <span class="term-wrap"><button class="term" aria-controls="tn-x" aria-expanded="false">法币</button>
+     <span class="term-card" id="tn-x" role="note" hidden>…</span></span> ── */
+.term-wrap { position: relative; }
+button.term {
+  appearance: none; background: none; border: none; padding: 0; margin: 0;
+  font: inherit; color: inherit; cursor: help;
+  border-bottom: 1px dotted var(--accent);
+}
+button.term:hover, button.term[aria-expanded="true"] {
+  color: var(--accent-ink); border-bottom-style: solid;
+}
+button.term:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: 2px; }
+.term-card {
+  position: absolute; left: 0; top: calc(100% + 0.55rem); z-index: 60;
+  width: min(19rem, 78vw);
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: var(--shadow-pop);
+  padding: 0.85rem 1rem;
+  font-family: var(--sans); font-size: 0.84rem; font-weight: 400;
+  line-height: 1.75; color: var(--ink-soft);
+  text-align: left; letter-spacing: normal; white-space: normal;
+}
+.term-card b { color: var(--ink); font-weight: 600; }
+.term-card.flip { left: auto; right: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .term-card { animation: term-pop 0.25s var(--ease-breath); }
+}
+@keyframes term-pop { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+@media (max-width: 560px) {
+  .term-card, .term-card.flip {
+    position: fixed; left: 1rem; right: 1rem; top: auto; bottom: 1rem;
+    width: auto; z-index: 90; box-shadow: var(--shadow-lift);
+  }
+}
+
+/* ── 判定表记号：替代 emoji ✅❌🟡 的单线小记号 ──
+   <span class="mk mk-yes" role="img" aria-label="是"><svg>…</svg></span> ── */
+.mk {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.05rem; height: 1.05rem; margin-right: 0.38rem;
+  vertical-align: -0.18rem; flex: none;
+}
+.mk svg { display: block; width: 100%; height: 100%; }
+.mk-yes { color: var(--good); }
+.mk-no  { color: var(--bad); opacity: 0.8; }
+.mk-mid { color: var(--gold-lo); }
+.verdict-table th:not(:first-child), .verdict-table td:not(:first-child) { white-space: nowrap; }
+.verdict-table td:first-child { color: var(--ink); font-weight: 500; }
+.verdict-table .vt-group td {
+  padding-top: 1.15rem; border-bottom: none;
+  font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.14em;
+  color: var(--ink-faint); font-weight: 600;
+}
+.verdict-table .vt-group:hover td { background: none; }
+
+/* ── 创世报纸 · 原件影印变体（竖版照片入做旧相框；沿用 clip-develop 显影）── */
+.gen-clip-photo { max-width: 23rem; padding: 0.7rem 0.7rem 0.85rem; margin: 0 auto; }
+.gen-clip-photo img {
+  display: block; width: 100%; height: auto; border-radius: 2px;
+  filter: sepia(0.13) contrast(0.97);
+}
+.gen-clip-photo .gen-clip-cap { margin: 0.7rem 0 0; }
+.gen-clip-credit { display: block; margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.05em; color: #8a8269; }
+@media (prefers-color-scheme: dark) {
+  .gen-clip-photo img { filter: sepia(0.18) contrast(0.95) brightness(0.86); }
+}

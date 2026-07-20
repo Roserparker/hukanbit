@@ -11,7 +11,8 @@
         清空挂载点并渲染对应游戏；重复初始化安全（先调用上一次
         实例返回的 destroy 清理 rAF / interval / 事件）。
    约定：
-     - 纯 vanilla JS，单一 IIFE，无模块、无 fetch、无外部依赖
+     - 纯 vanilla JS，单一 IIFE，无模块、无外部依赖；原则上无 fetch
+       （唯一豁免：block-explorer 拉取 mempool.space 实时区块，失败静默降级为内置快照）
      - 组件内部一律使用闭包里的 DOM 引用，不用 id 查找自己
      - 同一游戏可在一页中挂载多次（工厂函数，互不干扰）
    ============================================================ */
@@ -1801,33 +1802,7 @@
     root.innerHTML = "";
     root.appendChild(el("p", "gm-kicker", "信任的难题 · 之二"));
     root.appendChild(el("p", "gm-title", "拜占庭将军问题"));
-    root.appendChild(el("p", "gm-desc", "九路联军围城，必须同时进攻才能取胜。军中混着叛徒，信使可以撒谎、冒名、对不同人说不同话。没有统帅，诚实的将军们如何达成一致？——这道难题悬了几十年，直到 2008 年。"));
-
-    var row1 = el("div", "gm-row");
-    var lab = el("label", null, "叛徒人数");
-    var seg = el("span", "gm-seg");
-    var tCount = 2;
-    [0, 1, 2, 3, 4].forEach(function (k) {
-      var b = btn(null, String(k));
-      if (k === tCount) b.className = "gm-on";
-      b.addEventListener("click", function () {
-        tCount = k;
-        seg.querySelectorAll("button").forEach(function (o) { o.className = ""; });
-        b.className = "gm-on";
-      });
-      seg.appendChild(b);
-    });
-    var powBtn = btn("gm-btn gm-ghost", "火漆印：关");
-    var pow = false;
-    powBtn.addEventListener("click", function () {
-      pow = !pow;
-      powBtn.textContent = pow ? "火漆印：开 ✓" : "火漆印：关";
-      powBtn.className = pow ? "gm-btn" : "gm-btn gm-ghost";
-    });
-    var go = btn("gm-btn", "传令 · 进攻");
-    row1.appendChild(lab); row1.appendChild(seg); row1.appendChild(powBtn); row1.appendChild(go);
-    root.appendChild(row1);
-    root.appendChild(el("p", "gm-note gm-tip", "「火漆印」= 每道军令必须附一枚耗费真实时间才能铸出的印章（工作量证明）。开关它，看看世界有什么不同。"));
+    root.appendChild(el("p", "gm-desc", "九路联军围城，必须同时进攻才能取胜。军中混着叛徒，信使可以撒谎、冒名。没有统帅，诚实的将军们怎么统一行动？我们分两幕看。"));
 
     var field = el("div", "gm-bz-field");
     var city = el("div", "gm-bz-city", "🏯");
@@ -1841,79 +1816,97 @@
       field.appendChild(g);
       gens.push(g);
     }
+
+    var actRow = el("div", "gm-row");
+    var act1 = btn("gm-btn", "第一幕 · 谎言免费的世界");
+    var act2 = btn("gm-btn gm-ghost", "第二幕 · 给说话定价（火漆印）");
+    act2.disabled = true;
+    actRow.appendChild(act1);
+    actRow.appendChild(act2);
+    root.appendChild(actRow);
     root.appendChild(field);
 
     var log = el("div", "gm-log");
     log.style.height = "auto";
     log.style.minHeight = "5.5em";
-    log.textContent = "调好叛徒人数，点「传令」。";
+    log.textContent = "先点「第一幕」。";
     root.appendChild(log);
     var verdictBox = el("div");
     root.appendChild(verdictBox);
 
+    var TCOUNT = 2;
+
+    function reset() {
+      verdictBox.innerHTML = "";
+      city.classList.remove("fallen");
+      gens.forEach(function (g) { g.className = "gm-bz-gen"; });
+    }
+    function pickTraitors() {
+      var idx = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(function () { return Math.random() - 0.5; });
+      return idx.slice(0, TCOUNT);
+    }
     function logLines(lines) {
       log.innerHTML = "";
       lines.forEach(function (t, k) {
         var d = el("div", null, t);
         if (reducedMotion) log.appendChild(d);
-        else setTimeout(function () { log.appendChild(d); }, 300 * k);
+        else setTimeout(function () { log.appendChild(d); }, 340 * k);
       });
     }
 
-    function run() {
-      verdictBox.innerHTML = "";
-      city.classList.remove("fallen");
-      gens.forEach(function (g) { g.className = "gm-bz-gen"; });
-
-      var idx = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(function () { return Math.random() - 0.5; });
-      var traitors = idx.slice(0, tCount);
+    function runAct1() {
+      reset();
+      var traitors = pickTraitors();
       var isT = function (k) { return traitors.indexOf(k) >= 0; };
-
-      if (!pow) {
-        /* 谎言免费的世界：军令互相矛盾，诚实者分裂 */
-        var atk = 0, rtr = 0;
-        gens.forEach(function (g, k) {
-          var attack = isT(k) ? Math.random() < 0.5 : Math.random() < 0.5 + 0.4 / (tCount + 1);
-          setTimeout(function () {
-            g.classList.add(attack ? "attack" : "retreat");
-            if (isT(k)) g.classList.add("traitor");
-          }, reducedMotion ? 0 : 150 * k);
-          if (attack) atk++; else rtr++;
-        });
-        logLines([
-          "> 叛徒向不同的人发出了不同的军令（伪造一条命令的成本：0）",
-          "> 有人还冒用了忠诚将军的名义乱发消息",
-          "> 结果：进攻 " + atk + " 路 · 后撤 " + rtr + " 路 —— 兵力不足，攻城失败",
-          "> 虚线圈出的是叛徒——事前，你根本看不出来"
-        ]);
-        var v1 = el("div", "gm-verdict");
-        v1.appendChild(el("p", null, "问题不在于诚实的人不够多，而在于谎言和真话一样便宜。只要伪造零成本，再多的诚实也汇不成一致。"));
-        verdictBox.appendChild(v1);
-      } else {
-        /* 火漆印的世界：说话有成本，最长令链由诚实多数铸成 */
-        gens.forEach(function (g, k) {
-          setTimeout(function () {
-            g.classList.add("attack");
-            if (isT(k)) g.classList.add("traitor");
-          }, reducedMotion ? 0 : 150 * k);
-        });
-        setTimeout(function () { city.classList.add("fallen"); }, reducedMotion ? 0 : 1600);
-        var lines = [
-          "> 新规生效：每道军令必须附「火漆印」——铸一枚要烧一炷香",
-          "> 叛徒只有 " + tCount + "/9 的铸印能力，伪造的命令既慢又少",
-          "> 诚实多数铸出了最长的那条令链，所有人只认它",
-          "> 九路同时进攻 —— 城破 ✓"
-        ];
-        if (tCount >= 4) lines.push("> 警告：叛徒已达 4/9。一旦过半，最长链也会撒谎——这就是「51% 攻击」的含义。");
-        logLines(lines);
-        var v2 = el("div", "gm-verdict");
-        v2.appendChild(el("p", null, "无须认识彼此，无须信任信使——只需跟随“耗费能量最多的那条链”。这就是中本聪给拜占庭将军们的答案，也是此刻全球几十万个比特币节点正在做的事。"));
-        verdictBox.appendChild(v2);
-      }
+      var atk = 0, rtr = 0;
+      gens.forEach(function (g, k) {
+        var attack = isT(k) ? Math.random() < 0.5 : Math.random() < 0.62;
+        setTimeout(function () {
+          g.classList.add(attack ? "attack" : "retreat");
+          if (isT(k)) g.classList.add("traitor");
+        }, reducedMotion ? 0 : 150 * k);
+        if (attack) atk++; else rtr++;
+      });
+      logLines([
+        "> 两名叛徒对不同的人说了不同的话（撒一个谎的成本：0）",
+        "> 亮色＝收到「进攻」，暗色＝收到「后撤」——命令自相矛盾",
+        "> 结果：进攻 " + atk + " 路、后撤 " + rtr + " 路——兵力不足，攻城失败",
+        "> 关键：事前没人分得清谁是叛徒（虚线圈是事后揭晓）"
+      ]);
+      var v = el("div", "gm-verdict");
+      v.appendChild(el("p", null, "败因不是诚实的人不够多，而是谎言和真话一样便宜——伪造零成本时，再多的诚实也拼不成一致。这道题悬了几十年。"));
+      verdictBox.appendChild(v);
+      act1.textContent = "第一幕 · 再看一遍";
+      act2.disabled = false;
+      act2.classList.remove("gm-ghost");
     }
 
-    go.addEventListener("click", run);
-    root.appendChild(el("p", "gm-note faint", "极简化演示。严格表述见 Lamport 等《拜占庭将军问题》（1982）与比特币白皮书第 4 节。"));
+    function runAct2() {
+      reset();
+      var traitors = pickTraitors();
+      var isT = function (k) { return traitors.indexOf(k) >= 0; };
+      gens.forEach(function (g, k) {
+        setTimeout(function () {
+          g.classList.add("attack");
+          if (isT(k)) g.classList.add("traitor");
+        }, reducedMotion ? 0 : 150 * k);
+      });
+      setTimeout(function () { city.classList.add("fallen"); }, reducedMotion ? 0 : 1600);
+      logLines([
+        "> 新规：每道军令必须附一枚「火漆印」，铸一枚要实打实烧一炷香",
+        "> 叛徒只有 2/9 的铸印速度——假命令又慢又少，盖不过真命令",
+        "> 所有人只认「火漆印最多的那串命令」，矛盾自动消失",
+        "> 九路同时进攻——城破 ✓"
+      ]);
+      var v = el("div", "gm-verdict");
+      v.appendChild(el("p", null, "把「说话」变贵，共识就从不可能变成必然。火漆印＝工作量证明；「印最多的那串命令」＝最长链。只要诚实的算力过半，账本就没法被谎言改写——这就是比特币每 10 分钟都在做的事。"));
+      verdictBox.appendChild(v);
+      act2.textContent = "第二幕 · 再看一遍";
+    }
+
+    act1.addEventListener("click", runAct1);
+    act2.addEventListener("click", runAct2);
+    root.appendChild(el("p", "gm-note faint", "极简化演示（叛徒固定 2/9）。若叛徒过半，「印最多的命令」也会撒谎——那就是「51% 攻击」。严格表述见 Lamport 等（1982）与比特币白皮书第 4 节。"));
   }
 
   /* ================= 11. 另一本账：美国国债实时钟 =================
@@ -2085,8 +2078,8 @@
   function createByzantine(root) {
     gmIntro(root, "byzantine", [
       ["九路大军围住一座城", "必须同时进攻才能赢——但军中有叛徒，信使还会撒谎。"],
-      ["这是悬了几十年的难题", "当谎言和真话一样便宜，共识就不可能。"],
-      ["直到有人发明了『火漆印』", "让说话变贵。调好叛徒人数，亲自传一次令。"]
+      ["第一幕：谎言免费的世界", "先亲眼看共识怎么崩。"],
+      ["第二幕：给说话定价", "再看一枚『火漆印』怎么让共识成为必然。"]
     ], function () { buildByzantine(root); });
   }
 
@@ -2213,6 +2206,549 @@
     return function destroy() { timers.forEach(clearTimeout); };
   }
 
+  /* ================= 14. 2026-07 大改版新增八件套 ================= */
+  /* 约定不变：工厂函数 + 闭包 DOM + 可选 destroy。
+     其中 block-explorer 是全库唯一允许 fetch 的组件（失败静默降级为快照数据）。 */
+
+  var SVG_NS = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs) {
+    var n = document.createElementNS(SVG_NS, tag);
+    if (attrs) for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function svgText(x, y, cls, str, anchor) {
+    var t = svgEl("text", { x: x, y: y, "class": cls });
+    if (anchor) t.setAttribute("text-anchor", anchor);
+    t.textContent = str;
+    return t;
+  }
+  /* 通用滑杆行：label + range + 读数 */
+  function ctlRow(label, min, max, step, value) {
+    var row = el("div", "gm-ctl");
+    row.appendChild(el("label", "gm-ctl-lab", label));
+    var input = document.createElement("input");
+    input.type = "range"; input.min = min; input.max = max; input.step = step; input.value = value;
+    row.appendChild(input);
+    var val = el("span", "gm-ctl-val");
+    row.appendChild(val);
+    return { row: row, input: input, val: val };
+  }
+
+  /* ---- 14.1 复利侵蚀模拟器（第一篇 · 替换静态表格）---- */
+  function createCompoundDecay(root) {
+    root.classList.add("gm-inline");
+    root.appendChild(el("p", "gm-cd-head", "亲手拨一拨：通胀这台复利机器，怎么吃你的存款"));
+    var c1 = ctlRow("存款本金", 10, 1000, 10, 100);
+    var c2 = ctlRow("年通胀率", 0, 15, 0.5, 2);
+    var c3 = ctlRow("经过年数", 1, 50, 1, 30);
+    var big = el("p", "gm-cd-big");
+    var note = el("p", "gm-cd-note");
+    var chart = svgEl("svg", { viewBox: "0 0 560 150", "class": "gm-cd-chart", "aria-hidden": "true" });
+    root.appendChild(c1.row); root.appendChild(c2.row); root.appendChild(c3.row);
+    root.appendChild(big); root.appendChild(note); root.appendChild(chart);
+    function upd() {
+      var P = +c1.input.value, r = +c2.input.value / 100, n = +c3.input.value;
+      c1.val.textContent = fmt(P) + " 万";
+      c2.val.textContent = (+c2.input.value).toFixed(1).replace(/\.0$/, "") + "%";
+      c3.val.textContent = n + " 年";
+      var real = P / Math.pow(1 + r, n);
+      big.textContent = "还剩 " + fmt(real, real < 10 ? 1 : 0) + " 万的购买力";
+      var lost = Math.round((1 - real / P) * 100);
+      note.textContent = r === 0
+        ? "通胀为零的世界——购买力纹丝不动。可这样的世界，法币史上并不存在。"
+        : "名义上它还是 " + fmt(P) + " 万，一分没少；但能买到的东西，蒸发了 " + lost + "%。每年只有 " + c2.val.textContent + "，" + n + " 年复利下来，就是这个数。";
+      while (chart.firstChild) chart.removeChild(chart.firstChild);
+      var w = 560, h = 150, pad = 10;
+      chart.appendChild(svgEl("path", { d: "M" + pad + " " + (h - pad) + "H" + (w - pad), "class": "gm-cd-axis" }));
+      chart.appendChild(svgEl("path", { d: "M" + pad + " " + pad + "H" + (w - pad), "class": "gm-cd-dash" }));
+      var pts = [];
+      for (var y = 0; y <= n; y++) {
+        var v = P / Math.pow(1 + r, y);
+        pts.push((pad + (w - 2 * pad) * y / n).toFixed(1) + " " + (h - pad - (h - 2 * pad) * (v / P)).toFixed(1));
+      }
+      chart.appendChild(svgEl("path", { d: "M" + pts.join("L"), "class": "gm-cd-line" }));
+      var last = pts[pts.length - 1].split(" ");
+      chart.appendChild(svgEl("circle", { cx: last[0], cy: last[1], r: 3.4, "class": "gm-cd-dot" }));
+      chart.appendChild(svgText(pad, pad - 2 < 8 ? 9 : pad - 2, "gm-cd-lbl", "今天的购买力"));
+    }
+    c1.input.addEventListener("input", upd);
+    c2.input.addEventListener("input", upd);
+    c3.input.addEventListener("input", upd);
+    upd();
+  }
+
+  /* ---- 14.2 价值的语言（第一篇 · 货币作为语言）---- */
+  function createValueLang(root) {
+    root.classList.add("gm-inline");
+    root.appendChild(el("p", "gm-vl-head", "两次握手：先对上语言，再对上「价值的语言」"));
+    var wrap = el("div", "gm-vl-wrap");
+    root.appendChild(wrap);
+    function panel(title, options, judge) {
+      var p = el("div", "gm-vl-panel");
+      p.appendChild(el("p", "gm-vl-t", title));
+      var row = el("div", "gm-vl-row");
+      var out = el("p", "gm-vl-out", "——点一个试试");
+      options.forEach(function (o) {
+        var b = btn("gm-btn gm-ghost gm-vl-opt", o);
+        b.addEventListener("click", function () {
+          var sib = row.querySelectorAll(".gm-vl-opt");
+          for (var i = 0; i < sib.length; i++) sib[i].classList.remove("sel");
+          b.classList.add("sel");
+          var r = judge(o);
+          out.textContent = r[1];
+          out.classList.toggle("ok", r[0]);
+          out.classList.toggle("no", !r[0]);
+        });
+        row.appendChild(b);
+      });
+      p.appendChild(row); p.appendChild(out);
+      wrap.appendChild(p);
+    }
+    panel("① 在纽约街头向人问路，你开口说——", ["你好", "Hello"], function (o) {
+      return o === "Hello"
+        ? [true, "对方笑着给你指了路。语言对上了，交流才成立。"]
+        : [false, "对方一脸茫然地走开了。不是你说错了什么——是你们不共享同一门语言。"];
+    });
+    panel("② 在同一条街买咖啡，你递出的是——", ["美元", "津巴布韦币"], function (o) {
+      return o === "美元"
+        ? [true, "成交。店员收钱、递咖啡——你们说的是同一门「价值的语言」。"]
+        : [false, "店员摆手拒收。哪怕你带来几千亿，也买不走一杯咖啡——共识不在，钱就只是纸。"];
+    });
+    root.appendChild(el("p", "gm-vl-note", "货币的本质是语言：说的人和听的人都认，价值才开得了口。"));
+  }
+
+  /* ---- 14.3 两把尺子（第二篇 · 米恒定 vs 米缩水）---- */
+  function createTwoRulers(root) {
+    root.classList.add("gm-inline");
+    root.appendChild(el("p", "gm-rl-head", "同一张 3 米的沙发——拖动月份，亲手量一遍"));
+    var ctl = ctlRow("月份", 1, 12, 1, 1);
+    root.appendChild(ctl.row);
+    var wrap = el("div", "gm-rl-wrap");
+    root.appendChild(wrap);
+    function makeWorld(title) {
+      var p = el("div", "gm-rl-panel");
+      p.appendChild(el("p", "gm-rl-t", title));
+      var svg = svgEl("svg", { viewBox: "0 0 260 118", "class": "gm-rl-svg", "aria-hidden": "true" });
+      p.appendChild(svg);
+      var read = el("p", "gm-rl-read");
+      p.appendChild(read);
+      wrap.appendChild(p);
+      return { svg: svg, read: read };
+    }
+    var wA = makeWorld("米恒定的世界");
+    var wB = makeWorld("米缩水的世界");
+    var payoff = el("div", "gm-rl-payoff");
+    root.appendChild(payoff);
+    function drawWorld(w, cmPerM) {
+      var svg = w.svg;
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      svg.appendChild(svgEl("path", {
+        "class": "gm-rl-sofa",
+        d: "M32 60V44C32 38 40 38 40 44V52H220V44C220 38 228 38 228 44V60C228 66 220 66 219 63H41C40 66 32 66 32 60ZM41 52H219V60H41Z"
+      }));
+      var pxPerMeter = (188 / 3) * (100 / cmPerM);
+      var y0 = 82;
+      var g = svgEl("g", null);
+      g.appendChild(svgEl("path", { d: "M32 " + y0 + "H228", "class": "gm-rl-bar" }));
+      var m = 0, x = 32;
+      while (x <= 228.5 && m < 40) {
+        g.appendChild(svgEl("path", { d: "M" + x.toFixed(1) + " " + y0 + "v9", "class": "gm-rl-tick" }));
+        g.appendChild(svgText(x.toFixed(1), y0 + 23, "gm-rl-num", String(m), "middle"));
+        m += 1; x += pxPerMeter;
+      }
+      svg.appendChild(g);
+      return 3 * cmPerM / 100;
+    }
+    function upd() {
+      var mo = +ctl.input.value;
+      ctl.val.textContent = mo + " 月";
+      var cm = 100 + (mo - 1) * (100 / 11);
+      drawWorld(wA, 100);
+      wA.read.textContent = "沙发读数：3 米。一整年，纹丝不动。";
+      var r = drawWorld(wB, cm);
+      wB.read.textContent = mo === 1
+        ? "沙发读数：3 米。现在两个世界还一样。"
+        : "沙发读数：" + r.toFixed(1).replace(/\.0$/, "") + " 米——沙发没变，是尺子缩了。";
+      if (mo === 12) showPayoff();
+      else { payoff.classList.remove("show"); payoff.innerHTML = ""; }
+    }
+    function showPayoff() {
+      if (payoff.classList.contains("show")) return;
+      payoff.classList.add("show");
+      payoff.innerHTML = "";
+      payoff.appendChild(el("p", "gm-rl-t", "现在，把「米」换成「计价单位」——三把尺子摆在你面前："));
+      [["法币尺", "fiat", "刻度年年变密：印钞随时稀释。你量出来的「涨」，一半是尺子在缩。"],
+       ["黄金尺", "gold", "五千年基本恒定：每年只新挖约 1.5%——慢，但仍然在变。"],
+       ["比特币尺", "btc", "刻度写死：2100 万，一格不多。人类第一把不会缩水的尺子。"]
+      ].forEach(function (r) {
+        var row = el("div", "gm-rl-rrow gm-rl-" + r[1]);
+        row.appendChild(el("span", "gm-rl-rname", r[0]));
+        var bar = el("span", "gm-rl-rbar");
+        bar.appendChild(el("span", "gm-rl-rfill"));
+        row.appendChild(bar);
+        row.appendChild(el("span", "gm-rl-rnote", r[2]));
+        payoff.appendChild(row);
+      });
+    }
+    ctl.input.addEventListener("input", upd);
+    upd();
+  }
+
+  /* ---- 14.4 MBS 切片工坊（第二篇 · 次贷危机）---- */
+  function buildMbs(root) {
+    var stage = el("div", "gm-mbs");
+    root.appendChild(stage);
+    stage.appendChild(el("p", "gm-mbs-note",
+      "一桶混装房贷：多数人按时还款，混着约 5% 的定时炸弹。整桶直接卖，没人敢要——看华尔街怎么切。"));
+    var bucket = el("div", "gm-mbs-bucket");
+    for (var i = 0; i < 20; i++) bucket.appendChild(el("span", "gm-mbs-chip" + (i % 7 === 3 ? " risky" : "")));
+    stage.appendChild(bucket);
+    var act = btn("gm-btn", "开始切片（Tranching）→");
+    stage.appendChild(act);
+    var after = el("div", "gm-mbs-after");
+    stage.appendChild(after);
+    act.addEventListener("click", function () {
+      act.disabled = true;
+      bucket.classList.add("gone");
+      act.classList.add("gone");
+      buildTranches();
+    });
+    function buildTranches() {
+      var rows = {};
+      [["aaa", "顶层 AAA · 70%", "优先偿付 · 卖给养老金、保险公司"],
+       ["bbb", "中层 BBB · 20%", "第二顺位 · 卖给对冲基金"],
+       ["junk", "劣后层 · 10%", "最后偿付、收益超高 · 银行自留或卖给冒险家"]
+      ].forEach(function (d) {
+        var row = el("div", "gm-mbs-tr gm-mbs-" + d[0]);
+        row.appendChild(el("span", "gm-mbs-tname", d[1]));
+        var bar = el("span", "gm-mbs-bar");
+        var fill = el("span", "gm-mbs-fill");
+        bar.appendChild(fill);
+        row.appendChild(bar);
+        var state = el("span", "gm-mbs-state", "");
+        row.appendChild(state);
+        row.appendChild(el("span", "gm-mbs-tnote", d[2]));
+        after.appendChild(row);
+        rows[d[0]] = { fill: fill, row: row, state: state };
+      });
+      var stamp = el("div", "gm-mbs-stamp", "AAA");
+      after.appendChild(stamp);
+      requestAnimationFrame(function () { stamp.classList.add("on"); });
+      after.appendChild(el("p", "gm-mbs-note",
+        "评级机构盖章：顶层「和美国国债一样安全」。现在换你来做压力测试——把真实违约率往上调："));
+      var ctl = ctlRow("实际违约率", 0, 40, 1, 5);
+      after.appendChild(ctl.row);
+      var verdict = el("p", "gm-mbs-verdict");
+      after.appendChild(verdict);
+      function set(r, frac) {
+        r.fill.style.width = (frac * 100).toFixed(0) + "%";
+        r.state.textContent = frac <= 0 ? "安好" : frac < 1 ? "受损 " + Math.round(frac * 100) + "%" : "穿仓";
+        r.row.classList.toggle("dead", frac >= 1);
+        r.row.classList.toggle("hurt", frac > 0 && frac < 1);
+      }
+      function upd() {
+        var d = +ctl.input.value;
+        ctl.val.textContent = d + "%";
+        var loss = d;
+        var j = Math.min(loss, 10); loss -= j;
+        var b = Math.min(loss, 20); loss -= b;
+        var a = Math.min(loss, 70);
+        set(rows.junk, j / 10);
+        set(rows.bbb, b / 20);
+        set(rows.aaa, a / 70);
+        verdict.textContent =
+          d <= 5 ? "5% 上下：只有劣后层在流血——「安全垫」看起来在起作用。华尔街最爱给你看的就是这一格。" :
+          d < 10 ? "劣后层快被吞光了。持有这层的人开始跳楼价甩卖。" :
+          d < 15 ? "劣后清零，火烧到 BBB——对冲基金的仓位开始蒸发。" :
+          d < 30 ? "BBB 大面积穿仓。「第二顺位」原来不是保险，是排队挨打的顺序。" :
+          "火烧进了 AAA——「和国债一样安全」的养老金资产开始亏损。2008 年，走到这一格只用了几个月。";
+      }
+      ctl.input.addEventListener("input", upd);
+      upd();
+    }
+  }
+  function createMbs(root) {
+    gmIntro(root, "mbs-tranche", [
+      ["华尔街的炼金术", "把一桶谁都不敢买的房贷，变成 AAA 级「理财产品」。"],
+      ["秘诀叫分级（Tranching）", "切成三层：谁先赔、谁后赔，排好队再分头卖掉。"],
+      ["然后，你来当压力测试员", "亲手调高违约率，看每一层在几号塌方。"]
+    ], function () { buildMbs(root); });
+  }
+
+  /* ---- 14.5 能量秤（第三篇 · 能量货币）---- */
+  function createEnergyScale(root) {
+    root.classList.add("gm-inline");
+    root.appendChild(el("p", "gm-en-head", "一枚比特币，到底封存了多少能量？"));
+    var big = el("p", "gm-en-big", "0");
+    var unit = el("p", "gm-en-unit", "度电（kWh）");
+    root.appendChild(big); root.appendChild(unit);
+    var TARGET = 930000;
+    var raf = null, ran = false;
+    function run() {
+      if (ran) return;
+      ran = true;
+      if (reducedMotion) { big.textContent = fmt(TARGET); return; }
+      var t0 = null;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / 2200);
+        big.textContent = fmt(Math.round(TARGET * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) raf = requestAnimationFrame(step);
+      }
+      raf = requestAnimationFrame(step);
+    }
+    var io = null;
+    if ("IntersectionObserver" in window) {
+      io = new IntersectionObserver(function (es) {
+        for (var i = 0; i < es.length; i++) {
+          if (es[i].isIntersecting) { io.disconnect(); io = null; run(); break; }
+        }
+      }, { threshold: 0.35 });
+      io.observe(root);
+    } else run();
+    var row = el("div", "gm-en-row");
+    var out = el("p", "gm-en-out");
+    root.appendChild(row); root.appendChild(out);
+    [["北京全城", "整个北京市——地铁、工厂、写字楼、千万户人家——3.5 分钟的总用电。"],
+     ["一户人家", "一个普通三口之家 300 多年的用电量（按年均约 2,800 度计）。你家要从清朝初年一直用到今天。"],
+     ["电动车", "把一辆 60 度电池的电动车充满约 1.55 万次——续航加起来能绕地球开 150 圈。"],
+     ["手机", "给手机充满约 6,000 万次。每天充一次，够你充 17 万年。"]
+    ].forEach(function (c, i) {
+      var b = btn("gm-btn gm-ghost gm-en-opt", c[0]);
+      b.addEventListener("click", function () {
+        var sib = row.querySelectorAll(".gm-en-opt");
+        for (var j = 0; j < sib.length; j++) sib[j].classList.remove("sel");
+        b.classList.add("sel");
+        out.textContent = c[1];
+      });
+      row.appendChild(b);
+      if (i === 0) { b.classList.add("sel"); out.textContent = c[1]; }
+    });
+    root.appendChild(el("p", "gm-en-foot",
+      "≈93 万度：按 2026 年全网算力与主流矿机能效折算的量级示意。口径不同数字会有出入，但「大得吓人的一笔真实能量」这件事不会变——而这笔能量的代价，就是伪造一枚比特币的门票价。"));
+    return function destroy() {
+      if (io) io.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }
+
+  /* ---- 14.6 海关锁（第三篇 · 工作量证明）---- */
+  function buildLock(root) {
+    var timers = [];
+    function tick(fn, ms) { var t = setInterval(fn, ms); timers.push(t); return t; }
+    var wrap = el("div", "gm-lk-wrap");
+    root.appendChild(wrap);
+    var pa = el("div", "gm-lk-panel");
+    pa.appendChild(el("p", "gm-lk-t", "行李箱上的 4 位海关锁"));
+    var dials = el("div", "gm-lk-dials");
+    var ds = [];
+    for (var i = 0; i < 4; i++) { var d = el("span", "gm-lk-dial", "0"); ds.push(d); dials.appendChild(d); }
+    pa.appendChild(dials);
+    var st1 = el("p", "gm-lk-stat", "一共 10,000 种组合");
+    pa.appendChild(st1);
+    var go1 = btn("gm-btn", "让电脑硬试");
+    pa.appendChild(go1);
+    wrap.appendChild(pa);
+    go1.addEventListener("click", function () {
+      go1.disabled = true;
+      dials.classList.remove("open");
+      var target = 2000 + ((Math.random() * 8000) | 0);
+      var n = 0;
+      var t = tick(function () {
+        n = Math.min(target, n + 460);
+        var s = ("0000" + n).slice(-4);
+        for (var i = 0; i < 4; i++) ds[i].textContent = s[i];
+        st1.textContent = "已试 " + fmt(n) + " / 10,000";
+        if (n >= target) {
+          clearInterval(t);
+          dials.classList.add("open");
+          st1.textContent = "咔哒——第 " + fmt(target) + " 次试出来了，用时不到两秒。";
+          go1.textContent = "再试一次";
+          go1.disabled = false;
+        }
+      }, 55);
+    });
+    var pb = el("div", "gm-lk-panel gm-lk-bigp");
+    pb.appendChild(el("p", "gm-lk-t", "比特币的海关锁：2²⁵⁶ 种组合"));
+    var field = svgEl("svg", { viewBox: "0 0 260 110", "class": "gm-lk-field", "aria-hidden": "true" });
+    for (var s = 0; s < 150; s++) {
+      field.appendChild(svgEl("circle", {
+        cx: (Math.random() * 252 + 4).toFixed(1),
+        cy: (Math.random() * 102 + 4).toFixed(1),
+        r: (Math.random() * 1.1 + 0.3).toFixed(2),
+        "class": "gm-lk-star"
+      }));
+    }
+    pb.appendChild(field);
+    pb.appendChild(el("p", "gm-lk-stat", "≈ 1.16 × 10⁷⁷ —— 和可观测宇宙的原子数量同一量级"));
+    var go2 = btn("gm-btn", "同一台电脑，接着试");
+    pb.appendChild(go2);
+    var out2 = el("p", "gm-lk-out");
+    pb.appendChild(out2);
+    wrap.appendChild(pb);
+    go2.addEventListener("click", function () {
+      go2.disabled = true;
+      out2.textContent = "";
+      var tries = 0;
+      var t0 = Date.now();
+      var t = tick(function () {
+        tries += 4980000;
+        var pct = tries / 1.16e77 * 100;
+        out2.innerHTML = "已试 " + fmt(tries) + " 次<br>进度：" + pct.toExponential(1) + "%——进度条动都没动。";
+        if (Date.now() - t0 > 5200) {
+          clearInterval(t);
+          out2.innerHTML = "电脑认输了。就算把全球全部算力借给你（每秒上万亿亿次），平均也要 10⁴⁹ 年量级才能撞开一把——宇宙年龄 138 亿年，在它面前约等于零。<br><b>「几乎不可能破解」不是修辞——是宇宙级的不可能。</b>";
+          go2.textContent = "重试（结局不变）";
+          go2.disabled = false;
+        }
+      }, 110);
+    });
+    root.appendChild(el("p", "gm-lk-foot",
+      "说明：挖矿「破解」的不是谁的钱包，而是给新区块找一个合格指纹——难度大到只能亿万次地试，谁先试中，谁获得记账权和奖励。"));
+    root.__lkTimers = timers;
+  }
+  function createLock(root) {
+    gmIntro(root, "customs-lock", [
+      ["先开一把小锁", "行李箱的 4 位密码锁：一共一万种组合，电脑几秒就能硬试出来。"],
+      ["再看比特币这把", "组合数是 2 的 256 次方——写出来是 78 位数。"],
+      ["亲手试一试", "同一台电脑对着它试到宇宙尽头，进度条都不会动一格。"]
+    ], function () { buildLock(root); });
+    return function destroy() {
+      if (root.__lkTimers) { root.__lkTimers.forEach(clearInterval); root.__lkTimers = null; }
+    };
+  }
+
+  /* ---- 14.7 稀缺性图表（第三篇 · 永远 2100 万）---- */
+  function createScarcityChart(root) {
+    root.classList.add("gm-inline");
+    root.appendChild(el("p", "gm-sc-head", "同一段历史，两把尺子——切换计价单位，再看一遍"));
+    var seg = el("div", "gm-sc-seg");
+    var bF = btn("gm-btn gm-ghost gm-sc-tab sel", "用法币量（2013 = 100）");
+    var bB = btn("gm-btn gm-ghost gm-sc-tab", "用比特币量（枚）");
+    seg.appendChild(bF); seg.appendChild(bB);
+    root.appendChild(seg);
+    var chart = svgEl("svg", { viewBox: "0 0 560 270", "class": "gm-sc-chart", "aria-hidden": "true" });
+    root.appendChild(chart);
+    var cap = el("p", "gm-sc-cap");
+    root.appendChild(cap);
+    root.appendChild(el("p", "gm-sc-foot",
+      "数据为约值：币价取各年年末，美元购买力按美国 CPI 递减，北京房价为同一套房的挂牌指数化示意。正文里「1.5 万枚」取的是 2013 年年中约 $100 的时点，图中 2013 年取年末 $754。纵轴为对数刻度。"));
+    var YEARS = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+    var USD = [100, 98, 98, 97, 95, 93, 91, 90, 85, 79, 76, 73, 72];
+    var HOUSE = [100, 108, 122, 148, 170, 176, 180, 184, 190, 181, 172, 168, 165];
+    var BTC = [100, 42, 57, 128, 1878, 496, 954, 3846, 6142, 2195, 5606, 12391, 13263];
+    var HOUSE_BTC = [1868, 4402, 3277, 1463, 100, 376, 196, 49, 30, 85, 33, 15, 14];
+    var W = 560, H = 270, PL = 46, PR = 96, PT = 18, PB = 30;
+    function draw(mode) {
+      while (chart.firstChild) chart.removeChild(chart.firstChild);
+      var series = mode === "fiat"
+        ? [["美元购买力", USD, "gm-sc-usd"], ["北京同一套房", HOUSE, "gm-sc-house"], ["比特币", BTC, "gm-sc-btc"]]
+        : [["同一套房要多少枚", HOUSE_BTC, "gm-sc-hbtc"]];
+      var all = [];
+      series.forEach(function (s) { all = all.concat(s[1]); });
+      var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
+      var llo = Math.log10(lo) - 0.08, lhi = Math.log10(hi) + 0.08;
+      function X(i) { return PL + (W - PL - PR) * i / (YEARS.length - 1); }
+      function Y(v) { return H - PB - (H - PT - PB) * (Math.log10(v) - llo) / (lhi - llo); }
+      [1, 10, 100, 1000, 10000].forEach(function (g) {
+        if (g < lo / 1.6 || g > hi * 1.6) return;
+        chart.appendChild(svgEl("path", { d: "M" + PL + " " + Y(g).toFixed(1) + "H" + (W - PR), "class": "gm-sc-grid" }));
+        chart.appendChild(svgText(PL - 6, Y(g) + 3.5, "gm-sc-glbl", fmt(g), "end"));
+      });
+      [2013, 2017, 2021, 2025].forEach(function (yr) {
+        chart.appendChild(svgText(X(YEARS.indexOf(yr)), H - PB + 16, "gm-sc-glbl", String(yr), "middle"));
+      });
+      series.forEach(function (s) {
+        var d = s[1].map(function (v, i) { return (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(v).toFixed(1); }).join("");
+        chart.appendChild(svgEl("path", { d: d, "class": "gm-sc-line " + s[2] }));
+        var lx = X(s[1].length - 1), ly = Y(s[1][s[1].length - 1]);
+        chart.appendChild(svgEl("circle", { cx: lx.toFixed(1), cy: ly.toFixed(1), r: 3, "class": "gm-sc-dot " + s[2] }));
+        chart.appendChild(svgText(lx + 7, ly + 3.5, "gm-sc-lbl " + s[2], s[0] + " " + fmt(s[1][s[1].length - 1])));
+      });
+      cap.textContent = mode === "fiat"
+        ? "用法币量：美元购买力悄悄跌到 72，房子「涨」到 165，比特币涨到 13,263——三条线，其实是同一根尺子在缩水。"
+        : "换比特币量，故事翻了个面：同一套北京房子，从 1,868 枚一路跌到 14 枚。房子没变，钱变了。";
+    }
+    bF.addEventListener("click", function () { bF.classList.add("sel"); bB.classList.remove("sel"); draw("fiat"); });
+    bB.addEventListener("click", function () { bB.classList.add("sel"); bF.classList.remove("sel"); draw("btc"); });
+    draw("fiat");
+  }
+
+  /* ---- 14.8 迷你区块浏览器（第三篇 · 比特币账本）——全库唯一 fetch ---- */
+  function createBlockExplorer(root) {
+    var head = el("div", "gm-xp-head");
+    head.appendChild(el("p", "gm-xp-t", "真实的账本，正在你眼前生长"));
+    var badge = el("span", "gm-xp-badge", "连接账本中…");
+    head.appendChild(badge);
+    root.appendChild(head);
+    var strip = el("div", "gm-xp-strip");
+    root.appendChild(strip);
+    root.appendChild(el("p", "gm-xp-note",
+      "每张卡片都是一个真实区块（纸箱）：编号是它在链上的高度，链环表示每个区块都咬着上一个的哈希——这就是「区块链」三个字的全部含义。"));
+    var link = el("p", "gm-xp-link");
+    var a = document.createElement("a");
+    a.href = "https://mempool.space/zh/";
+    a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "去完整的区块浏览器，看每一笔转账 →";
+    link.appendChild(a);
+    root.appendChild(link);
+    var FALLBACK = [
+      { height: 958927, id: "00000000000000000001337544431817e006be12b9bd437e071ddbb2a6eece26", timestamp: 1784578434, tx_count: 4067, size: 1589518 },
+      { height: 958926, id: "0000000000000000000219da59eae4c86c64d4707b74fcb615fe52743157324b", timestamp: 1784576004, tx_count: 4250, size: 1621009 },
+      { height: 958925, id: "00000000000000000001b0bb37ac83c1022a01db2e7e6e7217c71569cdb1f861", timestamp: 1784574967, tx_count: 4038, size: 1606490 },
+      { height: 958924, id: "0000000000000000000080cdd7bb3d3d3ad8530ecdc62e908fad687d88add0e8", timestamp: 1784573647, tx_count: 3461, size: 1469633 },
+      { height: 958923, id: "00000000000000000001e2272e8108d9023b54f8b5055e8c4361bcbbb8f0e0b1", timestamp: 1784573617, tx_count: 4030, size: 1627037 }
+    ];
+    function rel(ts) {
+      var s = Math.max(0, (Date.now() / 1000 - ts) | 0);
+      if (s < 90) return s + " 秒前";
+      if (s < 5400) return Math.round(s / 60) + " 分钟前";
+      if (s < 172800) return Math.round(s / 3600) + " 小时前";
+      return new Date(ts * 1000).toLocaleDateString("zh-CN");
+    }
+    function render(blocks, live) {
+      badge.textContent = live ? "实时 · mempool.space" : "离线 · 2026-07-20 真实快照";
+      badge.classList.toggle("live", live);
+      strip.innerHTML = "";
+      var list = blocks.slice(0, 5).reverse();
+      list.forEach(function (b, i) {
+        if (i) strip.appendChild(el("span", "gm-xp-chain"));
+        var card = el("div", "gm-xp-card" + (i === list.length - 1 ? " new" : ""));
+        card.appendChild(el("p", "gm-xp-h", "#" + fmt(b.height)));
+        card.appendChild(el("p", "gm-xp-row2", fmt(b.tx_count) + " 笔转账"));
+        card.appendChild(el("p", "gm-xp-row2", (b.size / 1e6).toFixed(2) + " MB · " + rel(b.timestamp)));
+        var hash = el("p", "gm-xp-hash", "…" + b.id.slice(-10));
+        hash.title = b.id;
+        card.appendChild(hash);
+        if (i === list.length - 1) card.appendChild(el("span", "gm-xp-now", "最新"));
+        strip.appendChild(card);
+      });
+    }
+    var dead = false;
+    var ctlr = typeof AbortController === "function" ? new AbortController() : null;
+    var tmo = setTimeout(function () { if (ctlr) { try { ctlr.abort(); } catch (e) { /* 忽略 */ } } }, 4500);
+    try {
+      fetch("https://mempool.space/api/v1/blocks", ctlr ? { signal: ctlr.signal } : undefined)
+        .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
+        .then(function (js) {
+          clearTimeout(tmo);
+          if (!dead && js && js.length) render(js, true);
+        })
+        .catch(function () {
+          clearTimeout(tmo);
+          if (!dead) render(FALLBACK, false);
+        });
+    } catch (e) {
+      clearTimeout(tmo);
+      render(FALLBACK, false);
+    }
+    return function destroy() {
+      dead = true;
+      clearTimeout(tmo);
+      if (ctlr) { try { ctlr.abort(); } catch (e) { /* 忽略 */ } }
+    };
+  }
+
   var registry = {
     "time-machine": createTimeMachine,
     "pow-miner": createPowMiner,
@@ -2225,7 +2761,15 @@
     "byzantine": createByzantine,
     "debt-clock": createDebtClock,
     "btc-yield": createBtcYield,
-    "lightning-demo": createLightningDemo
+    "lightning-demo": createLightningDemo,
+    "compound-decay": createCompoundDecay,
+    "value-language": createValueLang,
+    "two-rulers": createTwoRulers,
+    "mbs-tranche": createMbs,
+    "energy-scale": createEnergyScale,
+    "customs-lock": createLock,
+    "scarcity-chart": createScarcityChart,
+    "block-explorer": createBlockExplorer
   };
 
   function boot() {

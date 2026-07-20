@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>try{var f=localStorage.getItem("hkb-font");if(f)document.documentElement.setAttribute("data-font",f);var z=localStorage.getItem("hkb-size");if(z)document.documentElement.setAttribute("data-size",z)}catch(e){}</script>
-<title>互动实验室 · 胡侃比特</title>
+<title>互动实验室 · 胡侃比特 · 里海学堂</title>
 <meta name="description" content="在浏览器里亲手体验：通胀的复利、银行的货币乘数、SHA-256 哈希、工作量证明挖矿，和比特币的 2100 万供给曲线。">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="胡侃比特">
+<meta property="og:site_name" content="里海学堂 Caspian Academy">
 <meta property="og:title" content="胡侃比特 · 互动实验室">
 <meta property="og:description" content="十二个在浏览器本地运行的实验：真实 SHA-256 挖矿、双花问题、拜占庭将军、沙盒转账钱包。">
 <meta property="og:image" content="https://caspian-academy.com/assets/og-cover.png">
@@ -22,14 +22,14 @@
 <link rel="alternate" hreflang="x-default" href="https://caspian-academy.com/lab.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="assets/style.css?v=20260616a">
-<link rel="stylesheet" href="assets/games.css?v=20260612v">
+<link rel="stylesheet" href="assets/style.css?v=20260720a">
+<link rel="stylesheet" href="assets/games.css?v=20260720b">
 </head>
 <body>
 
 <header class="site-header">
   <div class="inner">
-    <a class="brand" href="index.html">胡侃比特<span class="dot">·</span></a>
+    <a class="brand" href="index.html">里海学堂<span class="dot">·</span></a>
     <nav class="site-nav">
       <a href="index.html">首页</a>
       <a href="index.html#articles">文章</a>
@@ -230,7 +230,7 @@
   <section class="experiment reveal" id="byzantine">
     <p class="exp-kicker">实验 ⑩ · 对应 <a href="articles/03.html" style="color:inherit">第三篇 · 无形的坚硬</a></p>
     <h2>🏯 拜占庭将军</h2>
-    <p class="exp-desc">账本要大家一起记，但人群里有骗子，消息还可以伪造——诚实的多数如何达成一致？调一调叛徒人数，再打开「火漆印」开关，亲眼看共识如何从不可能变为可能。</p>
+    <p class="exp-desc">账本要大家一起记，但人群里有骗子，消息还可以伪造——诚实的多数如何达成一致？分两幕看：第一幕，谎言免费的世界里共识怎么崩；第二幕，一枚「火漆印」怎么让它起死回生。</p>
     <div class="game-embed" data-game="byzantine">
       <p class="game-fallback">这个互动实验需要 JavaScript 才能运行。</p>
     </div>
@@ -271,15 +271,16 @@
 <footer class="site-footer">
   <div class="inner">
     <div class="ticker-slot" data-game="btc-ticker"></div>
-    <p>胡侃比特 © <span id="year"></span> · 知识分享，自由转载，注明出处即可。</p>
+    <p>里海学堂 Caspian Academy · 胡侃比特专栏 © <span id="year"></span> · 知识分享，自由转载，注明出处即可。</p>
     <p class="disclaimer">本站所有内容仅为个人观点与知识科普，不构成任何投资建议。加密资产价格波动巨大，请独立思考、自主决策，并只动用你能承受损失的资金。</p>
+    <p class="disclaimer">里海学堂是 <a href="https://caspianvault.com/" rel="noopener">里海金库 Caspian Vault</a> 的公益教育侧——学堂在这里，公司在那边。</p>
   </div>
 </footer>
 
-<script src="assets/main.js?v=20260616a"></script>
+<script src="assets/main.js?v=20260720a"></script>
 <script src="assets/flow.js?v=20260616a" defer></script>
 <script src="assets/lab.js?v=20260612v"></script>
-<script src="assets/games.js?v=20260612v" defer></script>
+<script src="assets/games.js?v=20260720b" defer></script>
 <script>
 /* 展厅模式：导览墙 ↔ 单间展品。无 JS 时自动退化为传统长页。 */
 (function () {

@@ -1528,3 +1528,155 @@
     border-top-color: #413a2b;
   }
 }
+
+/* ============================================================
+   2026-07 大改版 · 八件套新组件样式
+   ============================================================ */
+
+/* —— 内联乐器变体：嵌在正文里的"仪器"，比完整游戏更轻 —— */
+.gm-box.gm-inline { padding: 1.3rem 1.4rem 1.5rem; }
+
+/* —— 通用滑杆行 —— */
+.gm-ctl { display: flex; align-items: center; gap: 0.8rem; margin: 0.55rem 0; }
+.gm-ctl-lab { flex: none; width: 5.2em; font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); }
+.gm-ctl input[type="range"] { flex: 1; accent-color: var(--accent); min-width: 0; }
+.gm-ctl-val { flex: none; min-width: 4.2em; text-align: right; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; color: var(--accent-ink); font-variant-numeric: tabular-nums; }
+
+/* —— 复利侵蚀 —— */
+.gm-cd-head, .gm-vl-head, .gm-rl-head, .gm-en-head, .gm-sc-head { font-family: var(--sans); font-size: 0.86rem; font-weight: 600; letter-spacing: 0.04em; color: var(--ink); margin: 0 0 0.9rem; }
+.gm-cd-big { font-family: var(--serif); font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; color: var(--accent-ink); text-align: center; margin: 1rem 0 0.2rem; font-variant-numeric: tabular-nums; }
+.gm-cd-note { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft); text-align: center; line-height: 1.8; margin: 0 0 0.8rem; }
+.gm-cd-chart { display: block; width: 100%; height: auto; }
+.gm-cd-axis { stroke: var(--line); stroke-width: 1; fill: none; }
+.gm-cd-dash { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 5; fill: none; }
+.gm-cd-line { stroke: var(--accent); stroke-width: 2; fill: none; stroke-linecap: round; }
+.gm-cd-dot { fill: var(--accent-ink); }
+.gm-cd-lbl { font-family: var(--sans); font-size: 10px; fill: var(--ink-faint); }
+
+/* —— 价值的语言 —— */
+.gm-vl-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.gm-vl-panel { background: var(--paper-2); border: 1px solid var(--line-faint); border-radius: 10px; padding: 0.9rem 1rem 1rem; }
+.gm-vl-t { font-family: var(--sans); font-size: 0.8rem; color: var(--ink); margin: 0 0 0.7rem; line-height: 1.7; }
+.gm-vl-row { display: flex; gap: 0.5rem; margin-bottom: 0.7rem; }
+.gm-vl-opt.sel { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-wash); }
+.gm-vl-out { font-family: var(--sans); font-size: 0.8rem; line-height: 1.8; color: var(--ink-faint); margin: 0; min-height: 3.2em; }
+.gm-vl-out.ok { color: var(--good); }
+.gm-vl-out.no { color: var(--bad); }
+.gm-vl-note { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); text-align: center; margin: 1rem 0 0; letter-spacing: 0.03em; }
+@media (max-width: 620px) { .gm-vl-wrap { grid-template-columns: 1fr; } }
+
+/* —— 两把尺子 —— */
+.gm-rl-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 0.6rem; }
+.gm-rl-panel { background: var(--paper-2); border: 1px solid var(--line-faint); border-radius: 10px; padding: 0.8rem 0.9rem; }
+.gm-rl-t { font-family: var(--sans); font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); margin: 0 0 0.4rem; letter-spacing: 0.05em; }
+.gm-rl-svg { display: block; width: 100%; height: auto; }
+.gm-rl-sofa { fill: none; stroke: var(--ink-soft); stroke-width: 1.6; stroke-linejoin: round; }
+.gm-rl-bar { stroke: var(--accent-ink); stroke-width: 1.6; }
+.gm-rl-tick { stroke: var(--accent-ink); stroke-width: 1.1; }
+.gm-rl-num { font-family: var(--mono); font-size: 9px; fill: var(--ink-faint); }
+.gm-rl-read { font-family: var(--sans); font-size: 0.78rem; color: var(--ink-soft); margin: 0.4rem 0 0; line-height: 1.7; min-height: 2.4em; }
+.gm-rl-payoff { display: none; margin-top: 1.1rem; }
+.gm-rl-payoff.show { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .gm-rl-payoff.show { animation: gm-rl-in 0.5s var(--ease-breath); }
+}
+@keyframes gm-rl-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.gm-rl-rrow { display: grid; grid-template-columns: 4.6em 1fr; grid-template-rows: auto auto; column-gap: 0.8rem; align-items: center; margin: 0.7rem 0; }
+.gm-rl-rname { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; color: var(--ink); grid-row: span 2; }
+.gm-rl-rbar { display: block; height: 8px; border-radius: 4px; background: var(--line-faint); overflow: hidden; position: relative; }
+.gm-rl-rfill { position: absolute; inset: 0; border-radius: 4px; }
+.gm-rl-fiat .gm-rl-rfill { background: var(--bad); width: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .gm-rl-payoff.show .gm-rl-fiat .gm-rl-rfill { animation: gm-rl-shrink 2.6s var(--ease-breath) 0.4s forwards; }
+}
+@keyframes gm-rl-shrink { from { width: 100%; } to { width: 34%; } }
+.gm-rl-gold .gm-rl-rfill { background: #c9913f; width: 96%; }
+.gm-rl-btc .gm-rl-rfill { background: var(--accent); width: 100%; }
+.gm-rl-rnote { font-family: var(--sans); font-size: 0.74rem; color: var(--ink-faint); line-height: 1.6; margin-top: 0.25rem; }
+@media (max-width: 620px) { .gm-rl-wrap { grid-template-columns: 1fr; } }
+
+/* —— MBS 切片工坊 —— */
+.gm-mbs-note { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; margin: 0.3rem 0 0.8rem; }
+.gm-mbs-bucket { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; max-width: 340px; margin: 0.6rem 0 1rem; transition: opacity 0.5s var(--ease-breath); }
+.gm-mbs-chip { display: block; aspect-ratio: 1; border-radius: 3px; background: var(--celadon); opacity: 0.75; }
+.gm-mbs-chip.risky { background: var(--bad); }
+.gm-mbs-bucket.gone, .gm-btn.gone { opacity: 0; pointer-events: none; height: 0; margin: 0; overflow: hidden; }
+.gm-mbs-tr { display: grid; grid-template-columns: 8.5em 1fr 5em; grid-template-rows: auto auto; column-gap: 0.7rem; align-items: center; margin: 0.65rem 0; }
+.gm-mbs-tname { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+.gm-mbs-bar { position: relative; display: block; height: 16px; border-radius: 4px; overflow: hidden; background: var(--celadon); opacity: 0.9; }
+.gm-mbs-aaa .gm-mbs-bar { background: var(--good); }
+.gm-mbs-junk .gm-mbs-bar { background: #c9913f; }
+.gm-mbs-fill { position: absolute; top: 0; right: 0; bottom: 0; width: 0; background: var(--bad); transition: width 0.4s var(--ease-breath); }
+.gm-mbs-state { font-family: var(--sans); font-size: 0.74rem; text-align: right; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.gm-mbs-tr.hurt .gm-mbs-state { color: var(--bad); }
+.gm-mbs-tr.dead .gm-mbs-state { color: var(--bad); font-weight: 700; }
+.gm-mbs-tnote { grid-column: 2 / 4; font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint); margin-top: 0.15rem; }
+.gm-mbs-stamp {
+  display: inline-block; margin: 0.5rem 0 0.2rem; padding: 0.2rem 0.9rem;
+  font-family: var(--serif); font-weight: 700; letter-spacing: 0.22em; color: #9c6b28;
+  border: 2px solid #c9913f; border-radius: 6px; transform: rotate(-6deg) scale(1.6); opacity: 0;
+  transition: transform 0.45s var(--ease-breath), opacity 0.45s var(--ease-breath);
+}
+.gm-mbs-stamp.on { opacity: 0.9; transform: rotate(-6deg) scale(1); }
+.gm-mbs-verdict { font-family: var(--sans); font-size: 0.82rem; line-height: 1.85; color: var(--ink); background: var(--paper-2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 0.6rem 0.9rem; margin: 0.7rem 0 0; min-height: 3.4em; }
+
+/* —— 能量秤 —— */
+.gm-en-big { font-family: var(--serif); font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; text-align: center; margin: 0.6rem 0 0; color: var(--accent-ink); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.gm-en-unit { font-family: var(--sans); font-size: 0.78rem; color: var(--ink-faint); text-align: center; margin: 0.1rem 0 1rem; letter-spacing: 0.1em; }
+.gm-en-row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 0.8rem; }
+.gm-en-opt.sel { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-wash); }
+.gm-en-out { font-family: var(--sans); font-size: 0.86rem; line-height: 1.9; color: var(--ink); text-align: center; min-height: 3.6em; margin: 0 auto 0.5rem; max-width: 34em; }
+.gm-en-foot, .gm-lk-foot, .gm-sc-foot { font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint); line-height: 1.7; margin: 0.9rem 0 0; }
+
+/* —— 海关锁 —— */
+.gm-lk-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 0.9rem; }
+.gm-lk-panel { background: var(--paper-2); border: 1px solid var(--line-faint); border-radius: 10px; padding: 0.9rem 1rem 1rem; }
+.gm-lk-t { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; color: var(--ink); margin: 0 0 0.7rem; }
+.gm-lk-dials { display: flex; gap: 0.4rem; margin-bottom: 0.6rem; }
+.gm-lk-dial { display: inline-flex; align-items: center; justify-content: center; width: 2em; height: 2.6em; border: 1px solid var(--line); border-radius: 6px; background: var(--card); font-family: var(--mono); font-size: 1.1rem; color: var(--ink); transition: border-color 0.3s, box-shadow 0.3s; }
+.gm-lk-dials.open .gm-lk-dial { border-color: var(--accent); box-shadow: 0 0 8px rgba(214, 166, 76, 0.35); color: var(--accent-ink); }
+.gm-lk-stat { font-family: var(--sans); font-size: 0.76rem; color: var(--ink-soft); line-height: 1.7; margin: 0.3rem 0 0.6rem; font-variant-numeric: tabular-nums; }
+.gm-lk-field { display: block; width: 100%; height: auto; background: #201c15; border-radius: 8px; margin-bottom: 0.5rem; }
+.gm-lk-star { fill: #e3b864; opacity: 0.7; }
+.gm-lk-out { font-family: var(--sans); font-size: 0.78rem; line-height: 1.8; color: var(--ink-soft); margin: 0.6rem 0 0; font-variant-numeric: tabular-nums; }
+.gm-lk-out b { color: var(--accent-ink); }
+@media (max-width: 620px) { .gm-lk-wrap { grid-template-columns: 1fr; } }
+
+/* —— 稀缺性图表 —— */
+.gm-sc-seg { display: flex; gap: 0.5rem; margin-bottom: 0.7rem; flex-wrap: wrap; }
+.gm-sc-tab.sel { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-wash); }
+.gm-sc-chart { display: block; width: 100%; height: auto; }
+.gm-sc-grid { stroke: var(--line-faint); stroke-width: 1; }
+.gm-sc-glbl { font-family: var(--sans); font-size: 10px; fill: var(--ink-faint); }
+.gm-sc-line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.gm-sc-dot { stroke: none; }
+path.gm-sc-usd { stroke: var(--ink-faint); }   circle.gm-sc-usd { fill: var(--ink-faint); }
+path.gm-sc-house { stroke: var(--celadon); }   circle.gm-sc-house { fill: var(--celadon); }
+path.gm-sc-btc { stroke: #c9913f; }            circle.gm-sc-btc { fill: #c9913f; }
+path.gm-sc-hbtc { stroke: var(--accent); }     circle.gm-sc-hbtc { fill: var(--accent); }
+text.gm-sc-lbl { font-family: var(--sans); font-size: 10.5px; font-weight: 600; }
+text.gm-sc-usd { fill: var(--ink-faint); } text.gm-sc-house { fill: var(--celadon); }
+text.gm-sc-btc { fill: #9c6b28; } text.gm-sc-hbtc { fill: var(--accent-ink); }
+.gm-sc-cap { font-family: var(--sans); font-size: 0.8rem; color: var(--ink-soft); line-height: 1.8; margin: 0.5rem 0 0; }
+
+/* —— 迷你区块浏览器 —— */
+.gm-xp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.gm-xp-t { font-family: var(--sans); font-size: 0.86rem; font-weight: 600; color: var(--ink); margin: 0; }
+.gm-xp-badge { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.05em; color: var(--ink-faint); border: 1px solid var(--line); border-radius: 999px; padding: 0.18rem 0.6rem; }
+.gm-xp-badge.live { color: var(--good); border-color: var(--good); }
+.gm-xp-strip { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding: 0.2rem 0 0.6rem; }
+.gm-xp-chain { flex: none; align-self: center; width: 22px; height: 2px; background: var(--accent-ink); opacity: 0.55; position: relative; }
+.gm-xp-chain::after { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; border: 2px solid var(--accent-ink); border-radius: 50%; transform: translate(-50%, -50%); background: var(--card); opacity: 0.9; }
+.gm-xp-card { flex: none; position: relative; width: 9.6em; background: var(--paper-2); border: 1px solid var(--line); border-radius: 10px; padding: 0.6rem 0.75rem 0.55rem; }
+.gm-xp-card.new { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-wash), var(--shadow-warm); }
+@media (prefers-reduced-motion: no-preference) {
+  .gm-xp-card.new { animation: gm-xp-arrive 0.7s var(--ease-breath); }
+}
+@keyframes gm-xp-arrive { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+.gm-xp-h { font-family: var(--mono); font-size: 0.86rem; font-weight: 700; color: var(--accent-ink); margin: 0 0 0.25rem; }
+.gm-xp-row2 { font-family: var(--sans); font-size: 0.7rem; color: var(--ink-soft); margin: 0 0 0.15rem; font-variant-numeric: tabular-nums; }
+.gm-xp-hash { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-faint); margin: 0.25rem 0 0; overflow: hidden; text-overflow: ellipsis; }
+.gm-xp-now { position: absolute; top: -0.6em; right: 0.6em; font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--accent-ink); background: var(--card); border: 1px solid var(--accent); border-radius: 999px; padding: 0.05rem 0.45rem; }
+.gm-xp-note { font-family: var(--sans); font-size: 0.76rem; color: var(--ink-soft); line-height: 1.8; margin: 0.4rem 0 0.4rem; }
+.gm-xp-link { margin: 0.3rem 0 0; font-family: var(--sans); font-size: 0.8rem; }
+.gm-xp-link a { color: var(--accent-ink); }
