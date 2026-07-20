@@ -339,3 +339,51 @@
     })(hosts[i]));
   }
 })();
+
+/* ---------- 术语注释：点按开合的小卡片 ----------
+   正文生词（法币、M2、准备金……）不再用整段文字解释——
+   点一下词本身，弹出两三句讲透的小注。
+   点按开合、Esc 关闭并还焦、点外即关、同屏只开一张。 */
+(function () {
+  "use strict";
+  if (!document.querySelector(".term-wrap")) return;
+  var openBtn = null;
+  function cardOf(btn) {
+    var id = btn.getAttribute("aria-controls");
+    return id ? document.getElementById(id) : null;
+  }
+  function close() {
+    if (!openBtn) return;
+    var card = cardOf(openBtn);
+    if (card) card.hidden = true;
+    openBtn.setAttribute("aria-expanded", "false");
+    openBtn = null;
+  }
+  function open(btn) {
+    close();
+    var card = cardOf(btn);
+    if (!card) return;
+    card.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+    openBtn = btn;
+    card.classList.remove("flip");
+    var r = card.getBoundingClientRect();
+    if (r.right > window.innerWidth - 10) card.classList.add("flip");
+  }
+  document.addEventListener("click", function (ev) {
+    var btn = ev.target.closest ? ev.target.closest("button.term") : null;
+    if (btn) {
+      ev.stopPropagation();
+      if (openBtn === btn) close(); else open(btn);
+      return;
+    }
+    if (openBtn && !(ev.target.closest && ev.target.closest(".term-card"))) close();
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && openBtn) {
+      var b = openBtn;
+      close();
+      b.focus();
+    }
+  });
+})();
