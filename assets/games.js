@@ -1802,33 +1802,7 @@
     root.innerHTML = "";
     root.appendChild(el("p", "gm-kicker", "信任的难题 · 之二"));
     root.appendChild(el("p", "gm-title", "拜占庭将军问题"));
-    root.appendChild(el("p", "gm-desc", "九路联军围城，必须同时进攻才能取胜。军中混着叛徒，信使可以撒谎、冒名、对不同人说不同话。没有统帅，诚实的将军们如何达成一致？——这道难题悬了几十年，直到 2008 年。"));
-
-    var row1 = el("div", "gm-row");
-    var lab = el("label", null, "叛徒人数");
-    var seg = el("span", "gm-seg");
-    var tCount = 2;
-    [0, 1, 2, 3, 4].forEach(function (k) {
-      var b = btn(null, String(k));
-      if (k === tCount) b.className = "gm-on";
-      b.addEventListener("click", function () {
-        tCount = k;
-        seg.querySelectorAll("button").forEach(function (o) { o.className = ""; });
-        b.className = "gm-on";
-      });
-      seg.appendChild(b);
-    });
-    var powBtn = btn("gm-btn gm-ghost", "火漆印：关");
-    var pow = false;
-    powBtn.addEventListener("click", function () {
-      pow = !pow;
-      powBtn.textContent = pow ? "火漆印：开 ✓" : "火漆印：关";
-      powBtn.className = pow ? "gm-btn" : "gm-btn gm-ghost";
-    });
-    var go = btn("gm-btn", "传令 · 进攻");
-    row1.appendChild(lab); row1.appendChild(seg); row1.appendChild(powBtn); row1.appendChild(go);
-    root.appendChild(row1);
-    root.appendChild(el("p", "gm-note gm-tip", "「火漆印」= 每道军令必须附一枚耗费真实时间才能铸出的印章（工作量证明）。开关它，看看世界有什么不同。"));
+    root.appendChild(el("p", "gm-desc", "九路联军围城，必须同时进攻才能取胜。军中混着叛徒，信使可以撒谎、冒名。没有统帅，诚实的将军们怎么统一行动？我们分两幕看。"));
 
     var field = el("div", "gm-bz-field");
     var city = el("div", "gm-bz-city", "🏯");
@@ -1842,79 +1816,97 @@
       field.appendChild(g);
       gens.push(g);
     }
+
+    var actRow = el("div", "gm-row");
+    var act1 = btn("gm-btn", "第一幕 · 谎言免费的世界");
+    var act2 = btn("gm-btn gm-ghost", "第二幕 · 给说话定价（火漆印）");
+    act2.disabled = true;
+    actRow.appendChild(act1);
+    actRow.appendChild(act2);
+    root.appendChild(actRow);
     root.appendChild(field);
 
     var log = el("div", "gm-log");
     log.style.height = "auto";
     log.style.minHeight = "5.5em";
-    log.textContent = "调好叛徒人数，点「传令」。";
+    log.textContent = "先点「第一幕」。";
     root.appendChild(log);
     var verdictBox = el("div");
     root.appendChild(verdictBox);
 
+    var TCOUNT = 2;
+
+    function reset() {
+      verdictBox.innerHTML = "";
+      city.classList.remove("fallen");
+      gens.forEach(function (g) { g.className = "gm-bz-gen"; });
+    }
+    function pickTraitors() {
+      var idx = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(function () { return Math.random() - 0.5; });
+      return idx.slice(0, TCOUNT);
+    }
     function logLines(lines) {
       log.innerHTML = "";
       lines.forEach(function (t, k) {
         var d = el("div", null, t);
         if (reducedMotion) log.appendChild(d);
-        else setTimeout(function () { log.appendChild(d); }, 300 * k);
+        else setTimeout(function () { log.appendChild(d); }, 340 * k);
       });
     }
 
-    function run() {
-      verdictBox.innerHTML = "";
-      city.classList.remove("fallen");
-      gens.forEach(function (g) { g.className = "gm-bz-gen"; });
-
-      var idx = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(function () { return Math.random() - 0.5; });
-      var traitors = idx.slice(0, tCount);
+    function runAct1() {
+      reset();
+      var traitors = pickTraitors();
       var isT = function (k) { return traitors.indexOf(k) >= 0; };
-
-      if (!pow) {
-        /* 谎言免费的世界：军令互相矛盾，诚实者分裂 */
-        var atk = 0, rtr = 0;
-        gens.forEach(function (g, k) {
-          var attack = isT(k) ? Math.random() < 0.5 : Math.random() < 0.5 + 0.4 / (tCount + 1);
-          setTimeout(function () {
-            g.classList.add(attack ? "attack" : "retreat");
-            if (isT(k)) g.classList.add("traitor");
-          }, reducedMotion ? 0 : 150 * k);
-          if (attack) atk++; else rtr++;
-        });
-        logLines([
-          "> 叛徒向不同的人发出了不同的军令（伪造一条命令的成本：0）",
-          "> 有人还冒用了忠诚将军的名义乱发消息",
-          "> 结果：进攻 " + atk + " 路 · 后撤 " + rtr + " 路 —— 兵力不足，攻城失败",
-          "> 虚线圈出的是叛徒——事前，你根本看不出来"
-        ]);
-        var v1 = el("div", "gm-verdict");
-        v1.appendChild(el("p", null, "问题不在于诚实的人不够多，而在于谎言和真话一样便宜。只要伪造零成本，再多的诚实也汇不成一致。"));
-        verdictBox.appendChild(v1);
-      } else {
-        /* 火漆印的世界：说话有成本，最长令链由诚实多数铸成 */
-        gens.forEach(function (g, k) {
-          setTimeout(function () {
-            g.classList.add("attack");
-            if (isT(k)) g.classList.add("traitor");
-          }, reducedMotion ? 0 : 150 * k);
-        });
-        setTimeout(function () { city.classList.add("fallen"); }, reducedMotion ? 0 : 1600);
-        var lines = [
-          "> 新规生效：每道军令必须附「火漆印」——铸一枚要烧一炷香",
-          "> 叛徒只有 " + tCount + "/9 的铸印能力，伪造的命令既慢又少",
-          "> 诚实多数铸出了最长的那条令链，所有人只认它",
-          "> 九路同时进攻 —— 城破 ✓"
-        ];
-        if (tCount >= 4) lines.push("> 警告：叛徒已达 4/9。一旦过半，最长链也会撒谎——这就是「51% 攻击」的含义。");
-        logLines(lines);
-        var v2 = el("div", "gm-verdict");
-        v2.appendChild(el("p", null, "无须认识彼此，无须信任信使——只需跟随“耗费能量最多的那条链”。这就是中本聪给拜占庭将军们的答案，也是此刻全球几十万个比特币节点正在做的事。"));
-        verdictBox.appendChild(v2);
-      }
+      var atk = 0, rtr = 0;
+      gens.forEach(function (g, k) {
+        var attack = isT(k) ? Math.random() < 0.5 : Math.random() < 0.62;
+        setTimeout(function () {
+          g.classList.add(attack ? "attack" : "retreat");
+          if (isT(k)) g.classList.add("traitor");
+        }, reducedMotion ? 0 : 150 * k);
+        if (attack) atk++; else rtr++;
+      });
+      logLines([
+        "> 两名叛徒对不同的人说了不同的话（撒一个谎的成本：0）",
+        "> 亮色＝收到「进攻」，暗色＝收到「后撤」——命令自相矛盾",
+        "> 结果：进攻 " + atk + " 路、后撤 " + rtr + " 路——兵力不足，攻城失败",
+        "> 关键：事前没人分得清谁是叛徒（虚线圈是事后揭晓）"
+      ]);
+      var v = el("div", "gm-verdict");
+      v.appendChild(el("p", null, "败因不是诚实的人不够多，而是谎言和真话一样便宜——伪造零成本时，再多的诚实也拼不成一致。这道题悬了几十年。"));
+      verdictBox.appendChild(v);
+      act1.textContent = "第一幕 · 再看一遍";
+      act2.disabled = false;
+      act2.classList.remove("gm-ghost");
     }
 
-    go.addEventListener("click", run);
-    root.appendChild(el("p", "gm-note faint", "极简化演示。严格表述见 Lamport 等《拜占庭将军问题》（1982）与比特币白皮书第 4 节。"));
+    function runAct2() {
+      reset();
+      var traitors = pickTraitors();
+      var isT = function (k) { return traitors.indexOf(k) >= 0; };
+      gens.forEach(function (g, k) {
+        setTimeout(function () {
+          g.classList.add("attack");
+          if (isT(k)) g.classList.add("traitor");
+        }, reducedMotion ? 0 : 150 * k);
+      });
+      setTimeout(function () { city.classList.add("fallen"); }, reducedMotion ? 0 : 1600);
+      logLines([
+        "> 新规：每道军令必须附一枚「火漆印」，铸一枚要实打实烧一炷香",
+        "> 叛徒只有 2/9 的铸印速度——假命令又慢又少，盖不过真命令",
+        "> 所有人只认「火漆印最多的那串命令」，矛盾自动消失",
+        "> 九路同时进攻——城破 ✓"
+      ]);
+      var v = el("div", "gm-verdict");
+      v.appendChild(el("p", null, "把「说话」变贵，共识就从不可能变成必然。火漆印＝工作量证明；「印最多的那串命令」＝最长链。只要诚实的算力过半，账本就没法被谎言改写——这就是比特币每 10 分钟都在做的事。"));
+      verdictBox.appendChild(v);
+      act2.textContent = "第二幕 · 再看一遍";
+    }
+
+    act1.addEventListener("click", runAct1);
+    act2.addEventListener("click", runAct2);
+    root.appendChild(el("p", "gm-note faint", "极简化演示（叛徒固定 2/9）。若叛徒过半，「印最多的命令」也会撒谎——那就是「51% 攻击」。严格表述见 Lamport 等（1982）与比特币白皮书第 4 节。"));
   }
 
   /* ================= 11. 另一本账：美国国债实时钟 =================
@@ -2086,8 +2078,8 @@
   function createByzantine(root) {
     gmIntro(root, "byzantine", [
       ["九路大军围住一座城", "必须同时进攻才能赢——但军中有叛徒，信使还会撒谎。"],
-      ["这是悬了几十年的难题", "当谎言和真话一样便宜，共识就不可能。"],
-      ["直到有人发明了『火漆印』", "让说话变贵。调好叛徒人数，亲自传一次令。"]
+      ["第一幕：谎言免费的世界", "先亲眼看共识怎么崩。"],
+      ["第二幕：给说话定价", "再看一枚『火漆印』怎么让共识成为必然。"]
     ], function () { buildByzantine(root); });
   }
 
