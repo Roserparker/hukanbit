@@ -3268,25 +3268,44 @@ a, button, summary, label, input, select,
   }
   .brand { font-size: 1.2rem; letter-spacing: 0.1em; margin-right: auto; }
 
-  /* 汉堡按钮（由 main.js 注入，样式在此）*/
+  /* 右上控件在窄屏统一为「一对同款圆钮」：字 + 汉堡，同尺寸同发丝线，
+     深色下用从墨色调出的柔和描边，不再发浑。 */
+  .lang-switch { align-items: center; font-size: 0.8rem; gap: 0.5em; margin-right: 0.15rem; }
+  .font-switch,
   .nav-toggle {
-    display: inline-flex; align-items: center; justify-content: center;
-    flex: none; width: 40px; height: 34px; padding: 0;
-    background: none; border: 1px solid var(--line); border-radius: 8px;
-    color: var(--ink-soft); cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
+    width: 34px; height: 34px; flex: none;
+    border: 1px solid color-mix(in srgb, var(--ink-faint) 42%, transparent);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink-soft);
+    transition: color 0.25s var(--ease-breath), border-color 0.25s var(--ease-breath), background 0.25s var(--ease-breath);
   }
-  .nav-toggle:hover, .nav-toggle:focus-visible { color: var(--accent-ink); border-color: var(--accent); }
+  .font-switch:hover, .font-switch:focus-visible,
+  .nav-toggle:hover, .nav-toggle:focus-visible {
+    color: var(--accent-ink);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: var(--accent-wash);
+  }
+
+  /* 汉堡按钮（由 main.js 注入）·三条线竖直堆叠（flex-direction:column 是关键，
+     默认 row 会把三条线糊成一横杠——旧版就栽在这里）*/
+  .nav-toggle {
+    display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; padding: 0; cursor: pointer;
+  }
   .nav-toggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
   .nav-toggle .bar {
-    display: block; width: 18px; height: 1.7px; border-radius: 2px;
+    display: block; width: 15px; height: 2px; border-radius: 2px;
     background: currentColor;
     transition: transform 0.25s var(--ease-breath), opacity 0.2s;
   }
-  .nav-toggle .bar + .bar { margin-top: 4px; }
-  .site-header.nav-open .nav-toggle .bar:nth-child(1) { transform: translateY(5.7px) rotate(45deg); }
+  .site-header.nav-open .nav-toggle {
+    color: var(--accent-ink);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  .site-header.nav-open .nav-toggle .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
   .site-header.nav-open .nav-toggle .bar:nth-child(2) { opacity: 0; }
-  .site-header.nav-open .nav-toggle .bar:nth-child(3) { transform: translateY(-5.7px) rotate(-45deg); }
+  .site-header.nav-open .nav-toggle .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
   /* 导航抽屉：绝对定位在头部下方，默认收起 */
   .site-nav {
