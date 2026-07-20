@@ -23,7 +23,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/style.css?v=20260720a">
-<link rel="stylesheet" href="../assets/games.css?v=20260612v">
+<link rel="stylesheet" href="../assets/games.css?v=20260720b">
 </head>
 <body class="article-page">
 <div class="progress" id="progress"></div>
@@ -75,6 +75,9 @@
       <p>什么是比特币？</p>
       <p class="pull pull-gold">比特币是人类历史上第一次把能量转换成货币。<br>比特币是一种纯能量货币。</p>
       <p>现在（2026 年），一个比特币区块（3.125 个比特币）相当于整个北京市——占地 16,410.54 平方公里的巨型城市（地铁、工厂、商用、民用）——10 分钟消耗的电力。平均下来，一枚比特币包含了整个北京市 3.5 分钟的用电。</p>
+      <div class="game-embed" data-game="energy-scale">
+        <p class="game-fallback">（这里是一台能量换算秤：一枚比特币 ≈ 93 万度电 ≈ 一户人家 300 多年的用电。）</p>
+      </div>
       <p>也就是说，一枚比特币的诞生需要消耗这么多能量。亦可理解为：一枚比特币是一个巨型能量块（Block）。</p>
       <p>很多人说法币有价值，是因为背后有国家信用、国家担保。</p>
       <p><strong>比特币的价值是纯粹的能量担保——你必须消耗这么多能量才可以得到。</strong>这一点请记住——这是你正确理解比特币的根基。</p>
@@ -90,8 +93,11 @@
       <p>比特币的生产只有一条路径：比特币挖矿。</p>
       <p>这里说的挖矿，不是拿着锄头在地底一下下挖掘，而是计算机的运算。</p>
       <p>要得到比特币，需要解开一道数学题。这个数学题我们可以简单地理解为——<strong>海关锁</strong>。但是这个海关锁不是行李箱上 3–4 位数字的密码，而是一个几百位、包含字符字母和数字的巨型海关锁。</p>
-      <p>想象一个 4 位数密码锁——一共有 10000 种组合。比特币挖矿要破解的密码——它的组合数是 2 的 256 次方，相当于 10 的 77 次方——这个数字超过了已知宇宙中所有原子的数量。</p>
-      <p>是的——比已知宇宙的原子还多。</p>
+      <p>想象一个 4 位数密码锁——一共有 10000 种组合。比特币挖矿要破解的密码——它的组合数是 2 的 256 次方，相当于 10 的 77 次方——和可观测宇宙中所有原子的数量（约 10 的 80 次方）在同一个量级上。</p>
+      <p>是的——和数遍全宇宙的原子，是同一个级别的事。</p>
+      <div class="game-embed" data-game="customs-lock">
+        <p class="game-fallback">这个互动小实验需要 JavaScript 才能运行。</p>
+      </div>
       <p>电脑/矿机（矿机就是专门用来挖比特币的电脑）只需要做一项任务：疯狂地“试”（不是算）出正确的密码，穷举出这几百位的海关锁。如果解开了，你就可以得到一笔比特币作为奖励（现在的奖励是 3.125 个比特币，约三十万美金）。</p>
       <p>这是一个非常天才的设计（请读者见谅，我会说到很多比特币的“天才”设计，因为确实是天才）。为什么我说是“试”而不是“算”呢？</p>
       <p>因为<strong>公平</strong>。我在家里也有两个非常小的矿机，我也可以参与挖矿。为什么我这两个小灯泡耗电量的矿机，也能参与到这三十多万美金的角逐之中呢？</p>
@@ -166,6 +172,10 @@
       <p>怎么把这些转账记录装到纸箱子（区块）里并且封存呢？通过我开头提到的矿机运算。成功解开这道数学题的矿机会获得一笔奖励（3.125 比特币），这个行为就叫做“打包”（字面意思：把转账记录打包到一个区块/纸箱里）。</p>
       <p>打包完第一个区块以后，开始打包第二个区块，之后第三、第四……这些“打包完之后继续打包”的行为，自动把所有的纸箱子都连了起来。这个连起来形成的链条，就是<strong>区块链</strong>。</p>
       <p>也就是：一个纸箱子通过一条铁链连着第二个箱子。这就是不断记录的账本，连起来就是不断增长的大账本。</p>
+      <p>不用想象——这本账就在下面。它是真实的、正在运行的比特币区块链，此刻最新的几只「纸箱」：</p>
+      <div class="game-embed" data-game="block-explorer">
+        <p class="game-fallback">这里本来会展示真实区块链的最新区块；开启 JavaScript 后，你可以看到此刻正在生长的账本。</p>
+      </div>
       <p>这个大账本有两个优势。第一，感谢互联网的特性，所有人都可以下载完整账本：每个人原则上只要有台电脑且内存足够（600 多 G），就可以下载完整的账本来确保账本的完整性（当然你也可以只下载一部分）。第二就是不可篡改：因为每个人手里都有账本，如果有人作假，大家都可以一下子发现并且实施惩罚（把作弊的记录扔出账本）。</p>
       <p>这就是区块链的本质：<strong>一个去中心化的分布式账本。</strong>就这么简单。</p>
     </section>
@@ -267,6 +277,9 @@
       <p>2013 年——比特币约 $100 一枚——你需要 1.5 万枚比特币。<br>
       2025 年——比特币 10 万美金一枚——只需要 14 枚。<br>
       2035 年呢？</p>
+      <div class="game-embed" data-game="scarcity-chart">
+        <p class="game-fallback">（这里是一张可切换计价单位的图表：用法币量，一切都在涨；用比特币量，同一套房从 1,868 枚跌到 14 枚。）</p>
+      </div>
     </section>
 
     <section class="reveal">
@@ -327,7 +340,7 @@
 
 <script src="../assets/main.js?v=20260720a"></script>
 <script src="../assets/flow.js?v=20260616a" defer></script>
-<script src="../assets/games.js?v=20260612v" defer></script>
+<script src="../assets/games.js?v=20260720b" defer></script>
 <script src="../assets/analytics.js?v=20260708" data-endpoint="https://hukanbit-analytics.jpstone.workers.dev/collect" data-site="hukanbit" defer></script>
 </body>
 </html>

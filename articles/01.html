@@ -24,7 +24,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='12' fill='%23c2410c'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23faf7f1' font-family='Georgia,serif'%3E比%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/style.css?v=20260720a">
-<link rel="stylesheet" href="../assets/games.css?v=20260612v">
+<link rel="stylesheet" href="../assets/games.css?v=20260720b">
 </head>
 <body class="article-page">
 <div class="progress" id="progress"></div>
@@ -127,6 +127,9 @@
       <p>好，我们继续思考下去。</p>
       <p>众所周知，美元是全球货币，是整个世界的金融底层结算层，国际上的交易皆是美元计价、美元结算。这涉及到我们前文提到的金钱三特性其二——定价单位和交易媒介。</p>
       <p>先说交易媒介。货币的本质是一种语言，一种价值的语言。我在美国说英语，英语是大部分美国人接受的交流媒介，我说 Hello，别人也和我说 Hello；如果我说“你好”，别人不会搭理我，因为我们说的不是同一种语言。钱也是一样的道理：我用美金和你交易，你接受美金，那么美金就可以成为我们的价值交换媒介；如果我在美国尝试用津巴布韦币和人交易，没人会接受，那么哪怕我有几千亿的津巴布韦币也无济于事。货币是一门交换价值的语言，我们共同接受，就可以进行价值交换。这是一种共识。</p>
+      <div class="game-embed" data-game="value-language">
+        <p class="game-fallback">这个互动小实验需要 JavaScript 才能运行。</p>
+      </div>
       <p class="pull pull-gold">货币，是价值的语言——大家都认，它才作数。</p>
     </section>
 
@@ -180,16 +183,8 @@
       <h2>复利</h2>
       <blockquote><p>复利是世界第八大奇迹。理解它的人，赚到它；不理解的人，付出代价。</p></blockquote>
       <p>再具象化一点。假设你今年 30 岁，存款 100 万。央行承诺通胀稳定在 2%。看起来很温柔，对吗？我们看看 30 年后、你 60 岁退休时会发生什么：</p>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th>时间</th><th>你存款的“购买力”</th></tr></thead>
-          <tbody>
-            <tr><td>今天</td><td>100 万</td></tr>
-            <tr><td>10 年后</td><td>82 万（蒸发了 18%）</td></tr>
-            <tr><td>20 年后</td><td>67 万（蒸发了 33%）</td></tr>
-            <tr><td>30 年后</td><td>55 万（蒸发了 45%）</td></tr>
-          </tbody>
-        </table>
+      <div class="game-embed" data-game="compound-decay">
+        <p class="game-fallback">（这里本来是一台可以拨动的复利模拟器；不开 JavaScript 的话，直接记住结论：2% 通胀下，100 万存款 10 年剩 82 万、20 年剩 67 万、30 年剩 55 万的购买力。）</p>
       </div>
       <p>你没看错。在所谓“良性、稳定、健康”的 2% 通胀下，你存的 100 万，30 年后只剩 55 万的购买力。</p>
       <p>这只是一个粗略的数学计算，还没考虑到现实生活中因为通胀导致的房价、医疗、教育的“升值”，而工资不变或涨幅不够，会导致生活质量持续变差。</p>
@@ -250,7 +245,7 @@
 
 <script src="../assets/main.js?v=20260720a"></script>
 <script src="../assets/flow.js?v=20260616a" defer></script>
-<script src="../assets/games.js?v=20260612v" defer></script>
+<script src="../assets/games.js?v=20260720b" defer></script>
 <script src="../assets/analytics.js?v=20260708" data-endpoint="https://hukanbit-analytics.jpstone.workers.dev/collect" data-site="hukanbit" defer></script>
 </body>
 </html>
