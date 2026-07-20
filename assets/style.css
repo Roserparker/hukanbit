@@ -3218,3 +3218,15 @@ button.term:focus-visible { outline: 2px solid var(--focus-ring); outline-offset
   color: var(--ink-faint); font-weight: 600;
 }
 .verdict-table .vt-group:hover td { background: none; }
+
+/* ── 创世报纸 · 原件影印变体（竖版照片入做旧相框；沿用 clip-develop 显影）── */
+.gen-clip-photo { max-width: 23rem; padding: 0.7rem 0.7rem 0.85rem; margin: 0 auto; }
+.gen-clip-photo img {
+  display: block; width: 100%; height: auto; border-radius: 2px;
+  filter: sepia(0.13) contrast(0.97);
+}
+.gen-clip-photo .gen-clip-cap { margin: 0.7rem 0 0; }
+.gen-clip-credit { display: block; margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.05em; color: #8a8269; }
+@media (prefers-color-scheme: dark) {
+  .gen-clip-photo img { filter: sepia(0.18) contrast(0.95) brightness(0.86); }
+}
