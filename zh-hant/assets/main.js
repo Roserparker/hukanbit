@@ -1,8 +1,8 @@
-/* 胡侃比特 · 共享腳本：閱讀進度條 + 滾動進場動畫 */
+/* 胡侃比特 · 共享脚本：阅读进度条 + 滚动进场动画 */
 (function () {
   "use strict";
 
-  // 閱讀進度條（僅文章頁存在 #progress）
+  // 阅读进度条（仅文章页存在 #progress）
   var bar = document.getElementById("progress");
   if (bar) {
     var update = function () {
@@ -16,7 +16,7 @@
     update();
   }
 
-  // 滾動進場
+  // 滚动进场
   var revealEls = document.querySelectorAll(".reveal");
   if (revealEls.length && "IntersectionObserver" in window) {
     var io = new IntersectionObserver(
@@ -35,11 +35,11 @@
     revealEls.forEach(function (el) { el.classList.add("visible"); });
   }
 
-  // 頁腳年份
+  // 页脚年份
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
-  /* ---------- 字體與字號切換（宋/楷/仿/黑 × 小/標準/大/特大）---------- */
+  /* ---------- 字体与字号切换（宋/楷/仿/黑 × 小/标准/大/特大）---------- */
   var fsBtn = document.getElementById("font-switch");
   var fsMenu = document.getElementById("font-menu");
   if (fsBtn && fsMenu) {
@@ -70,7 +70,7 @@
         else document.documentElement.setAttribute("data-size", sv);
         try { sv === "m" ? localStorage.removeItem("hkb-size") : localStorage.setItem("hkb-size", sv); } catch (e) { /* 忽略 */ }
         szMark();
-        ev.stopPropagation(); /* 菜單不收，方便連續比較字號 */
+        ev.stopPropagation(); /* 菜单不收，方便连续比较字号 */
         return;
       }
       var b = ev.target.closest("button[data-f]");
@@ -86,21 +86,28 @@
     document.addEventListener("click", function () { fsMenu.hidden = true; });
   }
 
-  /* ---------- 點擊漣漪 ----------
-     每次按下，在指尖處盪開一圈細線（聲吶式反饋）。
-     尊重 prefers-reduced-motion；高頻連點（如挖礦遊戲）時限流。 */
+  /* ---------- 点击涟漪 ----------
+     每次按下，在指尖处荡开一圈细线（声呐式反馈）。
+     尊重 prefers-reduced-motion；高频连点（如挖矿游戏）时限流。
+     仅鼠标（pointer:fine）生效——触屏上这圈弧光很违和，故关闭。 */
   var pingReduced = false;
+  var pingFine = true;
   try {
     var pingMq = window.matchMedia("(prefers-reduced-motion: reduce)");
     pingReduced = pingMq.matches;
     if (typeof pingMq.addEventListener === "function") {
       pingMq.addEventListener("change", function (e) { pingReduced = e.matches; });
     }
-  } catch (e) { /* 舊環境忽略 */ }
+    var fineMq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    pingFine = fineMq.matches;
+    if (typeof fineMq.addEventListener === "function") {
+      fineMq.addEventListener("change", function (e) { pingFine = e.matches; });
+    }
+  } catch (e) { /* 旧环境忽略 */ }
 
   var pingLive = 0;
   function spawnPing(x, y) {
-    if (pingReduced || pingLive >= 12) return;
+    if (!pingFine || pingReduced || pingLive >= 12) return;
     var p = document.createElement("span");
     p.className = "click-ping";
     p.style.left = x + "px";
@@ -114,39 +121,39 @@
       if (p.parentNode) p.parentNode.removeChild(p);
     };
     p.addEventListener("animationend", done);
-    setTimeout(done, 750); // 動畫事件丟失時的兜底
+    setTimeout(done, 750); // 动画事件丢失时的兜底
     document.body.appendChild(p);
   }
 
   var downEvt = window.PointerEvent ? "pointerdown" : "mousedown";
   document.addEventListener(downEvt, function (ev) {
-    if (ev.button) return; // 右鍵/中鍵不響
+    if (ev.button) return; // 右键/中键不响
     spawnPing(ev.clientX, ev.clientY);
   }, { passive: true });
 
-  /* ---------- 學習足跡 ----------
-     只存在你自己的瀏覽器 localStorage 裏，不上傳任何數據。
-     設計參考 Coinbase Earn 的"學習即進度"：讓讀者看見自己走了多遠。 */
+  /* ---------- 学习足迹 ----------
+     只存在你自己的浏览器 localStorage 里，不上传任何数据。
+     设计参考 Coinbase Earn 的"学习即进度"：让读者看见自己走了多远。 */
   var store = {
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
-    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 隱私模式忽略 */ } }
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 隐私模式忽略 */ } }
   };
 
-  // 文章頁：記下"讀過"
+  // 文章页：记下"读过"
   var m = location.pathname.match(/articles\/(0[1-5])\.html$/);
   if (m) store.set("hkb-read-" + m[1], "1");
-  // 實驗室頁：記下"來過"
+  // 实验室页：记下"来过"
   if (/lab\.html$/.test(location.pathname)) store.set("hkb-lab", "1");
-  // 長廊：記下"參觀過"（爲將來的集章尋寶留鉤子）
+  // 长廊：记下"参观过"（为将来的集章寻宝留钩子）
   if (/gallery\.html$/.test(location.pathname)) store.set("hkb-gallery", "1");
-  // 佈道廳
+  // 布道厅
   if (/satoshi\.html$/.test(location.pathname)) store.set("hkb-satoshi", "1");
-  // 學堂
+  // 学堂
   if (/study\.html$/.test(location.pathname)) store.set("hkb-study", "1");
-  // 金庫
+  // 金库
   if (/treasury\.html$/.test(location.pathname)) store.set("hkb-treasury", "1");
 
-  // 首頁：點亮已讀標籤、閱讀進度與"三步上手"的完成態
+  // 首页：点亮已读标签、阅读进度与"三步上手"的完成态
   var toc = document.querySelector(".toc");
   if (toc) {
     var readCount = 0;
@@ -159,7 +166,7 @@
       if (tags) {
         var done = document.createElement("span");
         done.className = "tag done";
-        done.textContent = "✓ 已讀";
+        done.textContent = "✓ 已读";
         tags.appendChild(done);
       }
     });
@@ -167,8 +174,8 @@
     if (prog && readCount > 0) {
       prog.hidden = false;
       prog.textContent = readCount >= 5
-        ? "✓ 五篇全部讀完——你已經比 99% 的人更懂錢了"
-        : "已讀 " + readCount + " / 5 · 接着讀，每篇末尾都有配套實驗";
+        ? "✓ 五篇全部读完——你已经比 99% 的人更懂钱了"
+        : "已读 " + readCount + " / 5 · 接着读，每篇末尾都有配套实验";
     }
     var stepState = {
       read: store.get("hkb-read-01") === "1",
@@ -184,14 +191,14 @@
     });
   }
 
-  /* ---------- 創世轉儲：完整 285 字節，從噪聲裏浮出一句話 ----------
-     區塊 #0 完整三欄陳列（偏移 | 字節 | ASCII）。機器的囈語先靜成底紋，
-     隨滾動，報頭那 69 個字節逐字升溫、走到光裏，拼出一句人話；隨後報紙復刻顯影。 */
+  /* ---------- 创世转储：完整 285 字节，从噪声里浮出一句话 ----------
+     区块 #0 完整三栏陈列（偏移 | 字节 | ASCII）。机器的呓语先静成底纹，
+     随滚动，报头那 69 个字节逐字升温、走到光里，拼出一句人话；随后报纸复刻显影。 */
   var stele = document.getElementById("gen-stele");
   if (stele) {
     var dump = document.getElementById("gen-dump");
     var clip = document.getElementById("gen-clip");
-    /* 創世區塊原始字節（285B）：區塊頭 + 1 筆 coinbase 交易 */
+    /* 创世区块原始字节（285B）：区块头 + 1 笔 coinbase 交易 */
     var HEX =
       "0100000000000000000000000000000000000000000000000000000000000000" +
       "000000003BA3EDFD7A7B12B27AC72C3E67768F617FC81BC3888A51323A9FB8AA" +
@@ -242,7 +249,7 @@
           as.setAttribute("data-m", mk);
           mB[mk] = bs; mA[mk] = as;
         }
-        if (gi === LEN_BYTE) { bs.title = "0x45 = 69：這句話的字節長度"; as.title = bs.title; }
+        if (gi === LEN_BYTE) { bs.title = "0x45 = 69：这句话的字节长度"; as.title = bs.title; }
         bcol.appendChild(bs);
         acol.appendChild(as);
       }
@@ -251,7 +258,7 @@
       dump.appendChild(row);
     }
 
-    /* 懸停：把任意一個發亮字節和它對應的字母一起挑亮 */
+    /* 悬停：把任意一个发亮字节和它对应的字母一起挑亮 */
     function hot(t, on) {
       var k = t.getAttribute && t.getAttribute("data-m");
       if (k == null) return;
@@ -261,7 +268,7 @@
     dump.addEventListener("mouseover", function (ev) { hot(ev.target, true); });
     dump.addEventListener("mouseout", function (ev) { hot(ev.target, false); });
 
-    /* 一次性顯影：進入視野即觸發，與滾動徹底解耦——那 69 個字節逐字升溫走到光裏 */
+    /* 一次性显影：进入视野即触发，与滚动彻底解耦——那 69 个字节逐字升温走到光里 */
     var lastLit = -1;
     function applyLit(n) {
       if (n === lastLit) return;
@@ -301,7 +308,7 @@
   }
 })();
 
-/* ---------- 語言偏好記憶（簡/繁/EN 切換時記下選擇） ---------- */
+/* ---------- 语言偏好记忆（简/繁/EN 切换时记下选择） ---------- */
 (function () {
   "use strict";
   var links = document.querySelectorAll(".lang-switch a[data-lang]");
@@ -312,12 +319,12 @@
   }
 })();
 
-/* ---------- 懸浮重播徽標「畫入」 ----------
-   cursor 每次進入文章卡 / 實驗室招牌，金線重新生長一遍——勾住注意力。
-   做法：把徽標及其線條的 animation 先置 none、強制迴流、再清空，
-   於是 CSS 裏 .visible 的 ill-draw / ill-ignite 會從頭重跑（none→name 即重啓）。
-   ——比切類名更可靠：同名動畫靠切類名是不會重啓的（這正是上一版只「亮」不「畫」的原因）。
-   尊重 prefers-reduced-motion；觸屏無 hover，初次滾動進場動畫照常。 */
+/* ---------- 悬浮重播徽标「画入」 ----------
+   cursor 每次进入文章卡 / 实验室招牌，金线重新生长一遍——勾住注意力。
+   做法：把徽标及其线条的 animation 先置 none、强制回流、再清空，
+   于是 CSS 里 .visible 的 ill-draw / ill-ignite 会从头重跑（none→name 即重启）。
+   ——比切类名更可靠：同名动画靠切类名是不会重启的（这正是上一版只「亮」不「画」的原因）。
+   尊重 prefers-reduced-motion；触屏无 hover，初次滚动进场动画照常。 */
 (function () {
   "use strict";
   var rm = false;
@@ -329,7 +336,7 @@
     var els = [ill], strokes = ill.querySelectorAll(".ill .s"), j;
     for (j = 0; j < strokes.length; j++) els.push(strokes[j]);
     for (j = 0; j < els.length; j++) els[j].style.animation = "none";
-    void ill.offsetWidth;          /* 強制迴流，讓 .visible 的動畫從頭重跑 */
+    void ill.offsetWidth;          /* 强制回流，让 .visible 的动画从头重跑 */
     for (j = 0; j < els.length; j++) els[j].style.animation = "";
   }
   var hosts = document.querySelectorAll(".art-card a, .lab-teaser");
@@ -338,4 +345,110 @@
       return function () { replay(h); };
     })(hosts[i]));
   }
+})();
+
+/* ---------- 术语注释：点按开合的小卡片 ----------
+   正文生词（法币、M2、准备金……）不再用整段文字解释——
+   点一下词本身，弹出两三句讲透的小注。
+   点按开合、Esc 关闭并还焦、点外即关、同屏只开一张。 */
+(function () {
+  "use strict";
+  if (!document.querySelector(".term-wrap")) return;
+  var openBtn = null;
+  function cardOf(btn) {
+    var id = btn.getAttribute("aria-controls");
+    return id ? document.getElementById(id) : null;
+  }
+  function close() {
+    if (!openBtn) return;
+    var card = cardOf(openBtn);
+    if (card) card.hidden = true;
+    openBtn.setAttribute("aria-expanded", "false");
+    openBtn = null;
+  }
+  function open(btn) {
+    close();
+    var card = cardOf(btn);
+    if (!card) return;
+    card.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+    openBtn = btn;
+    card.classList.remove("flip");
+    var r = card.getBoundingClientRect();
+    if (r.right > window.innerWidth - 10) card.classList.add("flip");
+  }
+  document.addEventListener("click", function (ev) {
+    var btn = ev.target.closest ? ev.target.closest("button.term") : null;
+    if (btn) {
+      ev.stopPropagation();
+      if (openBtn === btn) close(); else open(btn);
+      return;
+    }
+    if (openBtn && !(ev.target.closest && ev.target.closest(".term-card"))) close();
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && openBtn) {
+      var b = openBtn;
+      close();
+      b.focus();
+    }
+  });
+})();
+
+/* ---------- 移动端导航：汉堡抽屉 ----------
+   ≤880px 时头部把八项导航折叠进一个下拉抽屉。按钮由 JS 注入，
+   无需改任何 HTML；桌面端按钮 display:none 不出现。
+   点按开合 / 点链接即关 / 点抽屉外即关 / Esc 关 / 放大回桌面自动复位。 */
+(function () {
+  "use strict";
+  var header = document.querySelector(".site-header");
+  var inner = header && header.querySelector(".inner");
+  var nav = inner && inner.querySelector(".site-nav");
+  if (!header || !inner || !nav) return;
+  if (!nav.id) nav.id = "site-nav";
+
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "nav-toggle";
+  btn.setAttribute("aria-label", "打开导航菜单");
+  btn.setAttribute("aria-expanded", "false");
+  btn.setAttribute("aria-controls", nav.id);
+  for (var i = 0; i < 3; i++) {
+    var bar = document.createElement("span");
+    bar.className = "bar";
+    btn.appendChild(bar);
+  }
+  inner.appendChild(btn);
+
+  function close() {
+    if (!header.classList.contains("nav-open")) return;
+    header.classList.remove("nav-open");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", "打开导航菜单");
+  }
+  function open() {
+    header.classList.add("nav-open");
+    btn.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-label", "关闭导航菜单");
+  }
+
+  btn.addEventListener("click", function (ev) {
+    ev.stopPropagation();
+    if (header.classList.contains("nav-open")) close(); else open();
+  });
+  nav.addEventListener("click", function (ev) {
+    if (ev.target.closest("a")) close();
+  });
+  document.addEventListener("click", function (ev) {
+    if (header.classList.contains("nav-open") && !ev.target.closest(".site-header")) close();
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" || ev.key === "Esc") close();
+  });
+  try {
+    var wide = window.matchMedia("(min-width: 881px)");
+    var onWide = function () { if (wide.matches) close(); };
+    if (typeof wide.addEventListener === "function") wide.addEventListener("change", onWide);
+    else if (typeof wide.addListener === "function") wide.addListener(onWide);
+  } catch (e) { /* 旧环境忽略 */ }
 })();

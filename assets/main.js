@@ -88,19 +88,26 @@
 
   /* ---------- 点击涟漪 ----------
      每次按下，在指尖处荡开一圈细线（声呐式反馈）。
-     尊重 prefers-reduced-motion；高频连点（如挖矿游戏）时限流。 */
+     尊重 prefers-reduced-motion；高频连点（如挖矿游戏）时限流。
+     仅鼠标（pointer:fine）生效——触屏上这圈弧光很违和，故关闭。 */
   var pingReduced = false;
+  var pingFine = true;
   try {
     var pingMq = window.matchMedia("(prefers-reduced-motion: reduce)");
     pingReduced = pingMq.matches;
     if (typeof pingMq.addEventListener === "function") {
       pingMq.addEventListener("change", function (e) { pingReduced = e.matches; });
     }
+    var fineMq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    pingFine = fineMq.matches;
+    if (typeof fineMq.addEventListener === "function") {
+      fineMq.addEventListener("change", function (e) { pingFine = e.matches; });
+    }
   } catch (e) { /* 旧环境忽略 */ }
 
   var pingLive = 0;
   function spawnPing(x, y) {
-    if (pingReduced || pingLive >= 12) return;
+    if (!pingFine || pingReduced || pingLive >= 12) return;
     var p = document.createElement("span");
     p.className = "click-ping";
     p.style.left = x + "px";
@@ -386,4 +393,62 @@
       b.focus();
     }
   });
+})();
+
+/* ---------- 移动端导航：汉堡抽屉 ----------
+   ≤880px 时头部把八项导航折叠进一个下拉抽屉。按钮由 JS 注入，
+   无需改任何 HTML；桌面端按钮 display:none 不出现。
+   点按开合 / 点链接即关 / 点抽屉外即关 / Esc 关 / 放大回桌面自动复位。 */
+(function () {
+  "use strict";
+  var header = document.querySelector(".site-header");
+  var inner = header && header.querySelector(".inner");
+  var nav = inner && inner.querySelector(".site-nav");
+  if (!header || !inner || !nav) return;
+  if (!nav.id) nav.id = "site-nav";
+
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "nav-toggle";
+  btn.setAttribute("aria-label", "打开导航菜单");
+  btn.setAttribute("aria-expanded", "false");
+  btn.setAttribute("aria-controls", nav.id);
+  for (var i = 0; i < 3; i++) {
+    var bar = document.createElement("span");
+    bar.className = "bar";
+    btn.appendChild(bar);
+  }
+  inner.appendChild(btn);
+
+  function close() {
+    if (!header.classList.contains("nav-open")) return;
+    header.classList.remove("nav-open");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", "打开导航菜单");
+  }
+  function open() {
+    header.classList.add("nav-open");
+    btn.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-label", "关闭导航菜单");
+  }
+
+  btn.addEventListener("click", function (ev) {
+    ev.stopPropagation();
+    if (header.classList.contains("nav-open")) close(); else open();
+  });
+  nav.addEventListener("click", function (ev) {
+    if (ev.target.closest("a")) close();
+  });
+  document.addEventListener("click", function (ev) {
+    if (header.classList.contains("nav-open") && !ev.target.closest(".site-header")) close();
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" || ev.key === "Esc") close();
+  });
+  try {
+    var wide = window.matchMedia("(min-width: 881px)");
+    var onWide = function () { if (wide.matches) close(); };
+    if (typeof wide.addEventListener === "function") wide.addEventListener("change", onWide);
+    else if (typeof wide.addListener === "function") wide.addListener(onWide);
+  } catch (e) { /* 旧环境忽略 */ }
 })();
