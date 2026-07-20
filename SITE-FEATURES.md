@@ -1,6 +1,6 @@
 # 胡侃比特 · 站点特性总档（For Claude Design）
 
-> 线上地址：https://roserparker.github.io/hukanbit/ ｜ 仓库：github.com/Roserparker/hukanbit
+> 线上地址：https://caspian-academy.com/ ｜ 仓库：github.com/Roserparker/hukanbit
 > 本档是站点全部特性的权威清单，供设计系统协作使用。代码镜像见同目录 reference/。
 
 ## 一、定位与声音
